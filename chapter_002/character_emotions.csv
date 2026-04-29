@@ -1,0 +1,95 @@
+chapter_id,sentence_index,character,emotion_raw,emotion,score,sentence
+chapter_002,0,Osmo,LABEL_2,senang,0.7277770638465881,"Osmo berhenti perlahan di depan gapura kota kecil Sagara Rimba, sebuah kota peristirahatan yang terletak di jalur tenggara menuju Gunung Bromo."
+chapter_002,2,Osmo,LABEL_3,sedih,0.5267731547355652,"WiraMadha turun dari tunggangannya, mengusap leher Osmo yang mulai berkeringat setelah perjalanan panjang."
+chapter_002,2,WiraMadha,LABEL_3,sedih,0.5267731547355652,"WiraMadha turun dari tunggangannya, mengusap leher Osmo yang mulai berkeringat setelah perjalanan panjang."
+chapter_002,5,WiraMadha,LABEL_3,sedih,0.9736027717590332,"15-25)] Rekomendasi: 4 Player
+
+Wira mengangkat alis, sedikit tersenyum."
+chapter_002,11,HoppyLite,LABEL_3,sedih,0.9340272545814514,Namanya: HoppyLite - Class: Wanderer.
+chapter_002,12,DrakeCloud,LABEL_2,senang,0.7543327808380127,Yang kedua: DrakeCloud - Class: Rogue.
+chapter_002,18,Sylvia,LABEL_2,senang,0.8322875499725342,"Perempuan dengan ras Spirit
+
+Di atas kepalanya tertulis: [Sylvia - Lv."
+chapter_002,19,WiraMadha,LABEL_1,takut,0.5289661884307861,"15 - Spirit Handler]
+
+ 15 - Spirit Handler]
+
+""Oke,"" gumam Wira. """
+chapter_002,22,Sylvia,LABEL_1,takut,0.43566325306892395,Sylvia memberi anggukan sopan.
+chapter_002,24,WiraMadha,LABEL_2,senang,0.9918792843818665,"Wira memandangnya sesaat, lalu memberanikan diri membuka obrolan."
+chapter_002,26,Sylvia,LABEL_1,takut,0.952187180519104,"Iya,"" jawab Sylvia singkat. """
+chapter_002,27,WiraMadha,LABEL_2,senang,0.9185148477554321,"Aku lagi coba cari jalan ke Bromo, tapi quest-nya agak sulit tanpa Unique Skill...""
+
+Wira mengangguk kecil, lalu berkata pelan,
+
+""Kalau kamu butuh partner ke sana, mungkin habis dungeon ini kita bisa ngobrol lebih jauh."""
+chapter_002,28,Sylvia,LABEL_2,senang,0.9946812987327576,"Sylvia menoleh perlahan, menatap mata Wira."
+chapter_002,28,WiraMadha,LABEL_2,senang,0.9946812987327576,"Sylvia menoleh perlahan, menatap mata Wira."
+chapter_002,32,Kelabang Agni,LABEL_2,senang,0.9383950233459473,Kelabang Agni - seekor kelabang raksasa bersisik merah gelap dengan matanya menyala oranye muncul dari lubang tengah arena.
+chapter_002,34,Kelabang Agni,LABEL_2,senang,0.8156232237815857,"Suara berderak terdengar saat tubuhnya menggeliat panjang lebih dari sepuluh meter
+
+Phase 1
+
+Kelabang Agni langsung menyergap, membuka rahangnya dan menyemburkan gumpalan api kecil yang meledak saat menyentuh tanah."
+chapter_002,36,WiraMadha,LABEL_3,sedih,0.9152942895889282,"Wira berdiri di tengah, tamengnya terangkat tinggi."
+chapter_002,39,DrakeCloud,LABEL_2,senang,0.7018040418624878,"ujar Drake sambil bergerak di belakang monster, memulai combo."
+chapter_002,46,DrakeCloud,LABEL_2,senang,0.9412218928337097,"Drake terpaksa mundur, tubuhnya terbakar ringan."
+chapter_002,50,WiraMadha,LABEL_2,senang,0.9064815044403076,"Wira kembali maju, menahan satu sabetan cakar monster dengan Perfect Parry, Wira pura-pura menggerakkan pedangnya berpura-pura menangkis."
+chapter_002,54,Sylvia,LABEL_2,senang,0.8172199130058289,"Sylvia menyiapkan sihir:
+
+""Spirit Soul Strike""
+
+Sebuah bola cahaya kecil meluncur dari tongkatnya, meledak di udara menjadi kabut tipis yang mengurangi efek panas di area sekitar."
+chapter_002,55,Kelabang Agni,LABEL_4,terkejut,0.8490356206893921,"Phase 3
+
+Kelabang Agni melengkungkan tubuhnya."
+chapter_002,58,DrakeCloud,LABEL_2,senang,0.8487387895584106,Drake dan Hop langsung menyebar.
+chapter_002,59,Sylvia,LABEL_2,senang,0.9926637411117554,"Sylvia sedikit terlambat, masih melanjutkan channeling sihir."
+chapter_002,60,WiraMadha,LABEL_2,senang,0.794679582118988,Wira tetap di tengah arena.
+chapter_002,63,DrakeCloud,LABEL_2,senang,0.6362164616584778,Teriak Drake melihat Wira.
+chapter_002,63,WiraMadha,LABEL_2,senang,0.6362164616584778,Teriak Drake melihat Wira.
+chapter_002,64,Kelabang Agni,LABEL_2,senang,0.8528489470481873,Kelabang Agni mulai berputar.
+chapter_002,66,WiraMadha,LABEL_3,sedih,0.9914914965629578,"""Perfect Parry Aktif""
+
+Semburan api mental dari tubuh Wira."
+chapter_002,68,WiraMadha,LABEL_2,senang,0.5367944836616516,"Armor Wira menyala merah, tapi tubuhnya tetap berdiri kokoh."
+chapter_002,69,Sylvia,LABEL_2,senang,0.7701084017753601,Sylvia terkena ledakan sisa dan HP-nya anjlok.
+chapter_002,71,DrakeCloud,LABEL_2,senang,0.9945023059844971,Drake masih bertahan di belakang batu.
+chapter_002,73,Rere,LABEL_0,marah,0.9479292631149292,"Turunlah dan bantu kami, Tetes Air Kehidupan-Rere!"""
+chapter_002,75,Rere,LABEL_2,senang,0.9321671724319458,"Rere, peri mungil bersayap, tubuhnya mirip tetesan air."
+chapter_002,77,Rere,LABEL_3,sedih,0.9939650893211365,"""Rere, support mode!"""
+chapter_002,78,Rere,LABEL_2,senang,0.8050573468208313,"teriak Sylvia
+
+Rere memutari party dan menyemburkan kabut penyembuhan."
+chapter_002,78,Sylvia,LABEL_2,senang,0.8050573468208313,"teriak Sylvia
+
+Rere memutari party dan menyemburkan kabut penyembuhan."
+chapter_002,80,DrakeCloud,LABEL_2,senang,0.9450847506523132,Hop dan Drake kembali berdiri dan menuju posisinya masing-masing.
+chapter_002,81,Kelabang Agni,LABEL_2,senang,0.9327314496040344,Kelabang Agni yang marah mengarah pada Sylvia.
+chapter_002,81,Sylvia,LABEL_2,senang,0.9327314496040344,Kelabang Agni yang marah mengarah pada Sylvia.
+chapter_002,84,WiraMadha,LABEL_4,terkejut,0.6660372018814087,Wira menahan serangan tepat waktu.
+chapter_002,85,DrakeCloud,LABEL_2,senang,0.9580555558204651,"Perfect Parry menyelamatkannya kembali
+
+Drake dan Hop memanfaatkan celah."
+chapter_002,88,WiraMadha,LABEL_3,sedih,0.7647479176521301,Ujar Wira.
+chapter_002,90,DrakeCloud,LABEL_4,terkejut,0.373048335313797,Kombo serangan bertubi-tubi menghantam titik vital dilakukan oleh Drake.
+chapter_002,92,Kelabang Agni,LABEL_2,senang,0.7046096920967102,"Heavy Slash jatuh di badan Kelabang Agni, membuatnya terkena status bleeding."
+chapter_002,93,Kelabang Agni,LABEL_2,senang,0.9403122067451477,Kelabang Agni menjerit.
+chapter_002,97,Sylvia,LABEL_2,senang,0.9702537059783936,"Salah satu shard biru terang jatuh di depan Sylvia:
+
+[Essence Shard - Spirit Rain Boost +10%]
+
+Sylvia memungutnya perlahan, menatapnya sejenak."
+chapter_002,98,WiraMadha,LABEL_2,senang,0.6906677484512329,Wira hanya tersenyum kecil.
+chapter_002,101,WiraMadha,LABEL_1,takut,0.9082416296005249,"ujar Wira ""Kalau kamu nggak tahan serangannya di depan, kami semua bisa wipeout."""
+chapter_002,102,Sylvia,LABEL_1,takut,0.7429957985877991,"jawab Sylvia. """
+chapter_002,105,WiraMadha,LABEL_2,senang,0.8813737034797668,ujar Wira agak kikuk.
+chapter_002,107,DrakeCloud,LABEL_0,marah,0.9922326803207397,Drake dan Hop mengucapkan terima kasih singkat dan keluar lebih dulu.
+chapter_002,108,Sylvia,LABEL_2,senang,0.9594405293464661,Tinggal Wira dan Sylvia.
+chapter_002,108,WiraMadha,LABEL_2,senang,0.9594405293464661,Tinggal Wira dan Sylvia.
+chapter_002,112,Sylvia,LABEL_2,senang,0.9930722117424011,Sylvia menatapnya.
+chapter_002,116,Sylvia,LABEL_1,takut,0.97133868932724,"Kalau kamu nggak keberatan...""
+
+Click...
+
+[Sylvia has joined your Party.]"

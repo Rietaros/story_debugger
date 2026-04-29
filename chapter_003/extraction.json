@@ -1,0 +1,140 @@
+{
+  "chapter_id": "chapter_003",
+  "title": "Chapter 003",
+  "synopsis": "Langkah perjalanan Wira dan Sylvia terhenti saat menuju Gunung Bromo, di mana mereka berencana untuk upgrade mount di kota Suradikarta sebelum berburu World Boss.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_003",
+      "title": "Perjalanan Menuju Suradikarta",
+      "location": "Unknown",
+      "pov": null,
+      "mood": "neutral",
+      "summary": "Wira dan Sylvia berhenti di tengah perjalanan untuk mencari kota terdekat dan upgrade mount.",
+      "text": "Wira dan Sylvia terhenti dalam perjalanan menuju Gunung Bromo. Sylvia kesulitan dengan keledainya yang lamban, dan mereka berencana mencari kota.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Wira",
+            "Sylvia"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Wira dan Sylvia memutuskan untuk menuju kota Suradikarta."
+        }
+      ]
+    },
+    {
+      "scene_id": "sc_002",
+      "chapter_id": "chapter_003",
+      "title": "Di Kota Suradikarta",
+      "location": "Kota Suradikarta",
+      "pov": null,
+      "mood": "excited",
+      "summary": "Wira membeli mount baru dan perlengkapan untuk Sylvia, mempersiapkan mereka berburu World Boss.",
+      "text": "Di Suradikarta, Wira membeli mount premium dan perlengkapan untuk Sylvia, yang membuat Sylvia terkejut.",
+      "events": [
+        {
+          "event_id": "ev_002_001",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_002",
+          "seq": 1,
+          "location": "Kota Suradikarta",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Wira",
+            "Sylvia"
+          ],
+          "acquired_items": [
+            "Osmo",
+            "armor akar roh",
+            "tongkat kayu roh"
+          ],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Wira membeli perlengkapan baru untuk Sylvia, yang membuatnya terkejut dan berterima kasih."
+        }
+      ]
+    },
+    {
+      "scene_id": "sc_003",
+      "chapter_id": "chapter_003",
+      "title": "Persiapan untuk Berburu Buto Kalong",
+      "location": "Danau Kaca Tiga Malam",
+      "pov": null,
+      "mood": "tense",
+      "summary": "Wira dan Sylvia bersiap untuk berburu World Boss Buto Kalong setelah melakukan leveling.",
+      "text": "Sebelum berburu Buto Kalong, Wira dan Sylvia melakukan leveling dan bersiap menghadapi monster.",
+      "events": [
+        {
+          "event_id": "ev_003_001",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_003",
+          "seq": 1,
+          "location": "Danau Kaca Tiga Malam",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Wira",
+            "Sylvia"
+          ],
+          "acquired_items": [],
+          "used_items": [
+            "Potion LUK UP"
+          ],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Wira dan Sylvia leveling dan mempersiapkan diri untuk bertarung dengan Buto Kalong."
+        },
+        {
+          "event_id": "ev_003_002",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_003",
+          "seq": 2,
+          "location": "Danau Kaca Tiga Malam",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Wira",
+            "Sylvia",
+            "Buto Kalong"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Wira dan Sylvia menemukan Buto Kalong dan bersiap untuk bertarung."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Wira",
+      "aliases": []
+    },
+    {
+      "canonical": "Sylvia",
+      "aliases": []
+    },
+    {
+      "canonical": "Buto Kalong",
+      "aliases": []
+    }
+  ]
+}
