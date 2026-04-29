@@ -31,9 +31,9 @@ Story Text → LLM Extraction → Structured Events → Lore Graph → Rule Engi
 ## 📁 Project Structure
 
 ├── story/  
-  │     ├── chapter_001.md     
-  │     ├── chapter_002.md    
-  │     └── chapter_003.md    
+    │     ├── chapter_001.md     
+    │     ├── chapter_002.md    
+    │     └── chapter_003.md    
 ├── outputs/  
 ├── schemas.py  
 ├── extract_llm.py  
