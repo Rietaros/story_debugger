@@ -23,31 +23,31 @@ StoryDebugger → for narrative
 ---
 ## Requirements
 
-# Core
+### Core
 pydantic>=2.6
 pandas>=2.0
 numpy>=1.24
 
-# LLM (OpenAI)
+### LLM (OpenAI)
 openai>=1.0
 
-# NLP
+### NLP
 spacy>=3.7
 
-# Emotion model (HuggingFace)
+### Emotion model (HuggingFace)
 transformers>=4.40
 torch>=2.1
 
-# Sentence similarity
+### Sentence similarity
 sentence-transformers>=2.6
 
-# Visualization
+### Visualization
 matplotlib>=3.7
 
-# Graph processing
+### Graph processing
 networkx>=3.2
 
-# Optional (recommended for performance)
+### Optional (recommended for performance)
 scikit-learn>=1.3
 
 ---
