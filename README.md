@@ -86,6 +86,8 @@ Character emotion tracking:
 - Sentiment analysis
 - Visualization
 
+### 📄 config.py
+Config your OpenAI API
 ---
 
 ## ▶️ Running the Pipeline
