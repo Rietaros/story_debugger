@@ -21,6 +21,36 @@ pytest → for code
 StoryDebugger → for narrative  
 
 ---
+## Requirements
+
+# Core
+pydantic>=2.6
+pandas>=2.0
+numpy>=1.24
+
+# LLM (OpenAI)
+openai>=1.0
+
+# NLP
+spacy>=3.7
+
+# Emotion model (HuggingFace)
+transformers>=4.40
+torch>=2.1
+
+# Sentence similarity
+sentence-transformers>=2.6
+
+# Visualization
+matplotlib>=3.7
+
+# Graph processing
+networkx>=3.2
+
+# Optional (recommended for performance)
+scikit-learn>=1.3
+
+---
 
 ## 🧠 Core Concept
 
