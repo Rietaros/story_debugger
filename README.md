@@ -89,45 +89,8 @@ Character emotion tracking:
 ---
 
 ## ▶️ Running the Pipeline
+### 📄 run_main.ipynb
 
-```python
-from extract_llm import LLMExtractor
-from lore_graph import LoreGraph
-from rules import PlotHoleDetector
-from semantic import SemanticContinuity
-from arcs import ArcTracker
-from utils import load_chapters, build_auto_roster
-
-STORY_DIR = "story/"
-
-def main():
-    extractor = LLMExtractor()
-    semantic = SemanticContinuity()
-    lore = LoreGraph()
-    detector = PlotHoleDetector()
-
-    extractions = []
-
-    for chapter_id, title, text in load_chapters(STORY_DIR):
-        extraction = extractor.extract(chapter_id, title, text)
-        extractions.append(extraction)
-
-    roster = build_auto_roster(extractions)
-    arc = ArcTracker(roster)
-
-    for extraction in extractions:
-        lore.ingest(extraction)
-        issues = detector.check(extraction, lore)
-        drift = semantic.compute_drift(extraction)
-
-        print(f"[{extraction.chapter_id}] drift={drift:.4f} issues={len(issues)}")
-
-        for issue in issues:
-            print("-", issue.rule, issue.message)
-
-if __name__ == "__main__":
-    main()
-```
 
 ---
 
