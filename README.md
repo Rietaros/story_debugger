@@ -1,4 +1,4 @@
-# 📖 Narrative Intelligence System  
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/79edce8d-e457-4ca7-a7d3-f3e693b6986c" /># 📖 Narrative Intelligence System  
 ### *What If Your Novel Had Unit Tests?*
 
 ---
@@ -154,4 +154,12 @@ Engineering discipline → storytelling consistency
 
 ---
 
+## 🪄 V 1.1
+
+Add .html output to visualize the analysis
+
+---
+
 "We don’t just write stories anymore — we test them."
+
+---
