@@ -1,172 +1,213 @@
-# 📖 Narrative Intelligence System  
-### *What If Your Novel Had Unit Tests?*
+# Story Debugger
 
----
+Story Debugger is a Python-based narrative analysis system for checking long-form fiction, game scripts, visual novels, and serialized stories for continuity problems. It combines LLM-based extraction, rule-based validation, lore graph tracking, semantic drift analysis, and character arc visualization.
 
-## 🚀 Project Description
+The project is designed for stories written in English, Bahasa Indonesia, or a mix of both.
 
-This project is a **Narrative Intelligence System** built with Python to help writers, game designers, and storytellers maintain **plot consistency, logical integrity, and character coherence** in long-form narratives (e.g., visual novels, RPGs, serialized fiction).
+## What It Does
 
-Instead of relying purely on LLM prompting, this system acts as a **“Story Debugger”**, analyzing structured narrative data and detecting:
+Story Debugger converts chapter text into structured narrative data, then uses that data to generate a debugging report.
 
-- Plot holes  
-- Timeline inconsistencies  
-- Item misuse (used before acquired)  
-- Character contradictions  
-- Knowledge paradoxes  
+Core capabilities:
 
-Think of it as:
+- Detect plot holes and continuity risks.
+- Build a structured event timeline from extracted scenes and events.
+- Build a lore graph of characters, scenes, events, locations, items, facts, and causal links.
+- Track item ownership, item usage, knowledge, revelations, movement, and causality.
+- Detect character location conflicts, item continuity issues, memory/knowledge inconsistencies, and causal problems.
+- Generate character emotion arc charts.
+- Generate a character sheet for each chapter.
+- Produce an interactive HTML report for each analyzed chapter.
 
-pytest → for code  
-StoryDebugger → for narrative  
+## Plot Hole Categories
 
----
-## Requirements
+The LLM analysis classifies higher-level story issues into these categories:
 
-### Core
-- pydantic>=2.6
-- pandas>=2.0
-- numpy>=1.24
+- `contradiction`: A character acts against established traits, or a previously known fact changes to fit a new scene.
+- `missing_details`: A vital detail, item, injury, spell, or condition disappears or reappears without explanation.
+- `forgotten_subplot`: A character or subplot is introduced with a major unresolved conflict, then abandoned.
+- `out_of_character`: A character behaves outside their established nature, often only to move the plot forward.
 
-### LLM (OpenAI)
-- openai>=1.0
+Rule-based checks also detect concrete continuity issues such as:
 
-### NLP
-- spacy>=3.7
+- `double_location_same_step`
+- `item_used_before_acquired`
+- `item_used_by_non_owner`
+- `item_ownership_transfer_without_loss`
+- `unknown_causal_parent`
+- `causality_cycle`
+- `memory_claim_without_knowledge_event`
+- `possible_explicit_contradiction`
 
-### Emotion model (HuggingFace)
-- transformers>=4.40
-- torch>=2.1
+## How The Pipeline Works
 
-### Sentence similarity
-- sentence-transformers>=2.6
+```text
+Markdown chapter
+  -> LLM extraction
+  -> structured scenes, events, characters, items, facts
+  -> lore graph ingestion
+  -> rule-based plot hole detection
+  -> semantic drift analysis
+  -> character emotion analysis
+  -> LLM plot-hole and character-sheet analysis
+  -> HTML dashboard and JSON/CSV outputs
+```
 
-### Visualization
-- matplotlib>=3.7
+## Project Structure
 
-### Graph processing
-- networkx>=3.2
+```text
+.
+|-- arcs.py               # Character mention detection and emotion arc plotting
+|-- config.py             # Loads environment variables from .env
+|-- extract_llm.py        # LLM extraction and narrative analysis
+|-- html_report.py        # Interactive HTML dashboard generation
+|-- lore_graph.py         # NetworkX lore graph and continuity memory
+|-- rules.py              # Rule-based story bug detector
+|-- schemas.py            # Pydantic data models
+|-- semantic.py           # Semantic similarity and drift scoring
+|-- run_main.ipynb        # Main notebook pipeline
+|-- story/                # Input story chapters
+|-- outputs/              # Generated reports and artifacts
+|-- .env.example          # Safe environment template
+`-- .gitignore            # Ignores .env, caches, and generated outputs
+```
 
-### Optional (recommended for performance)
-- scikit-learn>=1.3
+## Configuration
 
----
+Secrets and runtime configuration are loaded from `.env`.
 
-## 🧠 Core Concept
+Create your local environment file:
 
-Story Text → LLM Extraction → Structured Events → Lore Graph → Rule Engine → Issues Report
+```bash
+cp .env.example .env
+```
 
----
+Then edit `.env`:
 
-## 📁 Project Structure
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-4o-mini
+```
 
-├── story/  
-    -│     ├── chapter_001.md     
-    -│     ├── chapter_002.md    
-    -│     └── chapter_003.md    
-├── outputs/  
-├── schemas.py  
-├── config.py  
-├── html_report.py  
-├── extract_llm.py  
-├── semantic.py  
-├── lore_graph.py  
-├── rules.py  
-├── arcs.py  
+`OPENAI_API_KEY` is required for LLM extraction and LLM-based plot-hole analysis. `OPENAI_MODEL` defaults to `gpt-4o-mini` when unset.
 
----
+The `.env` file is intentionally ignored by Git. Do not commit API keys or private configuration.
 
-## 🧩 Module Breakdown
+## Dependencies
 
-### 📂 story/
-Raw narrative text in Markdown format.
+Recommended runtime: Python 3.10 or newer.
 
-### 📂 outputs/
-Generated outputs:
-- Emotion arcs
-- Debug reports
-- CSV summaries
+Install the core dependencies in your Python environment:
 
-### 📄 schemas.py
-Defines structured data models (Pydantic).
+```bash
+pip install \
+  openai python-dotenv pydantic pandas numpy spacy \
+  transformers torch sentence-transformers matplotlib networkx scikit-learn \
+  jupyter
+```
 
-### 📄 extract_llm.py
-LLM-based extraction of:
-- Characters
-- Events
-- Items
-- Knowledge
-- Causality
+Depending on your platform, `torch` may require a platform-specific install command. See the official PyTorch installation instructions if the generic install does not work.
 
-### 📄 semantic.py
-Handles semantic similarity and drift analysis.
+## Input Stories
 
-### 📄 lore_graph.py
-Builds knowledge graph:
-- Character relations
-- Item ownership
-- Timeline & causality
+Place chapter files as Markdown files under the configured story folder.
 
-### 📄 rules.py
-Story Debugger engine:
-- Detects plot holes
-- Validates logic consistency
+The current notebook uses:
 
-### 📄 arcs.py
-Character emotion tracking:
-- NER
-- Sentiment analysis
-- Visualization
+```python
+STORY_DIR = Path("story/story_check")
+```
 
-### 📄 config.py
-Loads configurations from the `.env` file using `python-dotenv`.
+Each chapter file should use a stable filename such as:
 
-### 📄 .env
-Stores configuration values like API keys and models locally. This file is ignored by Git to protect secrets. Refer to `.env.example` for the template.
-- `OPENAI_API_KEY`: Your OpenAI API key.
-- `OPENAI_MODEL`: OpenAI model (default: `gpt-4o-mini`).
+```text
+chapter_001.md
+chapter_002.md
+chapter_003.md
+```
 
----
+The filename becomes the chapter ID.
 
-## ▶️ Running the Pipeline
-### 📄 run_main.ipynb
+## Running The Project
 
+Open and run:
 
----
+```text
+run_main.ipynb
+```
 
-## 📊 Example Output
+The notebook performs the full pipeline:
 
-[chapter_001] drift=0.0000 issues=3  
-- item_used_before_acquired  
-- double_location_same_step  
-- memory_claim_without_knowledge_event  
+1. Loads chapter Markdown files.
+2. Extracts structured narrative data using OpenAI.
+3. Builds and updates the lore graph.
+4. Runs rule-based continuity checks.
+5. Runs LLM plot-hole and character-sheet analysis.
+6. Computes semantic drift.
+7. Builds character emotion arcs.
+8. Writes JSON, CSV, PNG, and HTML outputs.
 
----
+## Generated Outputs
 
-## 🎯 Key Features
+For each chapter, the pipeline writes files under:
 
-- Narrative → Structured Data  
-- Knowledge Graph Tracking  
-- Rule-Based Story Debugging  
-- Semantic Drift Analysis  
-- Character Emotion Arc  
+```text
+outputs/<chapter_id>/
+```
 
----
+Typical output files:
 
-## 🧠 Why This Matters
+```text
+extraction.json              # Structured chapter extraction
+issues.json                  # Rule-based and LLM-detected story bugs
+semantic.json                # Similarity and drift scores
+character_sheet.json         # Per-character chapter summary and risk notes
+character_emotions.csv       # Emotion classification rows
+arc_<character>.png          # Character emotion arc chart
+<chapter_id>_analytics.html  # Interactive report
+```
 
-Engineering discipline → storytelling consistency
+## HTML Report
 
----
+The generated dashboard includes:
 
-## 🪄 V 1.1
+- Overview metrics for drift, similarity, issue count, and severity.
+- Story Bugs tab with descriptions, evidence, and timeline links.
+- Character Sheet tab with character summaries, actions, future plot-hole risks, and acquired items or spells.
+- Character Arcs tab with emotion charts and action-aware arc analysis.
+- Timeline tab showing every extracted event, graph order, movement, item continuity, knowledge/fact records, and attached bug markers.
+- Lore Graph tab showing graph nodes for chapters, scenes, events, characters, locations, items, and facts.
 
-Add .html output to visualize the analysis
-<img width="832" height="421" alt="image" src="https://github.com/user-attachments/assets/0780bdb0-d39f-42b5-aa37-982f6f559154" />
+## Data Model Summary
 
+The extraction output is validated with Pydantic models in `schemas.py`.
 
----
+Main entities:
 
-"We don’t just write stories anymore — we test them."
+- `ChapterExtraction`: chapter title, synopsis, scenes, and character roster.
+- `Scene`: scene ID, title, location, POV, mood, summary, text, and events.
+- `Event`: event ID, title, sequence, participants, location, items, revelations, knowledge gains, causal parents, and summary.
+- `Issue`: severity, rule name, message, and evidence.
+- `CharacterSheetItem`: character summary, current actions, future plot-hole risk, and acquired items or spells.
 
----
+## Notes And Limitations
+
+Story Debugger is an analysis assistant, not a final editorial authority. It is strongest when chapters have enough context for the extractor to identify characters, locations, items, and event causality. LLM extraction can still miss details or overgeneralize, so important findings should be reviewed by the writer.
+
+For best results:
+
+- Keep chapter files ordered by filename.
+- Use consistent character names or aliases.
+- Mention important item transfers, injuries, spells, promises, and revelations explicitly.
+- Review `extraction.json` when a report seems incomplete.
+- Treat high-severity issues as review priorities, not automatic proof of an error.
+
+## Development Status
+
+This project is actively evolving. Current focus areas include:
+
+- More reliable multilingual extraction for English and Bahasa Indonesia.
+- Better event title generation.
+- Stronger timeline-to-bug linking.
+- Richer lore graph reporting.
+- Improved character sheet risk analysis.
