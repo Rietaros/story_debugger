@@ -68,6 +68,7 @@ Markdown chapter
 |-- run_main.ipynb        # Main notebook pipeline
 |-- story/                # Input story chapters
 |-- outputs/              # Generated reports and artifacts
+|-- .cache/               # Local LLM response cache, ignored by Git
 |-- .env.example          # Safe environment template
 `-- .gitignore            # Ignores .env, caches, and generated outputs
 ```
@@ -92,6 +93,8 @@ OPENAI_MODEL=gpt-4o-mini
 `OPENAI_API_KEY` is required for LLM extraction and LLM-based plot-hole analysis. `OPENAI_MODEL` defaults to `gpt-4o-mini` when unset.
 
 The `.env` file is intentionally ignored by Git. Do not commit API keys or private configuration.
+
+LLM extraction and chapter analysis responses are cached under `.cache/story_debugger/` using hashes of the chapter text and relevant settings. Re-running the notebook with unchanged chapters will reuse cached responses instead of calling OpenAI again. Delete `.cache/story_debugger/` if you need to force fresh LLM extraction.
 
 ## Dependencies
 

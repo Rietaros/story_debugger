@@ -1,8 +1,10 @@
 # extract_llm.py
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+from pathlib import Path
 import re
 
 from openai import OpenAI
@@ -13,6 +15,11 @@ from schemas import ChapterExtraction, Issue, CharacterSheetItem, LLMAnalysisRes
 
 
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
+
+EXTRACTION_CACHE_VERSION = "extract-v2"
+ANALYSIS_CACHE_VERSION = "analysis-v1"
+DEFAULT_CACHE_ROOT = Path(".cache/story_debugger")
 
 
 GENERIC_TITLE_RE = re.compile(
@@ -87,15 +94,193 @@ def _scene_title_from_data(scene: dict, scene_idx: int) -> str:
     return f"Scene {scene_idx}"
 
 
+def _chapter_text_hash(chapter_text: str) -> str:
+    return hashlib.sha256(chapter_text.encode("utf-8")).hexdigest()
+
+
+def _cache_key(*parts: object) -> str:
+    payload = json.dumps(parts, ensure_ascii=False, sort_keys=True, default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _load_cache(path: Path) -> dict | None:
+    if not path.exists():
+        return None
+
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def _write_cache(path: Path, data: dict) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    except OSError:
+        # Cache writes should never block the analysis pipeline.
+        return
+
+
+def _normalize_extraction_data(data: dict, chapter_id: str, title: str) -> dict:
+    data["chapter_id"] = chapter_id
+    data["title"] = title
+    data.pop("text", None)
+    data.setdefault("synopsis", "")
+    data.setdefault("characters", [])
+    data.setdefault("scenes", [])
+
+    fixed_characters = []
+
+    for character in data.get("characters", []):
+        if isinstance(character, str):
+            fixed_characters.append(
+                {
+                    "canonical": character,
+                    "aliases": [],
+                }
+            )
+
+        elif isinstance(character, dict):
+            canonical = (
+                character.get("canonical")
+                or character.get("name")
+                or character.get("character")
+            )
+
+            if canonical:
+                fixed_characters.append(
+                    {
+                        "canonical": canonical,
+                        "aliases": character.get("aliases", []),
+                    }
+                )
+
+    data["characters"] = fixed_characters
+
+    for scene_idx, scene in enumerate(data.get("scenes", []), start=1):
+        scene.setdefault("scene_id", f"sc_{scene_idx:03d}")
+        scene.setdefault("chapter_id", chapter_id)
+        scene.setdefault("location", "Unknown")
+        scene.setdefault("pov", None)
+        scene.setdefault("mood", "")
+        scene.setdefault("summary", "")
+        scene.setdefault("text", "")
+        scene.setdefault("events", [])
+        scene["title"] = _scene_title_from_data(scene, scene_idx)
+
+        fixed_events = []
+
+        for event_idx, event in enumerate(scene.get("events", []), start=1):
+            if isinstance(event, str):
+                event = {
+                    "event_id": f"ev_{scene_idx:03d}_{event_idx:03d}",
+                    "chapter_id": chapter_id,
+                    "scene_id": scene["scene_id"],
+                    "seq": event_idx,
+                    "title": _compact_title(event),
+                    "location": scene.get("location", "Unknown"),
+                    "start_time": None,
+                    "end_time": None,
+                    "participants": [],
+                    "acquired_items": [],
+                    "used_items": [],
+                    "revelations": [],
+                    "knowledge_gains": {},
+                    "causal_parents": [],
+                    "summary": event,
+                }
+
+            elif isinstance(event, dict):
+                event.setdefault("event_id", f"ev_{scene_idx:03d}_{event_idx:03d}")
+                event.setdefault("chapter_id", chapter_id)
+                event.setdefault("scene_id", scene["scene_id"])
+                event.setdefault("seq", event_idx)
+                event.setdefault("location", scene.get("location", "Unknown"))
+                event["title"] = _event_title_from_data(
+                    event,
+                    event_idx,
+                    scene.get("location", "Unknown"),
+                )
+
+            else:
+                continue
+
+            allowed_event_keys = {
+                "event_id",
+                "chapter_id",
+                "scene_id",
+                "seq",
+                "title",
+                "location",
+                "start_time",
+                "end_time",
+                "participants",
+                "acquired_items",
+                "used_items",
+                "revelations",
+                "knowledge_gains",
+                "causal_parents",
+                "summary",
+            }
+
+            if "description" in event and "summary" not in event:
+                event["summary"] = event.pop("description")
+
+            if "details" in event and "summary" not in event:
+                details = event.pop("details")
+                event["summary"] = (
+                    details.get("info", "")
+                    if isinstance(details, dict)
+                    else str(details)
+                )
+
+            event = {k: v for k, v in event.items() if k in allowed_event_keys}
+
+            event.setdefault("summary", "")
+            event.setdefault("participants", [])
+            event.setdefault("acquired_items", [])
+            event.setdefault("used_items", [])
+            event.setdefault("revelations", [])
+            event.setdefault("knowledge_gains", {})
+            event.setdefault("causal_parents", [])
+            event.setdefault("start_time", None)
+            event.setdefault("end_time", None)
+
+            fixed_events.append(event)
+
+        scene["events"] = fixed_events
+
+    return data
+
+
 class LLMExtractor:
     def __init__(
         self,
         model_name: str | None = None,
         max_input_chars: int = 12000,
+        cache_dir: str | Path | None = DEFAULT_CACHE_ROOT / "extractions",
+        use_cache: bool = True,
     ):
         self.client = OpenAI(api_key=OPENAI_API_KEY)
         self.model_name = model_name or OPENAI_MODEL
         self.max_input_chars = max_input_chars
+        self.cache_dir = Path(cache_dir) if cache_dir else None
+        self.use_cache = use_cache
+
+    def _cache_path(self, chapter_id: str, title: str, chapter_text: str) -> Path | None:
+        if not self.cache_dir or not self.use_cache:
+            return None
+
+        key = _cache_key(
+            EXTRACTION_CACHE_VERSION,
+            self.model_name,
+            self.max_input_chars,
+            chapter_id,
+            title,
+            _chapter_text_hash(chapter_text),
+        )
+        return self.cache_dir / f"{key}.json"
 
     def extract(
         self,
@@ -103,6 +288,15 @@ class LLMExtractor:
         title: str,
         chapter_text: str,
     ) -> ChapterExtraction:
+        cache_path = self._cache_path(chapter_id, title, chapter_text)
+        cached_data = _load_cache(cache_path) if cache_path else None
+        if cached_data:
+            try:
+                data = _normalize_extraction_data(cached_data, chapter_id, title)
+                return ChapterExtraction.model_validate(data)
+            except Exception:
+                pass
+
         system_prompt = """
 You are a strict literary information extraction engine.
 
@@ -225,146 +419,48 @@ Chapter text:
         if start == -1 or end == -1:
             raise ValueError(f"No JSON found in model output:\n{text}")
 
-        data = json.loads(text[start : end + 1])
+        data = _normalize_extraction_data(json.loads(text[start : end + 1]), chapter_id, title)
+        extraction = ChapterExtraction.model_validate(data)
 
-        data["chapter_id"] = chapter_id
-        data["title"] = title
-        data.pop("text", None)
-        data.setdefault("synopsis", "")
-        data.setdefault("characters", [])
-        data.setdefault("scenes", [])
+        if cache_path:
+            _write_cache(cache_path, extraction.model_dump(mode="json"))
 
-        fixed_characters = []
-
-        for character in data.get("characters", []):
-            if isinstance(character, str):
-                fixed_characters.append(
-                    {
-                        "canonical": character,
-                        "aliases": [],
-                    }
-                )
-
-            elif isinstance(character, dict):
-                canonical = (
-                    character.get("canonical")
-                    or character.get("name")
-                    or character.get("character")
-                )
-
-                if canonical:
-                    fixed_characters.append(
-                        {
-                            "canonical": canonical,
-                            "aliases": character.get("aliases", []),
-                        }
-                    )
-
-        data["characters"] = fixed_characters
-
-        for scene_idx, scene in enumerate(data.get("scenes", []), start=1):
-            scene.setdefault("scene_id", f"sc_{scene_idx:03d}")
-            scene.setdefault("chapter_id", chapter_id)
-            scene.setdefault("location", "Unknown")
-            scene.setdefault("pov", None)
-            scene.setdefault("mood", "")
-            scene.setdefault("summary", "")
-            scene.setdefault("text", "")
-            scene.setdefault("events", [])
-            scene["title"] = _scene_title_from_data(scene, scene_idx)
-
-            fixed_events = []
-
-            for event_idx, event in enumerate(scene.get("events", []), start=1):
-                if isinstance(event, str):
-                    event = {
-                        "event_id": f"ev_{scene_idx:03d}_{event_idx:03d}",
-                        "chapter_id": chapter_id,
-                        "scene_id": scene["scene_id"],
-                        "seq": event_idx,
-                        "title": _compact_title(event),
-                        "location": scene.get("location", "Unknown"),
-                        "start_time": None,
-                        "end_time": None,
-                        "participants": [],
-                        "acquired_items": [],
-                        "used_items": [],
-                        "revelations": [],
-                        "knowledge_gains": {},
-                        "causal_parents": [],
-                        "summary": event,
-                    }
-
-                elif isinstance(event, dict):
-                    event.setdefault("event_id", f"ev_{scene_idx:03d}_{event_idx:03d}")
-                    event.setdefault("chapter_id", chapter_id)
-                    event.setdefault("scene_id", scene["scene_id"])
-                    event.setdefault("seq", event_idx)
-                    event.setdefault("location", scene.get("location", "Unknown"))
-                    event["title"] = _event_title_from_data(
-                        event,
-                        event_idx,
-                        scene.get("location", "Unknown"),
-                    )
-
-                else:
-                    continue
-
-                allowed_event_keys = {
-                    "event_id",
-                    "chapter_id",
-                    "scene_id",
-                    "seq",
-                    "title",
-                    "location",
-                    "start_time",
-                    "end_time",
-                    "participants",
-                    "acquired_items",
-                    "used_items",
-                    "revelations",
-                    "knowledge_gains",
-                    "causal_parents",
-                    "summary",
-                }
-
-                if "description" in event and "summary" not in event:
-                    event["summary"] = event.pop("description")
-
-                if "details" in event and "summary" not in event:
-                    details = event.pop("details")
-                    event["summary"] = (
-                        details.get("info", "")
-                        if isinstance(details, dict)
-                        else str(details)
-                    )
-
-                event = {k: v for k, v in event.items() if k in allowed_event_keys}
-
-                event.setdefault("summary", "")
-                event.setdefault("participants", [])
-                event.setdefault("acquired_items", [])
-                event.setdefault("used_items", [])
-                event.setdefault("revelations", [])
-                event.setdefault("knowledge_gains", {})
-                event.setdefault("causal_parents", [])
-                event.setdefault("start_time", None)
-                event.setdefault("end_time", None)
-
-                fixed_events.append(event)
-
-            scene["events"] = fixed_events
-
-        return ChapterExtraction.model_validate(data)
+        return extraction
 
 
 class LLMStoryAnalyzer:
     def __init__(
         self,
         model_name: str | None = None,
+        cache_dir: str | Path | None = DEFAULT_CACHE_ROOT / "analysis",
+        use_cache: bool = True,
     ):
         self.client = OpenAI(api_key=OPENAI_API_KEY)
         self.model_name = model_name or OPENAI_MODEL
+        self.cache_dir = Path(cache_dir) if cache_dir else None
+        self.use_cache = use_cache
+
+    def _cache_path(
+        self,
+        chapter_id: str,
+        title: str,
+        chapter_text: str,
+        current_extraction: ChapterExtraction,
+        history: list[dict],
+    ) -> Path | None:
+        if not self.cache_dir or not self.use_cache:
+            return None
+
+        key = _cache_key(
+            ANALYSIS_CACHE_VERSION,
+            self.model_name,
+            chapter_id,
+            title,
+            _chapter_text_hash(chapter_text),
+            current_extraction.model_dump(mode="json"),
+            history,
+        )
+        return self.cache_dir / f"{key}.json"
 
     def analyze(
         self,
@@ -374,6 +470,20 @@ class LLMStoryAnalyzer:
         current_extraction: ChapterExtraction,
         history: list[dict],
     ) -> LLMAnalysisResult:
+        cache_path = self._cache_path(
+            chapter_id,
+            title,
+            chapter_text,
+            current_extraction,
+            history,
+        )
+        cached_data = _load_cache(cache_path) if cache_path else None
+        if cached_data:
+            try:
+                return LLMAnalysisResult.model_validate(cached_data)
+            except Exception:
+                pass
+
         # Format history of previous chapters
         history_summary = ""
         if history:
@@ -499,5 +609,9 @@ Return ONLY a JSON object with this exact structure:
                 )
             )
 
+        result = LLMAnalysisResult(plot_holes=plot_holes, character_sheet=character_sheet)
 
-        return LLMAnalysisResult(plot_holes=plot_holes, character_sheet=character_sheet)
+        if cache_path:
+            _write_cache(cache_path, result.model_dump(mode="json"))
+
+        return result

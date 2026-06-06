@@ -14,10 +14,14 @@ class LoreGraph:
         self._order = 0
 
         self.item_owner: dict[str, str] = {}
+        self.item_owners: dict[str, set[str]] = defaultdict(set)
         self.item_history: dict[str, list[dict]] = defaultdict(list)
         self.character_locations: dict[str, list[dict]] = defaultdict(list)
         self.character_knowledge: dict[str, set[str]] = defaultdict(set)
         self.event_index: dict[str, dict] = {}
+        self.event_history: dict[str, list[dict]] = defaultdict(list)
+        self.event_lookup: dict[tuple[str, str, str, int], dict] = {}
+        self._pending_causal_edges: list[dict] = []
 
         # More sensitive audit memory
         self.action_log: list[dict] = []
@@ -30,6 +34,90 @@ class LoreGraph:
         row = {"order": self._order, "kind": kind}
         row.update(data)
         self.action_log.append(row)
+
+    def _event_key(
+        self,
+        chapter_id: str,
+        scene_id: str,
+        event_id: str,
+        seq: int,
+    ) -> str:
+        return f"{chapter_id}:{scene_id}:{event_id}:{seq}"
+
+    def _event_label(self, record: dict) -> str:
+        return (
+            f"{record.get('chapter_id')}:{record.get('scene_id')}:"
+            f"{record.get('event_id')}"
+        )
+
+    def resolve_event_reference(
+        self,
+        reference: str,
+        *,
+        before_order: int | None = None,
+        current_chapter_id: str | None = None,
+    ) -> dict | None:
+        candidates: list[dict] = []
+
+        if reference in self.event_index:
+            candidates.append(self.event_index[reference])
+
+        candidates.extend(self.event_history.get(reference, []))
+
+        if before_order is not None:
+            candidates = [
+                candidate
+                for candidate in candidates
+                if candidate.get("order", 0) < before_order
+            ]
+
+        if not candidates:
+            return None
+
+        if current_chapter_id:
+            chapter_candidates = [
+                candidate
+                for candidate in candidates
+                if candidate.get("chapter_id") == current_chapter_id
+            ]
+            if chapter_candidates:
+                candidates = chapter_candidates
+
+        return max(candidates, key=lambda candidate: candidate.get("order", 0))
+
+    def event_record(
+        self,
+        chapter_id: str,
+        scene_id: str,
+        event_id: str,
+        seq: int,
+    ) -> dict | None:
+        return self.event_lookup.get((chapter_id, scene_id, event_id, seq))
+
+    def _resolve_pending_causal_edges(self) -> None:
+        still_pending = []
+
+        for pending in self._pending_causal_edges:
+            parent = self.resolve_event_reference(
+                pending["parent_ref"],
+                current_chapter_id=pending.get("current_chapter_id"),
+            )
+            if not parent:
+                still_pending.append(pending)
+                continue
+
+            self.causality.add_edge(
+                parent["event_key"],
+                pending["child_key"],
+                relation="EXPLICIT_CAUSE",
+                parent_ref=pending["parent_ref"],
+            )
+
+            placeholder = pending.get("placeholder_key")
+            if placeholder and self.causality.has_edge(placeholder, pending["child_key"]):
+                self.causality.remove_edge(placeholder, pending["child_key"])
+
+        self._pending_causal_edges = still_pending
 
     def _extract_sensitive_markers(self, summary: str) -> list[str]:
         text = (summary or "").lower()
@@ -98,16 +186,24 @@ class LoreGraph:
             for event in sorted(scene.events, key=lambda e: e.seq):
                 self._order += 1
 
-                event_node = f"event:{event.event_id}"
+                event_key = self._event_key(
+                    chapter.chapter_id,
+                    scene.scene_id,
+                    event.event_id,
+                    event.seq,
+                )
+                event_node = f"event:{event_key}"
                 location = event.location or scene.location or "Unknown"
                 markers = self._extract_sensitive_markers(event.summary)
 
-                self.event_index[event.event_id] = {
+                event_record = {
                     "order": self._order,
+                    "event_key": event_key,
                     "chapter_id": chapter.chapter_id,
                     "scene_id": scene.scene_id,
                     "scene_title": scene.title,
                     "seq": event.seq,
+                    "event_id": event.event_id,
                     "title": event.title,
                     "location": location,
                     "summary": event.summary,
@@ -119,11 +215,19 @@ class LoreGraph:
                     "causal_parents": list(event.causal_parents),
                     "markers": markers,
                 }
+                self.event_index[event_key] = event_record
+                self.event_index[event.event_id] = event_record
+                self.event_history[event.event_id].append(event_record)
+                self.event_lookup[
+                    (chapter.chapter_id, scene.scene_id, event.event_id, event.seq)
+                ] = event_record
 
                 self.relations.add_node(
                     event_node,
                     type="event",
                     order=self._order,
+                    event_key=event_key,
+                    event_id=event.event_id,
                     chapter_id=chapter.chapter_id,
                     scene_id=scene.scene_id,
                     scene_title=scene.title,
@@ -162,20 +266,60 @@ class LoreGraph:
                             "markers": markers,
                             "summary": event.summary,
                         }
-                    )
+                )
 
                 # Causality graph
-                self.causality.add_node(event.event_id, order=self._order)
+                self.causality.add_node(
+                    event_key,
+                    order=self._order,
+                    event_id=event.event_id,
+                    chapter_id=chapter.chapter_id,
+                    scene_id=scene.scene_id,
+                    title=event.title,
+                )
 
                 # Add explicit causal parents
                 for parent in event.causal_parents:
-                    self.causality.add_edge(parent, event.event_id, relation="EXPLICIT_CAUSE")
+                    parent_record = self.resolve_event_reference(
+                        parent,
+                        before_order=self._order,
+                        current_chapter_id=chapter.chapter_id,
+                    )
+                    if parent_record:
+                        self.causality.add_edge(
+                            parent_record["event_key"],
+                            event_key,
+                            relation="EXPLICIT_CAUSE",
+                            parent_ref=parent,
+                        )
+                    else:
+                        placeholder_key = f"unresolved:{parent}"
+                        self.causality.add_node(
+                            placeholder_key,
+                            order=0,
+                            event_id=parent,
+                            unresolved=True,
+                        )
+                        self.causality.add_edge(
+                            placeholder_key,
+                            event_key,
+                            relation="UNRESOLVED_EXPLICIT_CAUSE",
+                            parent_ref=parent,
+                        )
+                        self._pending_causal_edges.append(
+                            {
+                                "parent_ref": parent,
+                                "child_key": event_key,
+                                "placeholder_key": placeholder_key,
+                                "current_chapter_id": chapter.chapter_id,
+                            }
+                        )
 
                 # Add soft sequence causality inside same scene
                 if previous_event_id:
-                    self.causality.add_edge(previous_event_id, event.event_id, relation="SCENE_SEQUENCE")
+                    self.causality.add_edge(previous_event_id, event_key, relation="SCENE_SEQUENCE")
 
-                previous_event_id = event.event_id
+                previous_event_id = event_key
 
                 # Character presence and movement
                 for participant in event.participants:
@@ -257,6 +401,8 @@ class LoreGraph:
 
                     for participant in event.participants:
                         previous_owner = self.item_owner.get(item)
+                        previous_owners = sorted(self.item_owners[item])
+                        self.item_owners[item].add(participant)
                         self.item_owner[item] = participant
 
                         record = {
@@ -271,6 +417,8 @@ class LoreGraph:
                             "item": item,
                             "owner": participant,
                             "previous_owner": previous_owner,
+                            "previous_owners": previous_owners,
+                            "owners_after": sorted(self.item_owners[item]),
                         }
 
                         self.item_history[item].append(record)
@@ -289,6 +437,7 @@ class LoreGraph:
                     self.relations.add_node(item, type="item")
 
                     owner = self.item_owner.get(item)
+                    owners = sorted(self.item_owners[item])
 
                     record = {
                         "order": self._order,
@@ -302,6 +451,7 @@ class LoreGraph:
                         "item": item,
                         "users": list(event.participants),
                         "known_owner": owner,
+                        "known_owners": owners,
                     }
 
                     self.item_history[item].append(record)
@@ -386,8 +536,13 @@ class LoreGraph:
                         order=self._order,
                     )
 
+        self._resolve_pending_causal_edges()
+
     def owner_of(self, item: str) -> str | None:
         return self.item_owner.get(item)
+
+    def owners_of(self, item: str) -> list[str]:
+        return sorted(self.item_owners.get(item, set()))
 
     def item_events(self, item: str) -> list[dict]:
         return self.item_history.get(item, [])
@@ -418,7 +573,17 @@ class LoreGraph:
         return self.action_log
 
     def cycle_report(self) -> list[list[str]]:
-        return list(nx.simple_cycles(self.causality))
+        cycles = []
+        for cycle in nx.simple_cycles(self.causality):
+            if any(self.causality.nodes[node].get("unresolved") for node in cycle):
+                continue
+            cycles.append(
+                [
+                    self._event_label(self.event_index.get(node, {"event_id": node}))
+                    for node in cycle
+                ]
+            )
+        return cycles
 
     def narrative_order(self) -> list[str]:
         return list(nx.topological_sort(self.causality))
