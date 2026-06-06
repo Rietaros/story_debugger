@@ -1,0 +1,13 @@
+# Environment files
+.env
+
+# Python caching
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Outputs
+outputs/

@@ -1,148 +1,116 @@
-Osmo berhenti perlahan di depan gapura kota kecil Sagara Rimba, sebuah kota peristirahatan yang terletak di jalur tenggara menuju Gunung Bromo. Pepohonan rimbun dan kabut lembut menyelimuti bagian luar kota, membuatnya tampak seperti sebuah lukisan hidup. WiraMadha turun dari tunggangannya, mengusap leher Osmo yang mulai berkeringat setelah perjalanan panjang. Ia kemudian berjalan ke papan pemberitahuan kota, matanya menyapu daftar quest yang tersedia.
+Hening.
 
-[Party Dungeon - Hutan Lengang (Lv. 15-25)] Rekomendasi: 4 Player
+Setelah Wira dan Sylvia menekan tombol [YES] pada jendela notifikasi quest yang berpendar merah, mereka berekspektasi akan ada ledakan energi, transisi instan, atau setidaknya raungan monster yang memekakkan telinga. Namun, detik demi detik berlalu, dan lereng Gunung Bromo tetaplah sunyi, hanya menyisakan desisan angin yang membawa debu vulkanik.
 
-Wira mengangkat alis, sedikit tersenyum.
+"Eh? Error?" Sylvia mengguncang-guncangkan tongkat sihirnya, seolah-olah itu akan memperbaiki glitch sistem.
 
-"Pas banget buat nguji rotasi parry... dan sedikit akting."
+Wira mengernyitkan dahi. Sebagai pemain veteran yang sudah mencicipi ratusan judul game, insting teknisnya segera bekerja. Ia membuka kembali jendela detail quest yang masih mengambang di udara. Matanya memindai baris-baris teks kecil di bagian bawah yang tadi sempat terabaikan karena euforia adrenalin.
 
-Tanpa banyak pikir, ia masuk ke ruang antrian dungeon. Sistem langsung memasukkannya ke dalam lobby tunggu. Dua player sudah lebih dulu hadir.
+"Sial, pantesan nggak jalan," gumam Wira pelan.
 
-Yang pertama adalah seorang Humanoid Beast perempuan dengan telinga kelinci lebar, rambut cokelat pendek, dan mantel hijau lusuh. Namanya: HoppyLite - Class: Wanderer.
+"Kenapa, Wir?" tanya Sylvia cemas.
 
-Yang kedua: DrakeCloud - Class: Rogue. Seorang Human dengan pakaian serba hitam dan dua belati tergantung di pinggangnya. Tatapannya tajam, penuh percaya diri.
+"Lihat ini, Syl. Requirement: Minimum Party of 4 Players. Quest ini tipe Instanced Raid Event. Sistem nggak akan men-teleport kita ke area kawah kalau anggota party kita belum genap empat orang."
 
-Beberapa detik kemudian, slot keempat menyala. Masuklah seorang gadis berkulit biru pucat, rambut biru gelap diikat kuda, mengenakan gaun dari susunan daun-daun hijau gelap, dan membawa tongkat kayu panjang dengan orbs hijau bercahaya di ujungnya. Rasanya berbeda, menyatu dengan elemen. Perempuan dengan ras Spirit
+Sylvia menghela napas panjang, bahunya merosot. "Empat orang? Kita cuma berdua. Dan di jam segini, siapa yang mau mendaki ke lereng atas cuma buat bantu kita?"
 
-Di atas kepalanya tertulis: [Sylvia - Lv. 15 - Spirit Handler]
+Wira terdiam sejenak, menimbang opsi. Di dunia Nusantara Reborn Online (NRO), mencari party acak (random party) adalah sebuah pertaruhan besar. Ada risiko mendapatkan pemain yang tidak mengerti mekanik, pemain yang egois, atau lebih buruk lagi—troller. Padahal, secara teknis, dengan Legendary Passive Skill Perfect Parry miliknya, Wira bisa saja menghadapi Ahol sendirian tanpa kehilangan satu pun HP. Namun, ia harus menjaga rahasia itu demi menghindari kecurigaan Sylvia dan pantauan tim Anak Bumi Interactive. Ia harus tetap berakting seolah-olah ia adalah Warrior biasa yang membutuhkan dukungan tim.
 
- 15 - Spirit Handler]
 
-"Oke," gumam Wira. "Komposisi lumayan. Gue bisa jadi tank."
 
-Sylvia memberi anggukan sopan. Ia tidak banyak bicara. Wira memandangnya sesaat, lalu memberanikan diri membuka obrolan.
+"Kita coba pakai fitur World Chat," usul Wira. Ia membuka antarmuka komunikasi dan memilih item "Toa" (World Megaphone) yang ia beli di Suradikarta tempo hari.
 
-"Pertama kali dungeon ini juga?" "Iya," jawab Sylvia singkat. "Aku lagi coba cari jalan ke Bromo, tapi quest-nya agak sulit tanpa Unique Skill..."
+[World Chat] WiraMadha: LFM (Looking For Member) Quest Ahol - Lereng Bromo. Butuh 2 slot lagi. Role bebas. Fast clear!
 
-Wira mengangguk kecil, lalu berkata pelan,
+Layar World Chat meledak dengan pesan-pesan yang bergulir sangat cepat.
 
-"Kalau kamu butuh partner ke sana, mungkin habis dungeon ini kita bisa ngobrol lebih jauh."
+"WTS Rare Dagger murah!"
 
-Sylvia menoleh perlahan, menatap mata Wira. Tak menjawab, hanya memberi tatapan setuju samar.
+"Guild Garuda mencari anggota baru level 40+."
 
-[DUNGEON DIMULAI]
+"Ada yang tahu lokasi spawn Babi Ngepet?"
 
----
+Pesan Wira tenggelam dalam hitungan detik. World Chat NRO benar-benar chaos, sebuah cerminan dari populasi pemain yang mencapai jutaan di seluruh Nusantara.
 
-Bosa Dungeon - Arena Agni
+"Nggak efektif, Syl. Terlalu banyak spam," ujar Wira sambil menutup jendela chat dengan gusar.
 
-Setelah melewati hutan lebat dengan lorong akar hidup, jebakan batang berduri, dan beberapa mini-boss kecil, party mereka akhirnya tiba di sebuah ruangan besar yang memancarkan hawa panas. Lantai berbatu menghitam, dan dari celah-celahnya menyembur uap merah bercahaya.
+Tiba-tiba, dari arah jalur pendakian bawah, terdengar langkah kaki yang mantap di atas pasir. Seseorang sedang berlari menanjak dengan kecepatan yang tidak wajar untuk ukuran manusia biasa. Namun, saat sosok itu mendekat, Wira menyadari bahwa pemain tersebut sedang dalam wujud Human murni, bukan wujud beast yang biasanya menonjolkan fitur hewan.
 
-Kelabang Agni - seekor kelabang raksasa bersisik merah gelap dengan matanya menyala oranye muncul dari lubang tengah arena. Suara berderak terdengar saat tubuhnya menggeliat panjang lebih dari sepuluh meter.
+Pria itu mengenakan zirah ringan berwarna hitam dengan aksen perak, rambutnya dipotong spike yang agresif. Matanya tajam, menyapu area sekitar dengan insting predator yang terlatih, ada fitur kuping hewan yang menandakan bahwa dia bukan Human biasanya.
 
- Suara berderak terdengar saat tubuhnya menggeliat panjang lebih dari sepuluh meter
+"Loh? Lo lagi?" suara pria itu terdengar familiar di telinga Wira.
 
-Phase 1
+Wira memicingkan mata, mencoba mengingat. "Tunggu... Siapa?".
 
-Kelabang Agni langsung menyergap, membuka rahangnya dan menyemburkan gumpalan api kecil yang meledak saat menyentuh tanah. HopLeaf dan DrakeCleave menghindar ke sisi kiri dan kanan. Wira berdiri di tengah, tamengnya terangkat tinggi.
+"Gue pernah bantuin lo lawan Raja Kepik. Kenalin sekali lagi, gue RangRang" jawab pria itu sambil menyeringai, menampilkan gigi taringnya yang sedikit lebih runcing dari manusia biasa—satu-satunya ciri fisik ras Humanoid Beast tipe macan kumbang yang masih tersisa dalam mode manusianya. "Kalian nekat juga ya. Terakhir kali, lo hampir mati konyol lawan Raja Kepik di level 10. Sekarang level berapa? Masih di bawah 40 tapi mau lawan Ahol?"
 
-Serangan pertama disambut dengan Perfect Parry yang memantulkan bola api kembali ke mulut Kelabang, membuatnya terhuyung.
+"Kita level 34 sekarang, dan kita sudah punya persiapan," balas Sylvia dengan nada sedikit tersinggung, meski ia tetap berlindung di balik punggung Wira karena sifat introvertnya.
 
-"Nice!" ujar Drake sambil bergerak di belakang monster, memulai combo.
+"Level 34... heh, berani," RangRang tertawa bebas, sebuah kepribadian yang mencerminkan pemilik bengkel motor di dunia nyata yang menyukai kebebasan. "Tapi keberanian tanpa kekuatan itu namanya bunuh diri."
 
-"Binding Root!" teriak Hop.
+Belum sempat Wira membalas, sesosok wanita muncul dari balik gundukan pasir di belakang RangRang. Ia berjalan dengan anggun, mengenakan jubah biru tipis ras Atlantic yang berkilau di bawah sinar bulan.
 
-Akar-akar muncul dari lantai dan menahan kaki depan Kelabang, memungkinkan Hop menembakkan panah dengan akurasi penuh ke titik merah di lehernya.
+"Rang, jangan terlalu lama ngobrol. Kita harus cepat sebelum—" wanita itu terhenti. Matanya yang biru jernih menatap Wira dan Sylvia.
 
-Phase 2
+Seketika, atmosfer di lereng Bromo itu berubah menjadi dingin. Sylvia mengepalkan tangannya pada tongkat sihir, sementara Wira merasakan giginya bergemeletuk menahan kesal.
 
-Tubuh Kelabang mulai bersinar merah menyala. Segmen-segmen tubuhnya mengeluarkan uap panas. Siapa pun yang menyerangnya secara melee akan terkena burn.
+"BanyuKandhi," desis Sylvia tajam.
 
-Drake terpaksa mundur, tubuhnya terbakar ringan.
+Sosok wanita itu hanya tersenyum innocen, sebuah topeng yang sangat lihai ia gunakan untuk menutupi sifat licik dan perhitungannya. "Oh, halo rekan-rekan dari dungeon Gua Laut Tengah. Masih ingat aku?"
 
-"Jangan melee dulu! Tunggu efeknya hilang!" teriak Hop.
+"Masih ingat? Kamu mencuri semua loot kami!" teriak Sylvia, emosinya meledak mengingat pengkhianatan di dungeon Yuyu Jingga.
 
-Wira kembali maju, menahan satu sabetan cakar monster dengan Perfect Parry, Wira pura-pura menggerakkan pedangnya berpura-pura menangkis. Meski efek burn aktif, parry-nya menetralkan kerusakan.
+BanyuKandhi mengibaskan tangannya santai. "Mencuri? Itu namanya fast looting. Siapa cepat dia dapat, kan? Sistem NRO memang didesain kompetitif, sayang kalau kalian terlalu lambat".
 
-"Gue bisa tahan. Serang dari jauh aja!"
+RangRang menoleh bergantian ke arah mereka. "Kalian sudah saling kenal? Bagus kalau begitu. Gue ajak Banyu buat party melawan Ahol. Dia butuh item drop-nya, dan kita butuh Wanderer buat positioning jarak jauh".
 
-Sylvia menyiapkan sihir:
+"Rang, hati-hati sama dia. Dia itu benalu," Wira memperingatkan partner lamanya itu dengan suara rendah.
 
-"Spirit Soul Strike"
+"Wira. Gue sudah baca profilnya sekilas," RangRang membalas dengan santai, seolah-olah pengkhianatan Banyu hanyalah angin lalu. "Tapi dengar, kalian butuh party, dan kita butuh tambahan personil. Kenapa kita nggak gabung aja jadi empat orang? Masalah loot, kita set ke Round Robin dan bagi rata secara sistem. Kalau dia macam-macam lagi, gue sendiri yang akan memproses reporting karakter.".
 
-Sebuah bola cahaya kecil meluncur dari tongkatnya, meledak di udara menjadi kabut tipis yang mengurangi efek panas di area sekitar.
+Wira menatap Sylvia. Sylvia tampak ragu, wajahnya masih memerah karena kesal. Namun, melihat puncak Bromo yang mulai memuntahkan api, mereka tahu tidak ada waktu lagi untuk mencari orang lain.
 
-Phase 3
+"Oke. Tapi satu kali saja Banyu berulah, party bubar dan kita blacklist dia selamanya," tegas Wira.
 
-Kelabang Agni melengkungkan tubuhnya. Segmen tubuh menyala satu per satu.
+"Setuju," sahut BanyuKandhi sambil mengedipkan sebelah matanya, licik namun penuh perhitungan.
 
-"AOE Boss Fire Detected" "Area Danger: Pyro Spin - Get to Safe Zone!"
+Seketika, Wira mengirimkan undangan party. Begitu keempat nama terdaftar—WiraMadha, Sylvia, RangRang, dan BanyuKandhi—sistem NRO mendeteksi pemenuhan syarat quest.
 
-Drake dan Hop langsung menyebar. Sylvia sedikit terlambat, masih melanjutkan channeling sihir.
+[Initiating Teleportation to Kawah Bromo...]
 
-Wira tetap di tengah arena. Tak bergeming.
+Dunia di sekitar mereka mendadak pecah menjadi partikel cahaya biru digital. Sensasi Virtual Mind-Mapped Interface (VMMI) menarik kesadaran mereka melewati ruang hampa sesaat, sebelum akhirnya mereka dihempaskan kembali ke realitas virtual yang jauh lebih panas dan mencekam.
 
-"Apa dia gila?" Teriak Drake melihat Wira.
+Lantai Kawah Bromo: Kebangkitan Ahol
 
-Kelabang Agni mulai berputar. Lidah api menyembur dari tiap ruas tubuhnya, membentuk pusaran api raksasa yang menyapu seluruh arena.
+Mereka mendarat di sebuah tepian batu obsidian yang sempit, tepat di dalam bibir kawah utama Gunung Bromo. Di bawah mereka, lautan lava mendidih dengan suara bergemuruh yang menggetarkan dada. Langit di atas bukan lagi biru malam, melainkan merah tembaga yang tertutup oleh pusaran badai abu dan kilatan volcanic lightning (petir vulkanik) yang menyambar-nyambar dengan suara statis yang mengerikan.
 
-"Perfect Parry Aktif"
+"Lihat ke tengah!" teriak BanyuKandhi sambil menyiapkan busur Ocean's Fang miliknya.
 
-Semburan api mental dari tubuh Wira. Ledakan demi ledakan seolah membentur dinding tak kasat mata. Armor Wira menyala merah, tapi tubuhnya tetap berdiri kokoh.
+Kabut magis berwarna ungu kemerahan mulai memadat di tengah kawah. Awalnya hanya berupa pusaran asap yang tak berbentuk, namun perlahan-lahan, energi sihir yang dipompa oleh alat penstabil "palsu" milik tim Cinta Bumi mulai membentuk struktur fisik yang nyata.
 
-Sylvia terkena ledakan sisa dan HP-nya anjlok. Hop jatuh, tertatih-tatih. Drake masih bertahan di belakang batu.
+ Awalnya hanya berupa pusaran asap yang tak berbentuk, namun perlahan-lahan, energi sihir yang dipompa oleh alat penstabil "palsu" milik tim Cinta Bumi mulai membentuk struktur fisik yang nyata
 
-"Spirit Summon: Hujan!" "Turunlah dan bantu kami, Tetes Air Kehidupan-Rere!"
+Ahol, entitas purba penunggu Bromo, akhirnya mewujudkan diri sepenuhnya.
 
-Lingkaran sihir muncul di udara. Rere, peri mungil bersayap, tubuhnya mirip tetesan air. Ia muncul dan menyemprotkan air ke tubuh Kelabang, memadamkan api.
+Sosok itu menjulang setinggi enam meter. Tubuhnya tegap namun sedikit membungkuk, memberikan kesan predator yang siap menerjang kapan saja. Seluruh kulitnya dilapisi oleh zirah alami dari batu obsidian hitam legam yang mengkilap. Di sela-sela batu itu, terdapat retakan-retakan glif kuno yang memancarkan cahaya oranye dari lava cair yang mengalir di dalam tubuhnya, seolah-olah ia adalah gunung berapi yang berjalan.
 
-"Rere, support mode!" teriak Sylvia
+Yang paling mencolok adalah tiga pasang sayapnya—total enam sayap besar yang terbentang megah. Sepasang sayap utama di bagian atas terlihat kokoh dan bersisik, sementara dua pasang sayap di bawahnya tampak lebih transparan, terbuat dari jalinan asap vulkanik pekat yang terus mengeluarkan percikan api setiap kali dikepakkan.
 
-Rere memutari party dan menyemburkan kabut penyembuhan. Buff Regeneration +15% aktif. Hop dan Drake kembali berdiri dan menuju posisinya masing-masing.
+Wajahnya menyerupai kelelawar raksasa (Ahool) dengan tanduk besar yang melengkung ke belakang, terbuat dari kristal belerang kuning yang tajam. Namun, yang paling mengerikan adalah matanya: dua lubang api berwarna biru keputihan yang menandakan suhu panas ekstrem di luar nalar manusia.
 
-Kelabang Agni yang marah mengarah pada Sylvia. Ia bersiap mencakar.
+[BOSS REVEALED: AHOL – THE ANCIENT CALAMITY OF ASH]
 
-"CLANG!"
+[Level: 42 – Raid Event Boss]
 
-Wira menahan serangan tepat waktu. Perfect Parry menyelamatkannya kembali
+[Status: Enraged]
 
-Drake dan Hop memanfaatkan celah. Hop mengunci monster dengan Binding Root.
+"Gila... tingginya setara gedung tiga lantai," gumam Wira, tangannya menggenggam erat gagang pedangnya.
 
-"Serang titik lemahnya!" Ujar Wira.
+"Wira, Sylvia, Banyu! Bersiap!" teriak RangRang sambil menghilang ke dalam mode stealth ras Humanoid Beast-nya, bergerak cepat di tepian kawah yang panas.
 
-CRITICAL HIT! - Kombo serangan bertubi-tubi menghantam titik vital dilakukan oleh Drake. Serangan anak panah menembus titik merah di leher berkali-kali. Heavy Slash jatuh di badan Kelabang Agni, membuatnya terkena status bleeding.
+Ahol membuka mulutnya, mengeluarkan raungan ultrasonik yang menciptakan gelombang kejut di lautan lava bawah mereka. Pertarungan mereka resmi dimulai.
 
-Kelabang Agni menjerit. Tubuhnya meledak dari dalam. Partikel merah menyala menyelimuti arena.
+"Jangan sampai mati di sini," ujar Wira pada Sylvia. "Kalau kita kalah, kita harus mengulang semua dari awal".
 
-[BOSS DEFEATED]
-
----
-
-Partikel mengendap perlahan ke tanah, meninggalkan beberapa item glowing. Salah satu shard biru terang jatuh di depan Sylvia:
-
-[Essence Shard - Spirit Rain Boost +10%]
-
-Sylvia memungutnya perlahan, menatapnya sejenak. Wira hanya tersenyum kecil.
-
-"Kamu hebat tadi. Spirit Hujannya menyelamatkan kita." ujar Wira "Kalau kamu nggak tahan serangannya di depan, kami semua bisa wipeout." jawab Sylvia. "Kamu main tank ya?"
-
-"Heh, ya... semacam itu." ujar Wira agak kikuk.
-
-Party bubar perlahan. Drake dan Hop mengucapkan terima kasih singkat dan keluar lebih dulu. Tinggal Wira dan Sylvia.
-
-"Kamu tadi bilang, kamu juga mau ke Bromo?" "Iya."
-
-"Mau bareng?"
-
-Sylvia menatapnya. Hening sesaat. Lalu mengangguk.
-
-"Aku butuh bantu cari Unique Skill juga. Kalau kamu nggak keberatan..."
-
-Click...
-
-[Sylvia has joined your Party.]
-
-Mereka berdiri di bawah langit sore virtual yang memerah. Hutan Lengang telah ditaklukkan, dan petualangan ke Gunung Bromo baru akan dimulai.
-
----
+Sylvia mengangguk, pendar cahaya dari tongkat sihirnya, ia mulai merapal sihir summoning-nya. Di tengah pusaran abu, empat pemain dengan latar belakang dan motif yang berbeda itu kini berdiri bersama, menghadapi sang tirani abu dari dasar kawah Bromo.
 

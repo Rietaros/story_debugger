@@ -16,6 +16,7 @@ class Event(BaseModel):
     chapter_id: str
     scene_id: str
     seq: int
+    title: str | None = None
     location: str | None = None
     start_time: str | None = None
     end_time: str | None = None
@@ -56,3 +57,19 @@ class Issue(BaseModel):
     rule: str
     message: str
     evidence: dict = Field(default_factory=dict)
+
+
+class CharacterSheetItem(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    character: str
+    narrative_summary: str
+    current_actions: str
+    risk_of_plot_hole: str
+    acquired_items_or_spells: list[str] = Field(default_factory=list)
+
+
+class LLMAnalysisResult(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    plot_holes: list[Issue] = Field(default_factory=list)
+    character_sheet: list[CharacterSheetItem] = Field(default_factory=list)
+

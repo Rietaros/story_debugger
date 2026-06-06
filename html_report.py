@@ -5,15 +5,55 @@ from pathlib import Path
 from html import escape
 import json
 import os
+import re
 
 from openai import OpenAI
 from config import OPENAI_API_KEY, OPENAI_MODEL
+
+
+WEAK_TITLE_RE = re.compile(
+    r"^(?:sc|scene|event|ev)[\s_:#-]*\d+(?:[\s_:#-]*\d+)?$",
+    re.IGNORECASE,
+)
 
 
 def safe_text(value) -> str:
     if value is None:
         return ""
     return escape(str(value))
+
+
+def compact_label(value, max_chars: int = 78) -> str:
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
+    if not text:
+        return ""
+    if len(text) <= max_chars:
+        return text
+    clipped = text[:max_chars].rsplit(" ", 1)[0].strip()
+    return f"{clipped}..." if clipped else text[:max_chars]
+
+
+def label_with_title(identifier: str, title: str | None, max_title_chars: int = 58) -> str:
+    title = compact_label(title, max_title_chars)
+    if title and title != identifier:
+        return f"{identifier} · {title}"
+    return identifier
+
+
+def useful_title(title: str | None, fallback: str | None, identifier: str) -> str:
+    text = compact_label(title)
+    lowered = text.lower()
+    is_placeholder = (
+        not text
+        or text == identifier
+        or bool(WEAK_TITLE_RE.fullmatch(text))
+        or "scene title" in lowered
+        or "event title" in lowered
+        or lowered.startswith("untitled")
+    )
+    if not is_placeholder:
+        return text
+    return compact_label(fallback) or identifier
 
 
 def analyze_drift(drift_score: float) -> str:
@@ -24,11 +64,12 @@ def analyze_drift(drift_score: float) -> str:
     return "High drift. The chapter may strongly shift tone, theme, mood, or narrative direction."
 
 
-def analyze_bug(issue) -> str:
+def analyze_bug(issue, bug_id: str | None = None, timeline_locations: list[dict] | None = None) -> str:
     rule = getattr(issue, "rule", "")
     severity = getattr(issue, "severity", "")
     message = getattr(issue, "message", "")
     evidence = getattr(issue, "evidence", {}) or {}
+    timeline_locations = timeline_locations or []
 
     if rule == "duplicate_event_id_conflict":
         event_id = evidence.get("event_id", "")
@@ -42,6 +83,59 @@ def analyze_bug(issue) -> str:
         <p><strong>New version:</strong> {safe_text(new_summary)}</p>
         <p><strong>Why it matters:</strong> duplicated event IDs can corrupt causality,
         item ownership, memory tracking, and location tracking.</p>
+        """
+
+    elif rule == "contradiction":
+        meaning = """
+        <p><strong>Type:</strong> The Contradiction</p>
+        <p><strong>Definition:</strong> A character acts completely out of line with their established personality traits, or previously known facts are suddenly altered to fit a new scene.</p>
+        """
+
+    elif rule == "missing_details":
+        meaning = """
+        <p><strong>Type:</strong> Missing Details</p>
+        <p><strong>Definition:</strong> A vital piece of information, a key item, or a character’s injury is forgotten, conveniently disappears, or magically reappears between chapters or scenes.</p>
+        """
+
+    elif rule == "forgotten_subplot":
+        meaning = """
+        <p><strong>Type:</strong> Forgotten Subplots</p>
+        <p><strong>Definition:</strong> A secondary character is introduced with a heavy, specific conflict (like being cursed or having a missing family member), but this thread is completely abandoned before the story ends.</p>
+        """
+
+    elif rule == "out_of_character":
+        meaning = """
+        <p><strong>Type:</strong> Out-of-Character Moments</p>
+        <p><strong>Definition:</strong> This occurs when a character acts outside of their established nature, typically for the sake of moving the plot forward.</p>
+        """
+
+    elif rule == "double_location_same_step":
+        prev_loc = evidence.get("previous_location", "Unknown")
+        curr_loc = evidence.get("current_location", "Unknown")
+        prev_scene_id = evidence.get("previous_scene_id", "-")
+        prev_scene_title = evidence.get("previous_scene_title", "-")
+        prev_event_id = evidence.get("previous_event_id", "-")
+        prev_event_title = evidence.get("previous_event_title", "-")
+        prev_summary = evidence.get("previous_event_summary", "-")
+        curr_scene_id = evidence.get("current_scene_id", "-")
+        curr_scene_title = evidence.get("current_scene_title", "-")
+        curr_event_id = evidence.get("current_event_id", "-")
+        curr_event_title = evidence.get("current_event_title", "-")
+        curr_summary = evidence.get("current_event_summary", "-")
+        meaning = f"""
+        <p><strong>Type:</strong> Spatial Continuity Error</p>
+        <p><strong>Conflicting Locations:</strong> <code>{safe_text(prev_loc)}</code> and <code>{safe_text(curr_loc)}</code></p>
+        <p><strong>Where it appears first:</strong>
+        <code>{safe_text(prev_scene_id)}</code> · {safe_text(prev_scene_title)}
+        / <code>{safe_text(prev_event_id)}</code> · {safe_text(prev_event_title)}
+        at <code>{safe_text(prev_loc)}</code></p>
+        <p><strong>First event summary:</strong> {safe_text(prev_summary)}</p>
+        <p><strong>Where it conflicts:</strong>
+        <code>{safe_text(curr_scene_id)}</code> · {safe_text(curr_scene_title)}
+        / <code>{safe_text(curr_event_id)}</code> · {safe_text(curr_event_title)}
+        at <code>{safe_text(curr_loc)}</code></p>
+        <p><strong>Conflicting event summary:</strong> {safe_text(curr_summary)}</p>
+        <p><strong>Why it matters:</strong> A character cannot physically exist in two different locations at the exact same sequence point in a chapter.</p>
         """
 
     elif "item" in rule:
@@ -74,14 +168,45 @@ def analyze_bug(issue) -> str:
         that needs human review.</p>
         """
 
+    timeline_html = ""
+    if timeline_locations:
+        location_rows = []
+        for location in timeline_locations:
+            anchor = location.get("anchor")
+            event_label = location.get("event_label", "-")
+            scene_label = location.get("scene_label", "-")
+            role = location.get("role", "event")
+            event_location = location.get("location", "-")
+            if anchor:
+                event_html = f'<a href="#{safe_text(anchor)}">{safe_text(event_label)}</a>'
+            else:
+                event_html = safe_text(event_label)
+
+            location_rows.append(
+                "<li>"
+                f"<strong>{safe_text(role)}:</strong> {event_html} "
+                f"in {safe_text(scene_label)} at <code>{safe_text(event_location)}</code>"
+                "</li>"
+            )
+
+        timeline_html = f"""
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul>{"".join(location_rows)}</ul>
+        </div>
+        """
+
     return f"""
     <div class="bug-item severity-{safe_text(severity)}" data-rule="{safe_text(rule)}">
         <div class="bug-head">
-            <span class="badge">{safe_text(severity)}</span>
+            <span class="badge badge-{safe_text(severity)}">{safe_text(severity)}</span>
             <strong>{safe_text(rule)}</strong>
         </div>
         <p>{safe_text(message)}</p>
-        {meaning}
+        {timeline_html}
+        <div class="bug-detail">
+            {meaning}
+        </div>
     </div>
     """
 
@@ -190,6 +315,7 @@ Important:
     except Exception as exc:
         return fallback_character_arc_analysis(character) + f"<br><em>LLM analysis unavailable: {safe_text(exc)}</em>"
 
+
 def fallback_character_arc_analysis(character: str) -> str:
     return (
         f"The emotion arc for <strong>{safe_text(character)}</strong> shows how emotional "
@@ -198,11 +324,265 @@ def fallback_character_arc_analysis(character: str) -> str:
     )
 
 
-def build_timeline_data(extraction) -> list[dict]:
+def _timeline_key(chapter_id: str, scene_id: str, event_id: str, seq: int | None) -> tuple:
+    return (chapter_id or "", scene_id or "", event_id or "", seq or 0)
+
+
+def _graph_timeline_maps(lore, chapter_id: str) -> dict[str, dict]:
+    maps = {
+        "events": {},
+        "movements": {},
+        "item_events": {},
+        "fact_events": {},
+    }
+
+    if lore is None:
+        return maps
+
+    action_report = getattr(lore, "action_report", None)
+    actions = action_report() if callable(action_report) else getattr(lore, "action_log", [])
+
+    for action in actions:
+        if action.get("chapter_id") != chapter_id:
+            continue
+
+        key = _timeline_key(
+            action.get("chapter_id"),
+            action.get("scene_id"),
+            action.get("event_id"),
+            action.get("seq"),
+        )
+
+        if action.get("kind") == "EVENT":
+            maps["events"][key] = action
+
+    for character, transitions in getattr(lore, "location_transitions", {}).items():
+        for transition in transitions:
+            if transition.get("chapter_id") != chapter_id:
+                continue
+
+            key = _timeline_key(
+                transition.get("chapter_id"),
+                transition.get("scene_id"),
+                transition.get("event_id"),
+                transition.get("seq"),
+            )
+            maps["movements"].setdefault(key, []).append(
+                {
+                    "character": character,
+                    "from_location": transition.get("from_location"),
+                    "to_location": transition.get("to_location"),
+                }
+            )
+
+    for item, item_events in getattr(lore, "item_history", {}).items():
+        for item_event in item_events:
+            if item_event.get("chapter_id") != chapter_id:
+                continue
+
+            key = _timeline_key(
+                item_event.get("chapter_id"),
+                item_event.get("scene_id"),
+                item_event.get("event_id"),
+                item_event.get("seq"),
+            )
+            maps["item_events"].setdefault(key, []).append(
+                {
+                    "item": item,
+                    "action": item_event.get("action"),
+                    "owner": item_event.get("owner"),
+                    "previous_owner": item_event.get("previous_owner"),
+                    "users": item_event.get("users"),
+                    "known_owner": item_event.get("known_owner"),
+                }
+            )
+
+    for fact, fact_events in getattr(lore, "fact_history", {}).items():
+        for fact_event in fact_events:
+            if fact_event.get("chapter_id") != chapter_id:
+                continue
+
+            key = _timeline_key(
+                fact_event.get("chapter_id"),
+                fact_event.get("scene_id"),
+                fact_event.get("event_id"),
+                fact_event.get("seq"),
+            )
+            maps["fact_events"].setdefault(key, []).append(
+                {
+                    "fact": fact,
+                    "action": fact_event.get("action"),
+                    "character": fact_event.get("character"),
+                }
+            )
+
+    return maps
+
+
+def _issue_event_ids(issue) -> list[dict]:
+    evidence = getattr(issue, "evidence", {}) or {}
+    event_fields = [
+        ("event_id", "event"),
+        ("current_event_id", "conflict"),
+        ("previous_event_id", "first appearance"),
+    ]
+
+    event_refs = []
+    for field, role in event_fields:
+        value = evidence.get(field)
+        if value:
+            event_refs.append({"event_id": value, "role": role})
+
+    cycle = evidence.get("cycle")
+    if isinstance(cycle, list):
+        for event_id in cycle:
+            event_refs.append({"event_id": event_id, "role": "causality cycle"})
+
+    seen = set()
+    deduped = []
+    for ref in event_refs:
+        key = (ref["event_id"], ref["role"])
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(ref)
+
+    return deduped
+
+
+def _issue_payload(issue, idx: int, role: str = "direct") -> dict:
+    return {
+        "id": f"bug_{idx:03d}",
+        "severity": getattr(issue, "severity", ""),
+        "rule": getattr(issue, "rule", ""),
+        "message": getattr(issue, "message", ""),
+        "evidence": getattr(issue, "evidence", {}) or {},
+        "timeline_role": role,
+    }
+
+
+def _issue_match_score(issue, row: dict) -> int:
+    evidence = getattr(issue, "evidence", {}) or {}
+    message = str(getattr(issue, "message", "") or "").lower()
+    description = str(evidence.get("description") or "").lower()
+    haystack = " ".join(
+        str(row.get(key) or "")
+        for key in (
+            "event_title",
+            "summary",
+            "scene_title",
+            "scene_summary",
+            "event_location",
+            "scene_location",
+        )
+    ).lower()
+
+    score = 0
+    character = str(evidence.get("character") or "").lower()
+    if character and character != "general":
+        participants = [str(p).lower() for p in row.get("participants", [])]
+        if character in participants or character in haystack:
+            score += 4
+
+    item = str(evidence.get("item") or "").lower()
+    if item:
+        items = [str(i).lower() for i in row.get("acquired_items", []) + row.get("used_items", [])]
+        if item in items or item in haystack:
+            score += 4
+
+    for text in (description, message):
+        words = {
+            word
+            for word in re.findall(r"[A-Za-zÀ-ÿ0-9_]{4,}", text)
+            if word not in {"that", "this", "with", "from", "chapter", "story", "plot", "hole", "character"}
+        }
+        score += min(5, sum(1 for word in words if word in haystack))
+
+    return score
+
+
+def attach_issues_to_timeline(rows: list[dict], issues: list) -> tuple[list[dict], list[dict]]:
+    for row in rows:
+        row["bugs"] = []
+
+    unresolved = []
+    if not issues:
+        return rows, unresolved
+
+    by_event_id = {}
+    for row in rows:
+        by_event_id.setdefault(row["event_id"], []).append(row)
+
+    for idx, issue in enumerate(issues, start=1):
+        attached = False
+        for ref in _issue_event_ids(issue):
+            for row in by_event_id.get(ref["event_id"], []):
+                row["bugs"].append(_issue_payload(issue, idx, ref["role"]))
+                attached = True
+
+        if attached:
+            continue
+
+        best_row = None
+        best_score = 0
+        for row in rows:
+            score = _issue_match_score(issue, row)
+            if score > best_score:
+                best_row = row
+                best_score = score
+
+        if best_row and best_score >= 4:
+            best_row["bugs"].append(_issue_payload(issue, idx, "matched by evidence"))
+        else:
+            unresolved.append(_issue_payload(issue, idx, "chapter-level"))
+
+    return rows, unresolved
+
+
+def bug_timeline_locations(rows: list[dict], unresolved_bugs: list[dict]) -> dict[str, list[dict]]:
+    locations: dict[str, list[dict]] = {}
+
+    for row in rows:
+        anchor = f"timeline-{row.get('event_id')}"
+        for bug in row.get("bugs", []):
+            locations.setdefault(bug["id"], []).append(
+                {
+                    "anchor": anchor,
+                    "role": bug.get("timeline_role", "event"),
+                    "event_label": row.get("event_label") or row.get("event_id"),
+                    "scene_label": row.get("scene_label") or row.get("scene_id"),
+                    "location": row.get("event_location") or row.get("scene_location") or "Unknown",
+                }
+            )
+
+    for bug in unresolved_bugs:
+        locations.setdefault(bug["id"], []).append(
+            {
+                "anchor": "",
+                "role": bug.get("timeline_role", "chapter-level"),
+                "event_label": "No exact event match",
+                "scene_label": "Chapter-level issue",
+                "location": "Unknown",
+            }
+        )
+
+    return locations
+
+
+def build_timeline_data(extraction, lore=None, issues: list | None = None) -> tuple[list[dict], list[dict]]:
     rows = []
+    graph_maps = _graph_timeline_maps(lore, extraction.chapter_id)
 
     for scene in extraction.scenes:
+        scene_title = useful_title(scene.title, scene.summary, scene.scene_id)
         for event in scene.events:
+            event_title = useful_title(
+                getattr(event, "title", None),
+                getattr(event, "summary", ""),
+                event.event_id,
+            )
+            key = _timeline_key(extraction.chapter_id, scene.scene_id, event.event_id, event.seq)
+            graph_event = graph_maps["events"].get(key, {})
             rows.append(
                 {
                     "chapter_id": extraction.chapter_id,
@@ -210,7 +590,8 @@ def build_timeline_data(extraction) -> list[dict]:
                     "chapter_synopsis": extraction.synopsis,
 
                     "scene_id": scene.scene_id,
-                    "scene_title": scene.title,
+                    "scene_title": scene_title,
+                    "scene_label": label_with_title(scene.scene_id, scene_title),
                     "scene_location": scene.location,
                     "scene_pov": scene.pov,
                     "scene_mood": scene.mood,
@@ -219,7 +600,14 @@ def build_timeline_data(extraction) -> list[dict]:
 
                     "event_id": event.event_id,
                     "seq": event.seq,
+                    "event_title": event_title,
+                    "event_label": label_with_title(event.event_id, event_title),
                     "event_location": event.location or scene.location or "Unknown",
+                    "graph_order": graph_event.get("order"),
+                    "graph_markers": graph_event.get("markers", []),
+                    "graph_movements": graph_maps["movements"].get(key, []),
+                    "graph_item_events": graph_maps["item_events"].get(key, []),
+                    "graph_fact_events": graph_maps["fact_events"].get(key, []),
                     "start_time": event.start_time,
                     "end_time": event.end_time,
                     "participants": list(event.participants),
@@ -232,16 +620,22 @@ def build_timeline_data(extraction) -> list[dict]:
                 }
             )
 
-    return sorted(rows, key=lambda x: (x["scene_id"], x["seq"]))
+    rows = sorted(rows, key=lambda x: (x.get("graph_order") or 10**9, x["scene_id"], x["seq"]))
+    return attach_issues_to_timeline(rows, issues or [])
 
 
 def build_graph_data(extraction) -> dict:
     nodes = {}
     links = []
 
-    def add_node(node_id: str, label: str, group: str):
+    def add_node(node_id: str, label: str, group: str, title: str | None = None):
         if node_id not in nodes:
-            nodes[node_id] = {"id": node_id, "label": label, "group": group}
+            nodes[node_id] = {
+                "id": node_id,
+                "label": label,
+                "group": group,
+                "title": title or label
+            }
 
     add_node(extraction.chapter_id, extraction.chapter_id, "chapter")
 
@@ -257,7 +651,9 @@ def build_graph_data(extraction) -> dict:
 
     for scene in extraction.scenes:
         scene_id = f"scene:{scene.scene_id}"
-        add_node(scene_id, scene.scene_id, "scene")
+        scene_title = useful_title(scene.title, scene.summary, scene.scene_id)
+        scene_label = label_with_title(scene.scene_id, scene_title)
+        add_node(scene_id, scene_label, "scene", f"{scene.scene_id}: {scene_title}")
         links.append({"source": extraction.chapter_id, "target": scene_id, "label": "HAS_SCENE"})
 
         if scene.location:
@@ -266,7 +662,13 @@ def build_graph_data(extraction) -> dict:
 
         for event in scene.events:
             event_id = f"event:{event.event_id}"
-            add_node(event_id, event.event_id, "event")
+            event_title = useful_title(
+                getattr(event, "title", None),
+                getattr(event, "summary", ""),
+                event.event_id,
+            )
+            event_label = label_with_title(event.event_id, event_title)
+            add_node(event_id, event_label, "event", f"{event.event_id}: {event_title}")
             links.append({"source": scene_id, "target": event_id, "label": "HAS_EVENT"})
 
             for participant in event.participants:
@@ -286,6 +688,7 @@ def build_graph_data(extraction) -> dict:
                 links.append({"source": event_id, "target": fact, "label": "REVEALS"})
 
     return {"nodes": list(nodes.values()), "links": links}
+
 
 def character_events_from_extraction(extraction, character: str) -> list[dict]:
     if extraction is None:
@@ -323,6 +726,7 @@ def character_events_from_extraction(extraction, character: str) -> list[dict]:
 
     return events
 
+
 def make_chapter_html(
     chapter_id: str,
     title: str,
@@ -335,19 +739,14 @@ def make_chapter_html(
     arc_df=None,
     use_llm_arc_analysis: bool = True,
     extraction=None,
+    lore=None,
+    character_sheet: list[dict] | None = None,
 ):
     issue_count = len(issues)
     high_count = sum(1 for i in issues if getattr(i, "severity", "") == "high")
     medium_count = sum(1 for i in issues if getattr(i, "severity", "") == "medium")
     low_count = sum(1 for i in issues if getattr(i, "severity", "") == "low")
 
-    bug_html = (
-        "\n".join(analyze_bug(issue) for issue in issues)
-        if issues
-        else "<p class='good'>No story bugs detected by current rules.</p>"
-    )
-
-    arc_data = []
     arc_html = ""
 
     if arc_image_paths:
@@ -382,32 +781,46 @@ def make_chapter_html(
                 </div>
             </div>
             """
-
-            for row in arc_rows:
-                arc_data.append(
-                    {
-                        "character": character,
-                        "sentence_index": row.get("sentence_index"),
-                        "emotion": row.get("emotion"),
-                        "score": row.get("score"),
-                    }
-                )
     else:
         arc_html = "<p>No character arc visualization found for this chapter.</p>"
 
-    timeline_data = build_timeline_data(extraction) if extraction else []
+    if extraction:
+        timeline_data, timeline_unresolved_bugs = build_timeline_data(
+            extraction,
+            lore=lore,
+            issues=issues,
+        )
+    else:
+        timeline_data, timeline_unresolved_bugs = [], []
+
+    timeline_locations = bug_timeline_locations(timeline_data, timeline_unresolved_bugs)
+    bug_html = (
+        "\n".join(
+            analyze_bug(
+                issue,
+                bug_id=f"bug_{idx:03d}",
+                timeline_locations=timeline_locations.get(f"bug_{idx:03d}", []),
+            )
+            for idx, issue in enumerate(issues, start=1)
+        )
+        if issues
+        else "<p class='good'>No story bugs detected by current rules.</p>"
+    )
+
     graph_data = build_graph_data(extraction) if extraction else {"nodes": [], "links": []}
 
     data_json = json.dumps(
         {
-            "arcData": arc_data,
+            "arcData": [], # We plot utilizing direct CSV logic or matplotlib image
             "timelineData": timeline_data,
+            "timelineUnresolvedBugs": timeline_unresolved_bugs,
             "graphData": graph_data,
             "issueStats": {
                 "high": high_count,
                 "medium": medium_count,
                 "low": low_count,
             },
+            "characterSheet": character_sheet or [],
         },
         ensure_ascii=False,
     )
@@ -418,201 +831,584 @@ def make_chapter_html(
 <head>
 <meta charset="UTF-8">
 <title>{safe_text(chapter_id)} Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
 <style>
+:root {{
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    --dark: #0f172a;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --accent-red: #ef4444;
+    --accent-red-bg: #fee2e2;
+    --accent-amber: #f59e0b;
+    --accent-amber-bg: #fef3c7;
+    --accent-blue: #3b82f6;
+    --accent-blue-bg: #dbeafe;
+    --accent-green: #10b981;
+    --accent-green-bg: #d1fae5;
+}}
+
 body {{
     margin: 0;
-    font-family: Inter, Arial, sans-serif;
-    background: #f4f6fb;
-    color: #1f2937;
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
 }}
 
 header {{
-    padding: 28px 40px;
-    background: linear-gradient(135deg, #111827, #312e81);
+    padding: 36px 48px;
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
     color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    border-bottom: 4px solid var(--primary);
 }}
 
 header h1 {{
     margin: 0;
-    font-size: 32px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }}
 
 header p {{
-    opacity: 0.9;
+    margin: 8px 0 0 0;
+    font-size: 15px;
+    opacity: 0.95;
+    font-weight: 500;
 }}
 
 .container {{
-    padding: 28px 40px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
 }}
 
 .grid {{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
 }}
 
 .metric-card {{
-    background: white;
-    border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}}
+
+.metric-card:hover {{
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
 }}
 
 .metric-card .label {{
-    color: #6b7280;
+    color: var(--text-muted);
     font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }}
 
 .metric-card .value {{
-    font-size: 28px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
     font-weight: 800;
-    margin-top: 6px;
+    color: var(--dark);
+    margin-top: 10px;
 }}
 
 .card {{
-    background: white;
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 24px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+}}
+
+.card h2 {{
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--dark);
 }}
 
 .tabs {{
     display: flex;
-    gap: 10px;
-    margin-bottom: 18px;
+    gap: 8px;
+    margin-bottom: 32px;
     flex-wrap: wrap;
+    background: #f1f5f9;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    width: fit-content;
 }}
 
 .tab-btn {{
     border: none;
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: #e5e7eb;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: transparent;
     cursor: pointer;
     font-weight: 700;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}}
+
+.tab-btn:hover {{
+    color: var(--dark);
+    background: rgba(255, 255, 255, 0.6);
 }}
 
 .tab-btn.active {{
-    background: #312e81;
-    color: white;
+    background: var(--card-bg);
+    color: var(--primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }}
 
 .tab {{
     display: none;
+    animation: fadeIn 0.3s ease-in-out;
 }}
 
 .tab.active {{
     display: block;
 }}
 
+@keyframes fadeIn {{
+    from {{ opacity: 0; transform: translateY(8px); }}
+    to {{ opacity: 1; transform: translateY(0); }}
+}}
+
 .good {{
-    color: #047857;
+    color: var(--accent-green);
     font-weight: 700;
+    background: var(--accent-green-bg);
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
 }}
 
+/* Bug list and items styling */
 .bug-item {{
-    border-left: 5px solid #b91c1c;
-    padding: 14px 16px;
-    margin-bottom: 16px;
+    border-left: 6px solid var(--accent-red);
+    padding: 20px;
+    margin-bottom: 20px;
     background: #fff5f5;
-    border-radius: 10px;
-}}
-.analysis-box {{
-    margin-top: 16px;
-    background: #f9fafb;
-    border-left: 5px solid #312e81;
-    padding: 16px 18px;
-    border-radius: 12px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    border-left-width: 6px;
 }}
 
-.arc-analysis h4 {{
-    margin: 14px 0 6px 0;
-    color: #312e81;
+.bug-item:hover {{
+    transform: translateX(4px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
 }}
 
-.arc-analysis p {{
-    margin: 0 0 10px 0;
-    line-height: 1.6;
+.bug-item.severity-high {{
+    border-left-color: var(--accent-red);
+    background: #fff8f8;
+}}
+
+.bug-item.severity-medium {{
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}}
+
+.bug-item.severity-low {{
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
 }}
 
 .bug-head {{
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
+    margin-bottom: 8px;
 }}
 
 .badge {{
-    padding: 4px 8px;
-    border-radius: 999px;
-    background: #fee2e2;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}}
+
+.badge-high {{
+    background: var(--accent-red-bg);
     color: #991b1b;
-    font-size: 12px;
+}}
+
+.badge-medium {{
+    background: var(--accent-amber-bg);
+    color: #92400e;
+}}
+
+.badge-low {{
+    background: var(--accent-blue-bg);
+    color: #1e40af;
+}}
+
+.bug-detail {{
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 14px;
+}}
+
+.bug-detail p {{
+    margin: 6px 0;
+}}
+
+.bug-timeline-links {{
+    margin: 12px 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+}}
+
+.bug-timeline-links p {{
+    margin: 0 0 6px 0;
+    font-size: 13px;
+}}
+
+.bug-timeline-links ul {{
+    margin: 0;
+    padding-left: 18px;
+}}
+
+.bug-timeline-links li {{
+    margin: 4px 0;
+    font-size: 13px;
+}}
+
+.bug-timeline-links a {{
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}}
+
+/* Character Sheet styles */
+.character-sheet-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}}
+
+.character-card {{
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}}
+
+.character-card:hover {{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}}
+
+.char-header {{
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+}}
+
+.char-avatar {{
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
     font-weight: 800;
     text-transform: uppercase;
 }}
 
+.char-name-container h3 {{
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}}
+
+.char-body {{
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+}}
+
+.char-section h4 {{
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 700;
+}}
+
+.char-section p {{
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-main);
+}}
+
+.risk-none .risk-message {{
+    background: var(--accent-green-bg);
+    color: #065f46;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}}
+
+.risk-active .risk-message {{
+    background: var(--accent-red-bg);
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-red);
+    line-height: 1.4;
+}}
+
+.items-container {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}}
+
+.item-badge {{
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}}
+
+.no-items {{
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+}}
+
+.analysis-box {{
+    margin-top: 16px;
+    background: #f8fafc;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-left-width: 5px;
+}}
+
+.arc-analysis h4 {{
+    margin: 12px 0 4px 0;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}}
+
+.arc-analysis p {{
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-size: 14px;
+}}
+
 .arc-card {{
-    margin-bottom: 24px;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 18px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
 }}
 
 .arc-card img {{
     max-width: 100%;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 12px;
 }}
 
 .timeline {{
-    border-left: 4px solid #312e81;
+    border-left: 4px solid var(--primary);
     margin-left: 12px;
-    padding-left: 20px;
+    padding-left: 24px;
 }}
 
 .timeline-item {{
-    margin-bottom: 18px;
+    margin-bottom: 24px;
     position: relative;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.03);
 }}
 
 .timeline-item::before {{
     content: "";
     position: absolute;
-    left: -30px;
+    left: -34px;
     top: 6px;
-    width: 14px;
-    height: 14px;
-    background: #312e81;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border: 4px solid var(--bg);
     border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary);
 }}
 
 .timeline-item h4 {{
-    margin: 0 0 6px 0;
+    margin: 0 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--dark);
+}}
+
+.timeline-item.has-bugs {{
+    border-color: rgba(239, 68, 68, 0.35);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.08);
+}}
+
+.timeline-item.has-bugs::before {{
+    background: var(--accent-red);
+    box-shadow: 0 0 0 2px var(--accent-red);
+}}
+
+.timeline-bugs {{
+    margin: 14px 0;
+    display: grid;
+    gap: 10px;
+}}
+
+.timeline-bug {{
+    border: 1px solid rgba(239, 68, 68, 0.22);
+    border-left: 5px solid var(--accent-red);
+    background: #fff8f8;
+    border-radius: 12px;
+    padding: 12px 14px;
+}}
+
+.timeline-bug.severity-medium {{
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}}
+
+.timeline-bug.severity-low {{
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}}
+
+.timeline-bug-head {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+}}
+
+.timeline-bug p {{
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+}}
+
+.timeline-empty-bugs {{
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+}}
+
+.graph-detail-grid {{
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}}
+
+.graph-detail-row {{
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.45;
 }}
 
 .graph-box {{
-    height: 520px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
+    height: 540px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
     overflow: hidden;
+    background: #f8fafc;
 }}
 
 .node-label {{
-    font-size: 11px;
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
     pointer-events: none;
 }}
 
 .search-box {{
-    padding: 10px 12px;
+    padding: 12px 16px;
     width: 100%;
-    max-width: 400px;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    margin-bottom: 14px;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}}
+
+.search-box:focus {{
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
 }}
 
 .timeline-meta {{
@@ -624,23 +1420,26 @@ header p {{
 
 .timeline-meta span {{
     background: #eef2ff;
-    color: #312e81;
-    padding: 5px 9px;
-    border-radius: 999px;
+    color: var(--primary);
+    padding: 6px 10px;
+    border-radius: 8px;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
 }}
 
 details {{
-    background: #f9fafb;
-    padding: 10px 12px;
-    border-radius: 10px;
-    margin-top: 10px;
+    background: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
 }}
 
 summary {{
     cursor: pointer;
-    font-weight: 800;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dark);
 }}
 
 </style>
@@ -679,11 +1478,12 @@ summary {{
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab('overview')">Overview</button>
-        <button class="tab-btn" onclick="openTab('bugs')">Story Bugs</button>
-        <button class="tab-btn" onclick="openTab('arcs')">Character Arcs</button>
-        <button class="tab-btn" onclick="openTab('timeline')">Timeline</button>
-        <button class="tab-btn" onclick="openTab('graph')">Lore Graph</button>
+        <button id="tab-overview" class="tab-btn active" onclick="openTab('overview')">Overview</button>
+        <button id="tab-bugs" class="tab-btn" onclick="openTab('bugs')">Story Bugs</button>
+        <button id="tab-charactersheet" class="tab-btn" onclick="openTab('charactersheet')">Character Sheet</button>
+        <button id="tab-arcs" class="tab-btn" onclick="openTab('arcs')">Character Arcs</button>
+        <button id="tab-timeline" class="tab-btn" onclick="openTab('timeline')">Timeline</button>
+        <button id="tab-graph" class="tab-btn" onclick="openTab('graph')">Lore Graph</button>
     </div>
 
     <section id="overview" class="tab active">
@@ -711,11 +1511,19 @@ summary {{
         </div>
     </section>
 
+    <section id="charactersheet" class="tab">
+        <div class="card">
+            <h2>Character Sheet</h2>
+            <p>Summary of character state, current actions, potential future plot hole risks, and acquired items/spells in this chapter.</p>
+            <div id="characterSheetBox" class="character-sheet-grid">
+                <!-- Dynamically filled by JavaScript -->
+            </div>
+        </div>
+    </section>
+
     <section id="arcs" class="tab">
         <div class="card">
             <h2>Character Arc Analysis</h2>
-            <canvas id="arcChart" height="110"></canvas>
-            <hr>
             {arc_html}
         </div>
     </section>
@@ -744,11 +1552,86 @@ function openTab(id) {{
     document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
     document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
     document.getElementById(id).classList.add("active");
-    event.target.classList.add("active");
+    
+    // Set correct active tab button
+    const btn = document.getElementById("tab-" + id);
+    if (btn) btn.classList.add("active");
 
     if (id === "graph") {{
         setTimeout(renderGraph, 50);
     }}
+}}
+
+function safeEscape(str) {{
+    if (str === null || str === undefined) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}}
+
+function formatList(values) {{
+    if (!values || !values.length) return "-";
+    return safeEscape(values.join(", "));
+}}
+
+function severityBadge(severity) {{
+    return `<span class="badge badge-${{safeEscape(severity || "low")}}">${{safeEscape(severity || "low")}}</span>`;
+}}
+
+function renderTimelineBug(bug) {{
+    const evidenceText = bug.evidence && Object.keys(bug.evidence).length
+        ? `<details><summary>Bug evidence</summary><pre>${{safeEscape(JSON.stringify(bug.evidence, null, 2))}}</pre></details>`
+        : "";
+
+    return `
+        <div class="timeline-bug severity-${{safeEscape(bug.severity || "low")}}">
+            <div class="timeline-bug-head">
+                ${{severityBadge(bug.severity)}}
+                <strong>${{safeEscape(bug.rule || "story_bug")}}</strong>
+                <span class="item-badge">${{safeEscape(bug.timeline_role || "event")}}</span>
+            </div>
+            <p>${{safeEscape(bug.message || "-")}}</p>
+            ${{evidenceText}}
+        </div>
+    `;
+}}
+
+function renderGraphDetails(ev) {{
+    const rows = [];
+
+    if (ev.graph_order) {{
+        rows.push(`<div class="graph-detail-row"><strong>Graph order:</strong> ${{safeEscape(ev.graph_order)}}</div>`);
+    }}
+
+    if (ev.graph_markers && ev.graph_markers.length) {{
+        rows.push(`<div class="graph-detail-row"><strong>Graph markers:</strong> ${{formatList(ev.graph_markers)}}</div>`);
+    }}
+
+    if (ev.graph_movements && ev.graph_movements.length) {{
+        const movementText = ev.graph_movements
+            .map(m => `${{m.character || "?"}}: ${{m.from_location || "Unknown"}} -> ${{m.to_location || "Unknown"}}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Character movement:</strong> ${{safeEscape(movementText)}}</div>`);
+    }}
+
+    if (ev.graph_item_events && ev.graph_item_events.length) {{
+        const itemText = ev.graph_item_events
+            .map(item => `${{item.action || "ITEM"}} ${{item.item || "?"}}${{item.owner ? " by " + item.owner : ""}}${{item.users && item.users.length ? " by " + item.users.join(", ") : ""}}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Item continuity:</strong> ${{safeEscape(itemText)}}</div>`);
+    }}
+
+    if (ev.graph_fact_events && ev.graph_fact_events.length) {{
+        const factText = ev.graph_fact_events
+            .map(fact => `${{fact.action || "FACT"}}: ${{fact.fact || "?"}}${{fact.character ? " / " + fact.character : ""}}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Knowledge/facts:</strong> ${{safeEscape(factText)}}</div>`);
+    }}
+
+    return rows.length ? `<div class="graph-detail-grid">${{rows.join("")}}</div>` : "";
 }}
 
 function filterBugs() {{
@@ -758,17 +1641,22 @@ function filterBugs() {{
     }});
 }}
 
+if (window.Chart) {{
 new Chart(document.getElementById("driftChart"), {{
     type: "bar",
     data: {{
         labels: ["Similarity", "Drift"],
         datasets: [{{
             label: "Semantic Score",
-            data: [{similarity_score:.4f}, {drift_score:.4f}]
+            data: [{similarity_score:.4f}, {drift_score:.4f}],
+            backgroundColor: ["#4f46e5", "#ef4444"]
         }}]
     }},
     options: {{
         responsive: true,
+        plugins: {{
+            legend: {{ display: false }}
+        }},
         scales: {{
             y: {{
                 beginAtZero: true,
@@ -787,90 +1675,144 @@ new Chart(document.getElementById("bugChart"), {{
                 DASHBOARD_DATA.issueStats.high,
                 DASHBOARD_DATA.issueStats.medium,
                 DASHBOARD_DATA.issueStats.low
-            ]
+            ],
+            backgroundColor: ["#ef4444", "#f59e0b", "#3b82f6"]
         }}]
     }},
     options: {{
         responsive: true
     }}
 }});
+}}
 
-function renderArcChart() {{
-    const rows = DASHBOARD_DATA.arcData || [];
-    const grouped = {{}};
+function renderCharacterSheet() {{
+    const box = document.getElementById("characterSheetBox");
+    const sheet = DASHBOARD_DATA.characterSheet || [];
 
-    rows.forEach(r => {{
-        if (!grouped[r.character]) grouped[r.character] = [];
-        grouped[r.character].push(r);
-    }});
+    if (!sheet.length) {{
+        box.innerHTML = "<p>No character sheet data available for this chapter.</p>";
+        return;
+    }}
 
-    const labels = [...new Set(rows.map(r => r.sentence_index))].sort((a, b) => a - b);
+    box.innerHTML = sheet.map(char => {{
+        const items = char.acquired_items_or_spells || [];
+        const itemsList = items.length 
+            ? items.map(item => `<span class="item-badge">${{safeEscape(item)}}</span>`).join(" ")
+            : "<span class='no-items'>None</span>";
 
-    const datasets = Object.entries(grouped).map(([character, values]) => {{
-        const valueMap = Object.fromEntries(values.map(v => [v.sentence_index, v.score]));
-        return {{
-            label: character,
-            data: labels.map(x => valueMap[x] ?? null),
-            tension: 0.3
-        }};
-    }});
+        const hasRisk = char.risk_of_plot_hole && char.risk_of_plot_hole.toLowerCase() !== "none";
+        const riskClass = hasRisk ? "risk-active" : "risk-none";
 
-    new Chart(document.getElementById("arcChart"), {{
-        type: "line",
-        data: {{
-            labels,
-            datasets
-        }},
-        options: {{
-            responsive: true,
-            scales: {{
-                y: {{
-                    beginAtZero: true,
-                    max: 1
-                }}
-            }}
-        }}
-    }});
+        return `
+            <div class="character-card">
+                <div class="char-header">
+                    <div class="char-avatar">${{safeEscape(char.character ? char.character[0] : "?")}}</div>
+                    <div class="char-name-container">
+                        <h3>${{safeEscape(char.character)}}</h3>
+                    </div>
+                </div>
+                <div class="char-body">
+                    <div class="char-section">
+                        <h4>Narrative Summary</h4>
+                        <p>${{safeEscape(char.narrative_summary)}}</p>
+                    </div>
+                    <div class="char-section">
+                        <h4>Current Actions</h4>
+                        <p>${{safeEscape(char.current_actions)}}</p>
+                    </div>
+                    <div class="char-section ${{riskClass}}">
+                        <h4>Future Plot Hole Risk</h4>
+                        <div class="risk-message">
+                            ${{hasRisk 
+                                ? `⚠️ ${{safeEscape(char.risk_of_plot_hole)}}`
+                                : `✅ No major risks detected`
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="char-section">
+                        <h4>Acquired Items & Spells</h4>
+                        <div class="items-container">${{itemsList}}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }}).join("");
 }}
 
 function renderTimeline() {{
     const box = document.getElementById("timelineBox");
     const rows = DASHBOARD_DATA.timelineData || [];
+    const unresolvedBugs = DASHBOARD_DATA.timelineUnresolvedBugs || [];
 
     if (!rows.length) {{
         box.innerHTML = "<p>No timeline data available.</p>";
         return;
     }}
 
-    box.innerHTML = rows.map(ev => `
-        <div class="timeline-item">
-            <h4>${{ev.chapter_id}} · ${{ev.chapter_title || "-"}}</h4>
+    const unresolvedHtml = unresolvedBugs.length
+        ? `
+            <div class="timeline-empty-bugs">
+                <h3>Chapter-Level Bugs</h3>
+                <p>These story bugs were detected, but the report could not pin them to one exact event.</p>
+                <div class="timeline-bugs">
+                    ${{unresolvedBugs.map(renderTimelineBug).join("")}}
+                </div>
+            </div>
+        `
+        : "";
+
+    box.innerHTML = unresolvedHtml + rows.map(ev => {{
+        const bugs = ev.bugs || [];
+        const bugHtml = bugs.length
+            ? `<div class="timeline-bugs">${{bugs.map(renderTimelineBug).join("")}}</div>`
+            : "";
+        const graphDetails = renderGraphDetails(ev);
+        const cssClass = bugs.length ? "timeline-item has-bugs" : "timeline-item";
+
+        return `
+        <div class="${{cssClass}}" id="timeline-${{safeEscape(ev.event_id)}}">
+            <h4>${{safeEscape(ev.chapter_id)}} · ${{safeEscape(ev.chapter_title || "-")}}</h4>
 
             <div class="timeline-meta">
-                <span><strong>Scene:</strong> ${{ev.scene_id}} · ${{ev.scene_title || "-"}}</span>
-                <span><strong>POV:</strong> ${{ev.scene_pov || "-"}}</span>
-                <span><strong>Mood:</strong> ${{ev.scene_mood || "-"}}</span>
-                <span><strong>Location:</strong> ${{ev.event_location || ev.scene_location || "-"}}</span>
+                <span><strong>Scene:</strong> ${{safeEscape(ev.scene_id)}} · ${{safeEscape(ev.scene_title || "-")}}</span>
+                <span><strong>Event:</strong> ${{safeEscape(ev.event_id)}} · ${{safeEscape(ev.event_title || "-")}}</span>
+                ${{ev.graph_order ? `<span><strong>Graph Order:</strong> ${{safeEscape(ev.graph_order)}}</span>` : ""}}
+                <span><strong>POV:</strong> ${{safeEscape(ev.scene_pov || "-")}}</span>
+                <span><strong>Mood:</strong> ${{safeEscape(ev.scene_mood || "-")}}</span>
+                <span><strong>Location:</strong> ${{safeEscape(ev.event_location || ev.scene_location || "-")}}</span>
             </div>
 
-            <h3>${{ev.event_id}} · Event #${{ev.seq}}</h3>
-            <p><strong>Event Summary:</strong> ${{ev.summary || "-"}}</p>
-            <p><strong>Scene Summary:</strong> ${{ev.scene_summary || "-"}}</p>
+            <h3>${{safeEscape(ev.event_id)}}: ${{safeEscape(ev.event_title || "-")}} · Event #${{safeEscape(ev.seq)}}</h3>
+            ${{bugHtml}}
+            <p><strong>Event Summary:</strong> ${{safeEscape(ev.summary || "-")}}</p>
+            <p><strong>Scene Summary:</strong> ${{safeEscape(ev.scene_summary || "-")}}</p>
+
+            <div class="timeline-meta" style="margin-top: 12px; background: transparent; border: none; padding: 0;">
+                ${{ ev.participants && ev.participants.length ? `<span><strong>Participants:</strong> ${{formatList(ev.participants)}}</span>` : "" }}
+                ${{ ev.acquired_items && ev.acquired_items.length ? `<span style="background: var(--accent-green-bg); color: #065f46;"><strong>Acquired:</strong> ${{formatList(ev.acquired_items)}}</span>` : "" }}
+                ${{ ev.used_items && ev.used_items.length ? `<span style="background: var(--accent-amber-bg); color: #92400e;"><strong>Used:</strong> ${{formatList(ev.used_items)}}</span>` : "" }}
+                ${{ ev.revelations && ev.revelations.length ? `<span style="background: var(--accent-blue-bg); color: #1e40af;"><strong>Revelation:</strong> ${{formatList(ev.revelations)}}</span>` : "" }}
+            </div>
+
+            ${{graphDetails}}
 
             <details>
                 <summary>Show extracted details</summary>
-                <p><strong>Participants:</strong> ${{(ev.participants || []).join(", ") || "-"}}</p>
-                <p><strong>Acquired Items:</strong> ${{(ev.acquired_items || []).join(", ") || "-"}}</p>
-                <p><strong>Used Items:</strong> ${{(ev.used_items || []).join(", ") || "-"}}</p>
-                <p><strong>Revelations:</strong> ${{(ev.revelations || []).join(", ") || "-"}}</p>
-                <p><strong>Knowledge Gains:</strong> ${{JSON.stringify(ev.knowledge_gains || {{}})}}</p>
-                <p><strong>Causal Parents:</strong> ${{(ev.causal_parents || []).join(", ") || "-"}}</p>
-                <p><strong>Start Time:</strong> ${{ev.start_time || "-"}}</p>
-                <p><strong>End Time:</strong> ${{ev.end_time || "-"}}</p>
-                <p><strong>Scene Text:</strong> ${{ev.scene_text || "-"}}</p>
+                <p><strong>Participants:</strong> ${{formatList(ev.participants)}}</p>
+                <p><strong>Acquired Items:</strong> ${{formatList(ev.acquired_items)}}</p>
+                <p><strong>Used Items:</strong> ${{formatList(ev.used_items)}}</p>
+                <p><strong>Revelations:</strong> ${{formatList(ev.revelations)}}</p>
+                <p><strong>Knowledge Gains:</strong> ${{safeEscape(JSON.stringify(ev.knowledge_gains || {{}}))}}</p>
+                <p><strong>Causal Parents:</strong> ${{formatList(ev.causal_parents)}}</p>
+                <p><strong>Start Time:</strong> ${{safeEscape(ev.start_time || "-")}}</p>
+                <p><strong>End Time:</strong> ${{safeEscape(ev.end_time || "-")}}</p>
+                <p><strong>Graph Markers:</strong> ${{formatList(ev.graph_markers)}}</p>
+                <p><strong>Scene Text:</strong> ${{safeEscape(ev.scene_text || "-")}}</p>
             </details>
         </div>
-    `).join("");
+    `;
+    }}).join("");
 }}
 
 let graphRendered = false;
@@ -896,11 +1838,11 @@ function renderGraph() {{
 
     const color = d3.scaleOrdinal()
         .domain(["chapter", "scene", "event", "character", "item", "fact", "location"])
-        .range(["#111827", "#2563eb", "#7c3aed", "#059669", "#d97706", "#dc2626", "#0891b2"]);
+        .range(["#0f172a", "#2563eb", "#7c3aed", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"]);
 
     const simulation = d3.forceSimulation(data.nodes)
-        .force("link", d3.forceLink(data.links).id(d => d.id).distance(95))
-        .force("charge", d3.forceManyBody().strength(-350))
+        .force("link", d3.forceLink(data.links).id(d => d.id).distance(105))
+        .force("charge", d3.forceManyBody().strength(-300))
         .force("center", d3.forceCenter(width / 2, height / 2));
 
     const link = svg.append("g")
@@ -908,15 +1850,15 @@ function renderGraph() {{
         .data(data.links)
         .enter()
         .append("line")
-        .attr("stroke", "#cbd5e1")
-        .attr("stroke-width", 1.5);
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2);
 
     const node = svg.append("g")
         .selectAll("circle")
         .data(data.nodes)
         .enter()
         .append("circle")
-        .attr("r", 8)
+        .attr("r", 9)
         .attr("fill", d => color(d.group))
         .call(drag(simulation));
 
@@ -927,10 +1869,11 @@ function renderGraph() {{
         .append("text")
         .attr("class", "node-label")
         .text(d => d.label)
-        .attr("dx", 11)
-        .attr("dy", 4);
+        .attr("dx", 12)
+        .attr("dy", 4)
+        .attr("fill", "#334155");
 
-    node.append("title").text(d => `${{d.label}} (${{d.group}})`);
+    node.append("title").text(d => `${{d.title}} (${{d.group}})`);
 
     simulation.on("tick", () => {{
         link
@@ -973,7 +1916,7 @@ function renderGraph() {{
     }}
 }}
 
-renderArcChart();
+renderCharacterSheet();
 renderTimeline();
 </script>
 

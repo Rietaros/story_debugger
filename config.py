@@ -1,2 +1,7 @@
-OPENAI_API_KEY = "<<PUT YOUR API KEY HERE>>"
-OPENAI_MODEL = "gpt-4o-mini"
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")

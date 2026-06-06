@@ -1,95 +1,113 @@
 
-Langkah perjalanan WiraMadha dan Sylvia sempat terhenti di tengah rute menuju Gunung Bromo. Meski Osmo tunggangan Wira dapat berlari kencang melintasi medan apa pun, mount Sylvia sangat tertinggal. Seekor keledai abu-abu berukuran kecil, lebih cocok untuk NPC petani daripada petarung.
+Hawa panas yang keluar dari kawah Bromo bukan lagi sekadar simulasi digital; ia adalah serangan mental yang nyata. Teknologi Virtual Mind-Mapped Interface (VMMI) yang digunakan dalam Nusantara Reborn Online (NRO) berhasil menerjemahkan suhu ekstrem itu secara brutal ke saraf-saraf penggunanya. Bau belerang yang menyengat seolah membakar lubang hidung, sementara udara kering yang dipenuhi debu vulkanik membuat setiap napas terasa seperti menghirup serbuk kaca. Di hadapan empat petualang itu, Ahol berdiri tegak, sebuah monumen kehancuran yang terbuat dari batu obsidian dan lava cair.
 
-"Maaf ya... Aku cuma bisa beli ini dari quest starter," keluh Sylvia, sambil menepuk pelan leher keledainya.
+Garis-garis cahaya oranye di sekujur tubuh Ahol berdenyut lambat, mengikuti irama gemuruh dari perut bumi yang bergema di dasar kawah. Puncak Gunung Bromo yang tadinya indah kini telah berubah total menjadi zona bencana kelas dunia. Pusaran badai abu vulkanik menutup sebagian pandangan, sementara kilatan petir vulkanik merah menyambar-nyambar di langit tembaga yang mencekam.
 
-Wira hanya tertawa kecil.
+"WiraMadha, levelnya... dia level 42!" Sylvia memekik, suaranya hampir tenggelam oleh suara statis dari petir. "Selisih levelnya terlalu jauh, Wira!"
 
-"Kita cari kota terdekat dulu, deh. Kebetulan ada kota Suradikarta di depan. Kita bisa istirahat bentar dan upgrade mount kamu."
+WiraMadha, sang Warrior, menggenggam erat gagang pedangnya. Perisai besarnya sudah terangkat, siap di depan dada. Di balik helmnya, Raka Wiradharma sedang melakukan kalkulasi teknis yang rumit. Secara teori, dengan Perfect Parry, dia bisa menahan serangan apa pun, tetapi dia harus tetap menjaga "akting" agar Sylvia, RangRang, dan BanyuKandhi tidak mencurigai status kemampuannya yang tidak masuk akal.
 
----
+"Jangan panik!" teriak Wira, memberikan komando yang stabil. "RangRang, ambil sisi buta di sebelah kanan! Banyu, manfaatkan mobilitasmu di pilar-pilar itu! Sylvia, panggil Rere dan jaga buff air kita tetap aktif. Ini adalah pertarungan elemen!"
 
-Kota Suradikarta
+Serangan Pembuka: Kegagalan Akar Alam
 
-Suradikarta berdiri megah seperti kota dalam dongeng klasik. Dinding bangunan dari batu putih berhias ukiran naga dan bunga melati. NPC penjaga berkostum prajurit keraton berdiri berjajar di sepanjang jalan. Di tengah kota ada lapangan latihan dan pasar bebas, tempat berbagai player berkumpul, berdagang, dan memamerkan item langka.
+BanyuKandhi, sang Atlantic Wanderer, tidak membuang waktu. Sebagai ras yang memiliki mobilitas luar biasa meskipun di daratan kering, ia melesat dengan gerakan yang sangat luwes menuju salah satu pilar batu obsidian yang menjulang di sisi kanan kawah. Ia menarik busur Ocean's Fang miliknya, matanya yang tajam memindai celah di antara zirah obsidian Ahol.
 
-Wira langsung membawa Sylvia ke toko mount premium. Tanpa banyak basa-basi, ia membeli seekor Osmo berwarna zamrud dengan aksen kuning keemasan. Kuku-kukunya terlihat tajam, dan matanya menyala penuh semangat.
+"Coba kita lihat seberapa keras kulitmu, raksasa!" Banyu berseru. Ia tidak langsung menembakkan panah fisik, melainkan merapalkan mantra sihir elemen alam.
 
-"Hah?! Ini kan mahal banget!" Sylvia terkejut.
+"Nature's Grasp: Verdant Vines!"
 
-"Aku bisa grinding. Warrior kayak gini cepet farming gold. Lagian kita nggak bisa ke Bromo kalau kamu naik keledai terus."
+Seketika, dari celah-celah batu yang panas di bawah kaki besar Ahol, akar-akar hijau yang tebal dan berduri mencuat keluar. Akar itu merambat cepat, mencoba melilit pergelangan kaki sang monster untuk mengunci pergerakannya. Namun, begitu tanaman hijau itu menyentuh kerak obsidian Ahol yang membara, suara mendesis yang memekakkan telinga terdengar.
 
-Sylvia masih menatap ragu, lalu bertanya dengan serius. "Kamu... nggak pakai cheat, kan?"
+Sssssssshhhhhh!
 
-Wira tertawa, berusaha terlihat santai. "Nggak lah. Aman kok."
+Hanya dalam hitungan detik, akar-akar itu menghitam, menjadi arang, dan hancur menjadi abu yang tertiup angin panas sebelum sempat melakukan rooting sempurna.
 
-Tidak hanya mount, Wira juga membelikan armor akar roh dan tongkat kayu roh untuk Sylvia dan beberapa aksesoris yang mahal untuk Sylvia.
+[Sistem Log]:
 
-"Kita bahkan baru kenal... " bisik Sylvia, heran.
 
-"Anggap aja pinjaman. Nanti kalau kamu udah kaya, balikin ya." ujar Wira sambil tersenyum.
 
----
+Element Ineffective! Sihir tipe Nature mengalami pinalti damage -80% terhadap entitas elemen Vulkanik. Status Failed: Ahol immune terhadap efek [Entangle] dari elemen kayu di lingkungan bersuhu tinggi.
 
-Di Tepi Kota Suradikarta
+"Sialan! Benar-benar sampah!" gerutu BanyuKandhi sambil melompat menghindari semburan uap uap panas dari lantai kawah. "Wira! Akar-akarku cuma jadi abu di sini! Jangan harap ada crowd control dariku!"
 
-Sambil duduk di taman kecil dekat sungai kota, Sylvia mulai menceritakan build idealnya.
+Fase 1: Tembok Obsidian dan Hujan Peluru Lava
 
-"Aku tuh ingin Unique Skill dengan tingkat Ultra Rare namanya Twin Pact: Dual Summon. Bisa summon dua spirit sekaligus. Tapi drop-nya cuma dari dungeon level 60 ke atas."
+Ahol tampaknya mulai terganggu dengan keberadaan para "serangga" kecil ini. Entitas purba itu mengangkat tangan kanannya yang masif, dan seketika itu juga, gumpalan lava cair dari bawah kawah mendadak memadat di telapak tangannya, membentuk ratusan proyektil tajam yang membara.
 
-"Kalo yang bisa dicari sekarang?" tanya Wira.
+"Volcanic Barrage!"
 
-"Ada tiga Bonded Echo, pasif skill untuk bisa cast dua spell sekaligus tanpa MP tambahan, Summon Anima: Antyla, summon kelinci yang memiliki teknik serangan cepat, sama Stead Determination, skill pasif untuk memberikan status anti cancel saat channeling. Tapi semuanya di atas Rare."
+Ratusan peluru lava itu meluncur deras ke segala arah. RangRang, dengan kelincahannya, melakukan gerakan zigzag yang mustahil diikuti mata manusia biasa. Ia melompat dari satu bongkahan batu ke bongkahan lain dengan agility murni, membuat peluru lava itu hanya menghantam bayangannya.
 
-"Udah dapet salah satu?" tanya Wira dengan serius
+"Cuma segini? Terlalu lambat buat kucing besar!" seru RangRang sambil melakukan Shadow Step untuk mendekati punggung Ahol.
 
-"Belum. Drop-nya susah. Paling bisa dibantu dengan menaikan chance-nya pakai Potion LUK UP." kata Sylvia lesu.
+Namun, situasi berbeda dialami oleh Sylvia. Sebagai seorang mage dengan ras Spirit, pertahanan fisiknya sangat rendah. Lima peluru lava meluncur deras mengincar posisinya.
 
-Tak lama kemudian notifikasi sistem muncul:
+"Wira!" pekik Sylvia tertahan.
 
-[Trade Confirmed: 1x Potion LUK UP transferred to Inventory: Sylvia]
+WiraMadha tidak punya pilihan. Ia melesat ke depan, memposisikan dirinya tepat di depan Sylvia. Ia mengangkat perisai beratnya. Di dalam benaknya, waktu seolah melambat saat ia melihat lintasan setiap proyektil. Ini adalah zona Perfect Parry.
 
-Sylvia terpana. "Hah?! Ini kan juga mahal banget! di pasar bebas dijual 100 ribu sampai 250 ribu gold kan?"
+CLANG! CLANG! CLANG! CLANG! CLANG!
 
-"Dengan waktu 60 menit cukup buat dapetin skill yang kamu mau?" kata Wira, meyakinkan.
+Denting logam yang sangat jernih bergema di seluruh kawah. Secara sistem, Wira tidak menerima damage sedikit pun, dan bar HP-nya tidak bergeming. Namun, ia ingat instruksi dari Rudhira (GM): AKTING !!.
 
-"Ada satu cara, kita harus berburu World Boss bernama Buto Kalong di kawasan Danau Kaca Tiga Malam. Tapi waktu spawn-nya terbatas hanya saat malam bulan purnama yang cahayanya dapat menyentuh permukaan danau. Kebetulan beberapa menit lagi event itu muncul hari ini." ucap Sylvia menjelaskan secara rinci.
+Wira sengaja membiarkan tubuhnya terdorong mundur dua langkah, sepatunya menggores permukaan batu obsidian yang keras hingga menimbulkan percikan api. Ia mengernyitkan dahi dan mengatur napasnya agar terdengar berat lewat kanal suara party.
 
-"Ya udah, kalo gitu tunggu apa lagi? Gas..." ujar Wira
+"Argh... serangannya... berat banget!" Wira mengerang berpura-pura. "Sylvia! Jangan cuma diam! Balas sekarang selagi dia cooldown!"
 
----
+Sylvia menghapus keringat di dahinya, mencoba menstabilkan fokusnya. Ia mengangkat tongkat kayu rohnya ke udara. Pendar cahaya biru mulai menyelimuti dirinya saat ia memanggil pendukung setianya.
 
-Setelah membeli bekal dan melakukan perbaikan equipment, mereka melanjutkan perjalanan ke Danau Kaca Tiga Malam. Lokasinya dikelilingi hutan tinggi dengan kabut tipis dan suasana tenang yang justru terasa mencekam.
+"Spirit Summon: Rere!"
 
-"Monster Buto Kalong hanya muncul waktu purnama." kata Sylvia. "Kita punya waktu 25 menit."
+Sesosok peri kecil berbentuk tetesan air muncul di udara, mengeluarkan pendar cahaya biru yang menyejukkan di tengah neraka Bromo. Kehadiran Rere seketika memberikan buff Resistansi Api kepada seluruh party, membuat suhu panas yang tadinya tak tertahankan menjadi sedikit lebih bersahabat.
 
-"Levelnya?" tanya Wira
+"Rere! Berikan mereka gema air!" seru Sylvia. Ia memusatkan mana ke ujung tongkatnya.
 
-"Level 30. Kita baru 20. Tapi dia satu-satunya yang bisa drop Bonded Echo."
+"Water Blast!"
 
-"Kita naikin level dulu, yuk."
+Sebuah semburan air yang sangat kencang meluncur, menghantam dada obsidian Ahol tepat di salah satu retakan lava yang paling terang. Uap air yang sangat tebal mengepul hebat saat elemen air bertemu dengan tubuh lava Ahol yang bersuhu ribuan derajat. Ahol meraung, suaranya seperti batu raksasa yang saling bergesekan.
 
-Selama 25 menit, mereka melawan monster roh air dan bayangan rimba. XP bertambah lambat, hanya naik dua level. Tapi cukup untuk membuat mereka lebih siap.
+Namun, kejutan sebenarnya baru dimulai.
 
-"Pelan banget leveling-nya, di area ini" kata Sylvia.
+Berkat skill pasif Bonded Echo yang baru saja didapat Sylvia dari Buto Kalong, sebuah fenomena luar biasa terjadi. Sesaat setelah semburan air pertama memudar, sebuah lingkaran sihir kedua muncul secara otomatis di depan Sylvia tanpa ia harus merapalkan mantra kembali atau menggunakan mana tambahan.
 
-> "Santai. Kita punya waktu 60 menit untuk melawan Buto Kalong, kalo mau bergantung ke Potion LUK UP itu."
+[Passive Skill: Bonded Echo Activated!]
 
-Langit mulai gelap. Awan menipis, menampakkan purnama yang perlahan naik tepat di atas danau.
+Semburan air kedua yang identik menghantam titik yang sama di dada Ahol dengan kekuatan penuh.
 
-[Notifikasi: Purnama Sempurna telah naik. World Boss Area Danau Kaca Tiga Malam terbuka.]
+Sssshhhhhh! BOOM!
 
-Permukaan air beriak. Sosok tinggi mulai muncul perlahan: kulit keabu-abuan, mata merah menyala, sayap besar terbentang memecah bayang-banyang langit.
+Dampak ganda itu memberikan tekanan termal yang luar biasa pada zirah batu sang boss. Bagian obsidian yang tadinya merah membara kini mendingin menjadi abu-abu kusam dan mulai menunjukkan retakan-retakan mikroskopis yang menjalar.
 
-[Buto Kalong - Lv. 30 - BOSS] 
+[Sistem Log]:
 
-Drop: Bonded Echo - Drop Rate: 2
 
-Drop: Bonded Echo - Drop Rate: 2.8% ^ Drop Rate Up: 5.6%
 
-Wira mengangkat pedangnya. Sylvia mengepalkan tongkatnya.
+Critical Weakness! Element: Water memberikan damage 200% kepada Ahol. Status Applied: Brittle Armor. Defense fisik Ahol berkurang 30% pada area torso.
 
-"Kita mulai."
+"Zirahnya retak! RangRang, sekarang!" perintah Wira sambil tetap menahan gempuran fisik dari cakar obsidian Ahol.
 
----
+RangRang menyeringai lebar. Ia sudah berada di bawah kangkangan kaki raksasa Ahol, menunggu momen ini. Dengan kelincahan seorang Rogue, ia memanjat tubuh berbatu Ahol menggunakan belati dualnya sebagai pengait. Dalam hitungan detik, ia sudah sampai di area dada yang telah rapuh karena sihir ganda Sylvia.
+
+"Makan ini, raksasa sombong! Jangan remehkan pemain di bawah levelmu!" RangRang berteriak.
+
+"Unique Skill: Quadruple Attack!"
+
+Kedua belati RangRang bergerak seperti kilat hitam. Satu, dua, tiga, empat tebasan beruntun menghantam titik retak yang sama dalam waktu kurang dari satu detik. Percikan batu obsidian beterbangan seperti pecahan kaca yang hancur.
+
+Ahol mengeluarkan raungan ultrasonik yang begitu kuat hingga menciptakan gelombang kejut di lautan lava di bawah mereka. HP Ahol yang tadinya hampir penuh, kini terlihat berkurang satu bar signifikan—turun ke angka 80%.
+
+"Berhasil!" BanyuKandhi bersorak dari pilar batunya, sambil terus menghujani sendi sayap Ahol dengan panah-panahnya.
+
+Namun, kegembiraan mereka hanya berlangsung sesaat. Ahol tiba-tiba mengepakkan tiga pasang sayapnya sekaligus dengan tenaga luar biasa. Angin topan yang membawa jutaan partikel abu vulkanik panas menyapu arena, membuat pandangan menjadi nol.
+
+"Wira! Aku nggak bisa liat apa-apa!" seru Sylvia panik.
+
+"Semuanya, merapat! Fase kedua dimulai!" Wira memberi peringatan keras.
+
+Udara di kawah Bromo semakin mencekam. Fase 1 telah berakhir dengan kemenangan kecil bagi party WiraMadha, namun mereka tahu, sang Tirani Abu baru saja mulai menunjukkan kemarahan sejatinya. Pertarungan hidup dan mati ini masih menyisakan jalan panjang menuju puncak kemenangan.
+
+[Log Pertempuran Chapter 23]:
+
+Ahol HP: 80% (Phase 1 Clear)
 

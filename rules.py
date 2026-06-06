@@ -2,8 +2,41 @@
 from __future__ import annotations
 
 from collections import defaultdict
+import re
 from schemas import ChapterExtraction, Issue
 from lore_graph import LoreGraph
+
+
+WEAK_TITLE_RE = re.compile(
+    r"^(?:sc|scene|event|ev)[\s_:#-]*\d+(?:[\s_:#-]*\d+)?$",
+    re.IGNORECASE,
+)
+
+
+def _compact_title(value: str | None, max_chars: int = 72) -> str:
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
+    if not text:
+        return ""
+    if len(text) <= max_chars:
+        return text
+    clipped = text[:max_chars].rsplit(" ", 1)[0].strip()
+    return f"{clipped}..." if clipped else text[:max_chars]
+
+
+def _useful_title(title: str | None, fallback: str | None, identifier: str) -> str:
+    text = _compact_title(title)
+    lowered = text.lower()
+    is_placeholder = (
+        not text
+        or text == identifier
+        or bool(WEAK_TITLE_RE.fullmatch(text))
+        or "scene title" in lowered
+        or "event title" in lowered
+        or lowered.startswith("untitled")
+    )
+    if not is_placeholder:
+        return text
+    return _compact_title(fallback) or identifier
 
 
 class PlotHoleDetector:
@@ -11,7 +44,7 @@ class PlotHoleDetector:
         self.inventory: dict[str, set[str]] = defaultdict(set)
         self.item_owner: dict[str, str] = {}
         self.knowledge: dict[str, set[str]] = defaultdict(set)
-        self.position_by_time: dict[tuple[str, str, int], str] = {}
+        self.position_by_time: dict[tuple[str, str, int], dict] = {}
         self.seen_events: set[str] = set()
         self.event_summaries: dict[str, str] = {}
 
@@ -29,6 +62,18 @@ class PlotHoleDetector:
         for scene in chapter.scenes:
             for event in sorted(scene.events, key=lambda e: e.seq):
                 current_location = event.location or scene.location or "Unknown"
+                event_title = _useful_title(event.title, event.summary, event.event_id)
+                scene_title = _useful_title(scene.title, scene.summary, scene.scene_id)
+                current_position = {
+                    "chapter_id": chapter.chapter_id,
+                    "scene_id": scene.scene_id,
+                    "scene_title": scene_title,
+                    "event_id": event.event_id,
+                    "event_title": event_title,
+                    "seq": event.seq,
+                    "location": current_location,
+                    "summary": event.summary,
+                }
                 self.seen_events.add(event.event_id)
 
                 # 1. Duplicate event ID with different meaning
@@ -64,25 +109,40 @@ class PlotHoleDetector:
                 # 3. Double location in same chapter + seq
                 for participant in event.participants:
                     key = (participant, chapter.chapter_id, event.seq)
-                    previous_location = self.position_by_time.get(key)
+                    previous_position = self.position_by_time.get(key)
+                    previous_location = (
+                        previous_position.get("location")
+                        if previous_position
+                        else None
+                    )
 
                     if previous_location and previous_location != current_location:
                         issues.append(
                             self._issue(
                                 "high",
                                 "double_location_same_step",
-                                f"{participant} appears in two locations at the same story step.",
+                                f"{participant} appears in two different locations at the same story step: '{previous_location}' and '{current_location}'.",
                                 {
                                     "character": participant,
                                     "chapter_id": chapter.chapter_id,
                                     "seq": event.seq,
                                     "previous_location": previous_location,
                                     "current_location": current_location,
+                                    "previous_scene_id": previous_position.get("scene_id"),
+                                    "previous_scene_title": previous_position.get("scene_title"),
+                                    "previous_event_id": previous_position.get("event_id"),
+                                    "previous_event_title": previous_position.get("event_title"),
+                                    "previous_event_summary": previous_position.get("summary"),
+                                    "current_scene_id": scene.scene_id,
+                                    "current_scene_title": scene_title,
+                                    "current_event_id": event.event_id,
+                                    "current_event_title": event_title,
+                                    "current_event_summary": event.summary,
                                 },
                             )
                         )
 
-                    self.position_by_time[key] = current_location
+                    self.position_by_time[key] = current_position
 
                 # 4. Item used before acquired
                 for participant in event.participants:

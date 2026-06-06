@@ -119,7 +119,12 @@ Character emotion tracking:
 - Visualization
 
 ### 📄 config.py
-Config your OpenAI API
+Loads configurations from the `.env` file using `python-dotenv`.
+
+### 📄 .env
+Stores configuration values like API keys and models locally. This file is ignored by Git to protect secrets. Refer to `.env.example` for the template.
+- `OPENAI_API_KEY`: Your OpenAI API key.
+- `OPENAI_MODEL`: OpenAI model (default: `gpt-4o-mini`).
 
 ---
 

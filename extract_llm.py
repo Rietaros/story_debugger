@@ -3,14 +3,88 @@ from __future__ import annotations
 
 import json
 import os
+import re
 
 from openai import OpenAI
 
 from config import OPENAI_API_KEY, OPENAI_MODEL
-from schemas import ChapterExtraction
+from schemas import ChapterExtraction, Issue, CharacterSheetItem, LLMAnalysisResult
+
 
 
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
+
+GENERIC_TITLE_RE = re.compile(
+    r"^(?:sc|scene|event|ev)[\s_:#-]*\d+(?:[\s_:#-]*\d+)?$",
+    re.IGNORECASE,
+)
+
+
+def _compact_title(value: str | None, max_chars: int = 72) -> str:
+    text = re.sub(r"\s+", " ", str(value or "")).strip(" -:;,.\"'")
+    if not text:
+        return ""
+
+    sentence_match = re.search(r"(.+?[.!?])(?:\s|$)", text)
+    if sentence_match:
+        sentence = sentence_match.group(1).strip()
+        if 12 <= len(sentence) <= max_chars:
+            return sentence
+
+    if len(text) <= max_chars:
+        return text
+
+    clipped = text[:max_chars].rsplit(" ", 1)[0].strip()
+    return f"{clipped}..." if clipped else text[:max_chars]
+
+
+def _is_weak_title(value: str | None) -> bool:
+    text = str(value or "").strip()
+    if not text:
+        return True
+    lowered = text.lower()
+    return (
+        bool(GENERIC_TITLE_RE.fullmatch(text))
+        or "scene title" in lowered
+        or "event title" in lowered
+        or lowered.startswith("untitled")
+    )
+
+
+def _event_title_from_data(event: dict, event_idx: int, scene_location: str) -> str:
+    if not _is_weak_title(event.get("title")):
+        return _compact_title(event.get("title"))
+
+    summary = event.get("summary") or event.get("description") or ""
+    if not summary and isinstance(event.get("details"), dict):
+        summary = event["details"].get("summary") or event["details"].get("info") or ""
+
+    title = _compact_title(summary)
+    if title:
+        return title
+
+    participants = ", ".join(event.get("participants") or [])
+    location = event.get("location") or scene_location or "Unknown"
+    if participants and location != "Unknown":
+        return _compact_title(f"{participants} at {location}")
+    if participants:
+        return _compact_title(f"{participants} story beat")
+    return f"Event {event_idx}"
+
+
+def _scene_title_from_data(scene: dict, scene_idx: int) -> str:
+    if not _is_weak_title(scene.get("title")):
+        return _compact_title(scene.get("title"))
+
+    title = _compact_title(scene.get("summary") or scene.get("text"))
+    if title:
+        return title
+
+    location = scene.get("location")
+    if location and location != "Unknown":
+        return _compact_title(f"Scene at {location}")
+    return f"Scene {scene_idx}"
 
 
 class LLMExtractor:
@@ -76,7 +150,7 @@ Return ONLY valid JSON with exactly this structure:
     {{
       "scene_id": "sc_001",
       "chapter_id": "{chapter_id}",
-      "title": "scene title",
+      "title": "scene title (a short descriptive sentence summarizing this scene)",
       "location": "location name or Unknown",
       "pov": "canonical character name or null",
       "mood": "scene mood",
@@ -88,6 +162,7 @@ Return ONLY valid JSON with exactly this structure:
           "chapter_id": "{chapter_id}",
           "scene_id": "sc_001",
           "seq": 1,
+          "title": "event title (a short descriptive sentence summarizing this event)",
           "location": "location name or Unknown",
           "start_time": null,
           "end_time": null,
@@ -121,6 +196,8 @@ Character extraction instructions:
 11. Use "summary", not "description".
 12. Events must be objects, not strings.
 13. Do not add extra fields.
+14. Scene "title" must be a short descriptive name based on scene content, never only the scene_id.
+15. Event "title" must be a short descriptive name based on event content, never only the event_id.
 
 Before returning JSON, silently verify:
 - characters contains only true agents
@@ -188,13 +265,13 @@ Chapter text:
         for scene_idx, scene in enumerate(data.get("scenes", []), start=1):
             scene.setdefault("scene_id", f"sc_{scene_idx:03d}")
             scene.setdefault("chapter_id", chapter_id)
-            scene.setdefault("title", f"Scene {scene_idx}")
             scene.setdefault("location", "Unknown")
             scene.setdefault("pov", None)
             scene.setdefault("mood", "")
             scene.setdefault("summary", "")
             scene.setdefault("text", "")
             scene.setdefault("events", [])
+            scene["title"] = _scene_title_from_data(scene, scene_idx)
 
             fixed_events = []
 
@@ -205,6 +282,7 @@ Chapter text:
                         "chapter_id": chapter_id,
                         "scene_id": scene["scene_id"],
                         "seq": event_idx,
+                        "title": _compact_title(event),
                         "location": scene.get("location", "Unknown"),
                         "start_time": None,
                         "end_time": None,
@@ -223,6 +301,11 @@ Chapter text:
                     event.setdefault("scene_id", scene["scene_id"])
                     event.setdefault("seq", event_idx)
                     event.setdefault("location", scene.get("location", "Unknown"))
+                    event["title"] = _event_title_from_data(
+                        event,
+                        event_idx,
+                        scene.get("location", "Unknown"),
+                    )
 
                 else:
                     continue
@@ -232,6 +315,7 @@ Chapter text:
                     "chapter_id",
                     "scene_id",
                     "seq",
+                    "title",
                     "location",
                     "start_time",
                     "end_time",
@@ -272,3 +356,148 @@ Chapter text:
             scene["events"] = fixed_events
 
         return ChapterExtraction.model_validate(data)
+
+
+class LLMStoryAnalyzer:
+    def __init__(
+        self,
+        model_name: str | None = None,
+    ):
+        self.client = OpenAI(api_key=OPENAI_API_KEY)
+        self.model_name = model_name or OPENAI_MODEL
+
+    def analyze(
+        self,
+        chapter_id: str,
+        title: str,
+        chapter_text: str,
+        current_extraction: ChapterExtraction,
+        history: list[dict],
+    ) -> LLMAnalysisResult:
+        # Format history of previous chapters
+        history_summary = ""
+        if history:
+            history_summary = "\n".join([
+                f"- Chapter {h['chapter_id']}: {h['title']}\n  Synopsis: {h['synopsis']}"
+                for h in history
+            ])
+        else:
+            history_summary = "No previous chapters (this is Chapter 1)."
+
+        # Format characters list
+        characters_list = ", ".join([c.canonical for c in current_extraction.characters])
+
+        system_prompt = """
+You are an expert narrative analysis engine for a story debugging system.
+Your job is to identify plot holes and construct a character sheet for the current chapter.
+
+You must return ONLY valid JSON matching the specified structure. No extra text, explanation, or markdown.
+""".strip()
+
+        user_prompt = f"""
+Analyze this chapter of a story. The story might be written in English, Bahasa Indonesia, or a mix. Write your summaries, messages, and analysis in the same language as the story (Bahasa Indonesia or English).
+
+Chapter ID: {chapter_id}
+Title: {title}
+
+--- STORY CONTEXT SO FAR (PREVIOUS CHAPTERS) ---
+{history_summary}
+
+--- CURRENT CHAPTER TEXT ---
+{chapter_text}
+
+--- CHARACTERS PRESENT IN THIS CHAPTER ---
+{characters_list}
+
+--- ANALYSIS INSTRUCTIONS ---
+1. Detect and describe any Plot Holes in this chapter (in comparison to the current text or previous chapter context). If any plot holes are found, categorize them into one of the following rules:
+   - "contradiction": A character acts completely out of line with their established personality traits, or previously known facts are suddenly altered to fit a new scene.
+   - "missing_details": A vital piece of information, a key item, or a character’s injury is forgotten, conveniently disappears, or magically reappears between chapters or scenes.
+   - "forgotten_subplot": A secondary character is introduced with a heavy, specific conflict (like being cursed or having a missing family member), but this thread is completely abandoned before the story ends.
+   - "out_of_character": This occurs when a character acts outside of their established nature, typically for the sake of moving the plot forward.
+   Each plot hole should be returned as an issue with:
+   - "severity": "high" | "medium" | "low"
+   - "rule": one of "contradiction", "missing_details", "forgotten_subplot", "out_of_character"
+   - "message": A detailed description of the plot hole, what is wrong, and why it's a plot hole.
+   - "evidence": {{"character": "name of character involved or 'General'", "description": "concise quote or summary of context"}}
+
+2. Create a Character Sheet for EVERY character listed above in the "CHARACTERS PRESENT IN THIS CHAPTER" section. Each character sheet entry must contain:
+   - "character": The canonical name of the character.
+   - "narrative_summary": A summary of their role and presence in this chapter.
+   - "current_actions": A concise description of what they do in this chapter.
+   - "risk_of_plot_hole": Any action, setup, unresolved event, or decision in this chapter that has a probability of leading to a plot hole in future chapters if the writer is not careful (e.g. acquiring an item but not using it, getting an injury that might be forgotten, making a promise, leaving a conflict unresolved). If no risk, write "None".
+   - "acquired_items_or_spells": A list of items, equipment, or spells they acquired in this chapter. If none, return an empty list.
+
+Return ONLY a JSON object with this exact structure:
+{{
+  "plot_holes": [
+    {{
+      "severity": "high" | "medium" | "low",
+      "rule": "contradiction" | "missing_details" | "forgotten_subplot" | "out_of_character",
+      "message": "...",
+      "evidence": {{"character": "...", "description": "..."}}
+    }}
+  ],
+  "character_sheet": [
+    {{
+      "character": "...",
+      "narrative_summary": "...",
+      "current_actions": "...",
+      "risk_of_plot_hole": "...",
+      "acquired_items_or_spells": ["item/spell 1", "item/spell 2"]
+    }}
+  ]
+}}
+""".strip()
+
+        response = self.client.responses.create(
+            model=self.model_name,
+            input=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+        )
+
+        text = response.output_text
+        text = text.replace("```json", "").replace("```", "").strip()
+
+        start = text.find("{")
+        end = text.rfind("}")
+
+        if start == -1 or end == -1:
+            raise ValueError(f"No JSON found in model output:\n{text}")
+
+        try:
+            data = json.loads(text[start : end + 1])
+        except json.JSONDecodeError as e:
+            print("--- MODEL OUTPUT START ---")
+            print(text[start : end + 1])
+            print("--- MODEL OUTPUT END ---")
+            raise e
+
+        # Ensure correct formats and fields
+        plot_holes = []
+        for ph in data.get("plot_holes", []):
+            plot_holes.append(
+                Issue(
+                    severity=ph.get("severity", "medium"),
+                    rule=ph.get("rule", "contradiction"),
+                    message=ph.get("message", ""),
+                    evidence=ph.get("evidence", {}),
+                )
+            )
+
+        character_sheet = []
+        for cs in data.get("character_sheet", []):
+            character_sheet.append(
+                CharacterSheetItem(
+                    character=cs.get("character", ""),
+                    narrative_summary=cs.get("narrative_summary", ""),
+                    current_actions=cs.get("current_actions") or cs.get("actions", ""),
+                    risk_of_plot_hole=cs.get("risk_of_plot_hole") or cs.get("future_plot_hole_risk", "None"),
+                    acquired_items_or_spells=cs.get("acquired_items_or_spells", []),
+                )
+            )
+
+
+        return LLMAnalysisResult(plot_holes=plot_holes, character_sheet=character_sheet)
