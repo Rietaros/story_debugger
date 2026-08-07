@@ -1,0 +1,46 @@
+[
+  {
+    "character": "WiraMadha",
+    "narrative_summary": "WiraMadha is a tank class character who participates in a dungeon quest, displaying tactical skills during the boss fight.",
+    "current_actions": "He engages in the dungeon battle, uses Perfect Parry, and suggests forming a party with Sylvia after the dungeon.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Osmo",
+    "narrative_summary": "Osmo is WiraMadha's mount, providing transportation throughout the journey to the town.",
+    "current_actions": "He stops at the town gate and allows Wira to dismount.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "HoppyLite",
+    "narrative_summary": "A female Humanoid Beast who participates in the dungeon quest alongside WiraMadha.",
+    "current_actions": "Engages in battle against Kelabang Agni, utilizing her Binding Root skill.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "DrakeCloud",
+    "narrative_summary": "A confident Rogue character who is also part of the dungeon party.",
+    "current_actions": "He executes tactical attacks on the boss and supports the team during the battle.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Sylvia",
+    "narrative_summary": "A Spirit Handler who joins WiraMadha's party following their successful dungeon run, offering potential synergy.",
+    "current_actions": "Utilizes Spirit Soul Strike and summons a healing spirit Rere to support the team.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": [
+      "Essence Shard - Spirit Rain Boost +10%"
+    ]
+  },
+  {
+    "character": "Rere",
+    "narrative_summary": "A small fairy-like spirit summoned by Sylvia to assist in battle with healing.",
+    "current_actions": "Provides healing and regenerative support to the party during the boss fight.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": []
+  }
+]

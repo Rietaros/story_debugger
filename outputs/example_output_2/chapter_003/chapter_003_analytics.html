@@ -1,0 +1,1299 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>chapter_003 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+<style>
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    --dark: #0f172a;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --accent-red: #ef4444;
+    --accent-red-bg: #fee2e2;
+    --accent-amber: #f59e0b;
+    --accent-amber-bg: #fef3c7;
+    --accent-blue: #3b82f6;
+    --accent-blue-bg: #dbeafe;
+    --accent-green: #10b981;
+    --accent-green-bg: #d1fae5;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+header {
+    padding: 36px 48px;
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    border-bottom: 4px solid var(--primary);
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    margin: 8px 0 0 0;
+    font-size: 15px;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+.container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.metric-card .label {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-card .value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-top: 10px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    background: #f1f5f9;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    width: fit-content;
+}
+
+.tab-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--dark);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.tab-btn.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.tab {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.good {
+    color: var(--accent-green);
+    font-weight: 700;
+    background: var(--accent-green-bg);
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Bug list and items styling */
+.bug-item {
+    border-left: 6px solid var(--accent-red);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff5f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    border-left-width: 6px;
+}
+
+.bug-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.bug-item.severity-high {
+    border-left-color: var(--accent-red);
+    background: #fff8f8;
+}
+
+.bug-item.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.bug-item.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.bug-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-high {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+}
+
+.badge-medium {
+    background: var(--accent-amber-bg);
+    color: #92400e;
+}
+
+.badge-low {
+    background: var(--accent-blue-bg);
+    color: #1e40af;
+}
+
+.bug-detail {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 14px;
+}
+
+.bug-detail p {
+    margin: 6px 0;
+}
+
+.bug-timeline-links {
+    margin: 12px 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+}
+
+.bug-timeline-links p {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+}
+
+.bug-timeline-links ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.bug-timeline-links li {
+    margin: 4px 0;
+    font-size: 13px;
+}
+
+.bug-timeline-links a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Character Sheet styles */
+.character-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.character-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.character-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.char-header {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+}
+
+.char-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.char-name-container h3 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.char-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+}
+
+.char-section h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.char-section p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.risk-none .risk-message {
+    background: var(--accent-green-bg);
+    color: #065f46;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.risk-active .risk-message {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-red);
+    line-height: 1.4;
+}
+
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.item-badge {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+.no-items {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.analysis-box {
+    margin-top: 16px;
+    background: #f8fafc;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-left-width: 5px;
+}
+
+.arc-analysis h4 {
+    margin: 12px 0 4px 0;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.arc-analysis p {
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.arc-card {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+}
+
+.arc-card img {
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 12px;
+}
+
+.timeline {
+    border-left: 4px solid var(--primary);
+    margin-left: 12px;
+    padding-left: 24px;
+}
+
+.timeline-item {
+    margin-bottom: 24px;
+    position: relative;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.03);
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border: 4px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.timeline-item h4 {
+    margin: 0 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--dark);
+}
+
+.timeline-item.has-bugs {
+    border-color: rgba(239, 68, 68, 0.35);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.08);
+}
+
+.timeline-item.has-bugs::before {
+    background: var(--accent-red);
+    box-shadow: 0 0 0 2px var(--accent-red);
+}
+
+.timeline-bugs {
+    margin: 14px 0;
+    display: grid;
+    gap: 10px;
+}
+
+.timeline-bug {
+    border: 1px solid rgba(239, 68, 68, 0.22);
+    border-left: 5px solid var(--accent-red);
+    background: #fff8f8;
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.timeline-bug.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.timeline-bug.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.timeline-bug-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.timeline-bug p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.timeline-empty-bugs {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+}
+
+.graph-detail-grid {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.graph-detail-row {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.graph-box {
+    height: 540px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.node-label {
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.search-box {
+    padding: 12px 16px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 12px 0;
+}
+
+.timeline-meta span {
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+details {
+    background: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+</style>
+</head>
+
+<body>
+<header>
+    <h1>Chapter 003</h1>
+    <p>Interactive Narrative Debugging Dashboard · Chapter ID: <strong>chapter_003</strong></p>
+</header>
+
+<div class="container">
+
+    <div class="grid">
+        <div class="metric-card">
+            <div class="label">Similarity to Baseline</div>
+            <div class="value">0.4123</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Drift Score</div>
+            <div class="value">0.5877</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Bugs Found</div>
+            <div class="value">2</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">High Severity</div>
+            <div class="value">0</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Overall Chapter Summary</h2>
+        <p>A group of adventurers faces the powerful entity Ahol in a volcanic battleground, using their skills and teamwork to survive and combat the threat.</p>
+    </div>
+
+    <div class="tabs">
+        <button id="tab-overview" class="tab-btn active" onclick="openTab('overview')">Overview</button>
+        <button id="tab-bugs" class="tab-btn" onclick="openTab('bugs')">Story Bugs</button>
+        <button id="tab-charactersheet" class="tab-btn" onclick="openTab('charactersheet')">Character Sheet</button>
+        <button id="tab-arcs" class="tab-btn" onclick="openTab('arcs')">Character Arcs</button>
+        <button id="tab-timeline" class="tab-btn" onclick="openTab('timeline')">Timeline</button>
+        <button id="tab-graph" class="tab-btn" onclick="openTab('graph')">Lore Graph</button>
+    </div>
+
+    <section id="overview" class="tab active">
+        <div class="card">
+            <h2>Chapter Drift Analysis</h2>
+            <p><strong>Similarity:</strong> 0.4123</p>
+            <p><strong>Drift:</strong> 0.5877</p>
+            <p>High drift. The chapter may strongly shift tone, theme, mood, or narrative direction.</p>
+            <canvas id="driftChart" height="90"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Bug Severity Distribution</h2>
+            <canvas id="bugChart" height="90"></canvas>
+        </div>
+    </section>
+
+    <section id="bugs" class="tab">
+        <div class="card">
+            <h2>Story Bugs Found</h2>
+            <input class="search-box" id="bugSearch" placeholder="Search bug rule/message..." oninput="filterBugs()">
+            <div id="bugList">
+                
+    <div class="bug-item severity-medium" data-rule="missing_details">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>missing_details</strong>
+        </div>
+        <p>Raka Wiradharma&#x27;s technical calculations in the heat of combat are introduced, but no details about his prior experiences or skills that allow for such calculations are given. This omission leaves readers questioning the plausibility of his actions.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>chapter-level:</strong> No exact event match in Chapter-level issue at <code>Unknown</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> Missing Details</p>
+        <p><strong>Definition:</strong> A vital piece of information, a key item, or a character’s injury is forgotten, conveniently disappears, or magically reappears between chapters or scenes.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-low" data-rule="out_of_character">
+        <div class="bug-head">
+            <span class="badge badge-low">low</span>
+            <strong>out_of_character</strong>
+        </div>
+        <p>WiraMadha exhibits a puzzling dichotomy between being a capable leader and needing to act in a way that is deceptive for the sake of the party&#x27;s performance. This might strain his established character as a responsible leader committed to team success.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>matched by evidence:</strong> <a href="#timeline-ev_001_005">ev_001_005 · Ahol&#x27;s Counterattack</a> in sc_001 · Battle against Ahol in the Volcano at <code>Kawah Bromo</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> Out-of-Character Moments</p>
+        <p><strong>Definition:</strong> This occurs when a character acts outside of their established nature, typically for the sake of moving the plot forward.</p>
+        
+        </div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+
+    <section id="charactersheet" class="tab">
+        <div class="card">
+            <h2>Character Sheet</h2>
+            <p>Summary of character state, current actions, potential future plot hole risks, and acquired items/spells in this chapter.</p>
+            <div id="characterSheetBox" class="character-sheet-grid">
+                <!-- Dynamically filled by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="arcs" class="tab">
+        <div class="card">
+            <h2>Character Arc Analysis</h2>
+            
+            <div class="arc-card">
+                <h3>Raka Wiradharma</h3>
+                <img src="arc_Raka Wiradharma.png" alt="Emotion arc for Raka Wiradharma">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In this chapter, Raka Wiradharma experiences a moment of 'terkejut' (shock) as he grapples with complex technical calculations behind his helmet. This emotional peak suggests a significant internal response to the chaotic environment of the volcanic battleground, yet it lacks visible external actions that reflect this shock.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Despite the emotional intensity indicated, Raka does not take actions that typically accompany feelings of shock. Instead of reacting to the threat posed by Ahol or taking decisive action, he appears absorbed in mental calculations, signaling a disconnect between what he feels and what he does.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>Raka's moment of shock, centered on his calculations, could serve as a turning point if followed by a carefully calculated strategy that influences the group's actions, but this is not evidenced in the chapter.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>The gap between Raka's shocking realization and the absence of corresponding proactive measures may suggest a character struggling with analysis paralysis in the face of danger.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional spike of shock lacks narrative payoff through Raka's actions, which may confuse readers regarding his role in the adventurers' efforts against Ahol.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Ahol</h3>
+                <img src="arc_Ahol.png" alt="Emotion arc for Ahol">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Ahol experiences a predominantly positive emotional trajectory, with instances of joy associated with its formidable presence and powerful abilities. However, it faces significant shifts to surprise and sadness in response to the adventurers' escalating attack strategies.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Ahol initially appears confident, exuding joy as an imposing figure amidst the chaos of battle. However, upon BanyuKandhi's failed entrapment attempt, Ahol's confidence is shaken, marked by surprise at the elemental incompatibility. The emotional shift reflects its dynamic reactions to sustained attacks from the adventurers, particularly as its defenses weaken, leading to moments of sadness as it realizes the threat level.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The critical moment occurs when Ahol suffers notable damage from the water spells, moving from a position of strength to vulnerability. This shift is marked by a drop in its HP and the timing of WiraMadha's strategic commands.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>Ahol's emotional arc illustrates the theme of resilience against overwhelming odds. As the entity transforms from dominance to struggle, it enhances the tension between the adventurers and Ahol.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>There is a potential inconsistency with emotional spikes that do not clearly align with the severity of the events, particularly in moments of sadness and surprise where Ahol's reactions may feel unsupported by narrative events.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Rere</h3>
+                <img src="arc_Rere.png" alt="Emotion arc for Rere">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In this chapter, Rere experiences a range of emotions, predominantly sadness and happiness. The initial call for Rere reflects a sense of urgency and responsibility, leading to feelings of sadness as Rere is summoned.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Rere is summoned by Sylvia to provide a fire resistance buff, an action that shifts the environment to a more manageable state for the party. This act of providing aid transitions the emotional tone from sadness to happiness, as Rere's presence positively impacts the group.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The pivotal moment occurs when Rere successfully casts the fire resistance buff. This transition marks a shift from a potential feeling of helplessness to empowerment, highlighting Rere's role in turning the tide against Ahol.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc illustrates the themes of teamwork and resilience in the face of overwhelming odds. Rere’s transformation from sadness to joy symbolizes the importance of support systems in overcoming challenges.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>While Rere’s emotional shifts align with actions, the initial sadness seems excessive given the proactive role played. This may create a sense of inconsistency in Rere's emotional response to the situation.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>RangRang</h3>
+                <img src="arc_RangRang.png" alt="Emotion arc for RangRang">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>RangRang experiences a dynamic emotional journey in this chapter, fluctuating between anger, surprise, sadness, and joy as he engages with Ahol.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Initially, RangRang feels anger as he measures the dire situation, but he quickly shifts to excitement as he takes the initiative to attack Ahol, capitalizing on Sylvia's prior actions. His emotions transform again into surprise as he executes impossibly agile maneuvers, followed by a moment of sadness as he prepares to strike. However, this sadness is juxtaposed with joy when he successfully delivers impactful hits, reacting with a wide grin.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point comes when RangRang successfully exploits Ahol’s weakness, transitioning his emotions from sadness and fear to elation and confidence, as he feels empowered by his successful attacks.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc underscores themes of teamwork and individual capability. RangRang's emotions reflect the tension of battle, enhancing reader engagement in high-stakes scenarios.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The significant emotion of sadness appears somewhat abrupt, especially when contrasted with the subsequent joy, indicating a possible inconsistency in emotional continuity.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>WiraMadha</h3>
+                <img src="arc_WiraMadha.png" alt="Emotion arc for WiraMadha">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>WiraMadha experiences a fluctuating emotional journey, ranging from sadness and fear to joy and anger. Starting with a sense of sadness about his level relative to the threat, he gradually finds strength and determination, culminating in a fevered joy after a tactical success against Ahol.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>WiraMadha's actions, such as shielding Sylvia from lava projectiles, highlight his selfless bravery. His subsequent organization of party movements during Ahol's counterattack showcases his leadership, which contrasts his initial apprehension. Despite moments of fear, his commitment to protecting his comrades reignites his confidence.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The pivotal moment occurs when WiraMadha decides to face the chaos of Ahol's attack, transforming fear into a proactive stance that encourages both him and his teammates.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter emphasizes themes of courage, teamwork, and growth. WiraMadha transitions from fearful uncertainty to assertive leadership, reflecting a classic hero's journey.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>There are instances of emotional spikes, particularly the shift from fear to joy, that could benefit from further development to provide a smoother emotional transition and prevent perceived inconsistency.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Sylvia</h3>
+                <img src="arc_Sylvia.png" alt="Emotion arc for Sylvia">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Sylvia experiences a complex emotional journey, initially feeling joyous and empowered as she unleashes her spells. However, she fluctuates into sadness and panic as chaos erupts around her with Ahol's counterattack.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>In the beginning, Sylvia's emotions are high as she summons Rere and effectively counters Ahol's attacks, demonstrating confidence and excitement. This is illustrated when she shouts in joy. Yet, as the battle intensifies, her emotional state shifts to sadness, reflecting her worry for her team, particularly when things do not go as planned, culminating in moments of panic when their strategy falters.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point is marked by Ahol’s powerful counterattack. This moment thrusts Sylvia from a state of confidence to one of fear and urgency, significantly impacting her emotional trajectory.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc illustrates the unpredictability of battle and the weight of responsibility felt by those who fight for their friends, highlighting Sylvia's growth.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional spikes as Sylvia shifts from joy to sadness may lack sufficient buildup, potentially causing inconsistencies in her emotional arc amidst the chaotic setting.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>BanyuKandhi</h3>
+                <img src="arc_BanyuKandhi.png" alt="Emotion arc for BanyuKandhi">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>BanyuKandhi experiences a rollercoaster of emotions throughout the chapter. Initially, he feels a mix of anger (0.55) and joy (0.87) linked to his failed attempt to restrain Ahol and the excitement of combat. His joy peaks (0.89) as he successfully dodges Ahol's attacks and actively engages in dealing damage.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Initially, BanyuKandhi's attempt to use a nature-based spell to restrain Ahol symbolizes his determination but leads to frustration upon failure. This anger transitions to elation as he deftly avoids steaming eruptions, showcasing his agility. His spirited cheers while attacking Ahol indicate a renewed confidence and thrill in the battle despite previous setbacks.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point occurs when BanyuKandhi evades an attack, signaling a shift from frustration to excitement, aligning his emotional state with his successful actions in combat.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This arc illustrates the volatile nature of battle, emphasizing that setbacks can spur renewed vigor and teamwork, showing BanyuKandhi's resilience.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional spikes, particularly the quick transition from anger to joy, may seem inconsistent without further character exploration or context on his emotional stakes.</p>
+</div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="timeline" class="tab">
+        <div class="card">
+            <h2>Event Timeline</h2>
+            <div id="timelineBox" class="timeline"></div>
+        </div>
+    </section>
+
+    <section id="graph" class="tab">
+        <div class="card">
+            <h2>Lore Graph</h2>
+            <p>Nodes represent characters, scenes, events, items, facts, and locations.</p>
+            <div id="graphBox" class="graph-box"></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+const DASHBOARD_DATA = {"arcData": [], "timelineData": [{"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "A group of adventurers faces the powerful entity Ahol in a volcanic battleground, using their skills and teamwork to survive and combat the threat.", "scene_id": "sc_001", "scene_title": "Battle against Ahol in the Volcano", "scene_label": "sc_001 · Battle against Ahol in the Volcano", "scene_location": "Kawah Bromo", "scene_pov": "null", "scene_mood": "tense", "scene_summary": "The adventurers strategize and attack Ahol, facing challenges as they try to overcome the powerful elemental threat.", "scene_text": "The group prepares their skills against the formidable Ahol, who retaliates fiercely.", "event_id": "ev_001_001", "seq": 1, "event_title": "Initial Attack by BanyuKandhi", "event_label": "ev_001_001 · Initial Attack by BanyuKandhi", "event_location": "Kawah Bromo", "graph_order": 6, "graph_markers": [], "graph_movements": [{"character": "BanyuKandhi", "from_location": null, "to_location": "Kawah Bromo"}, {"character": "Ahol", "from_location": null, "to_location": "Kawah Bromo"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["BanyuKandhi", "Ahol"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "BanyuKandhi attempts to restrain Ahol using a nature-based spell but fails due to elemental incompatibility.", "bugs": []}, {"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "A group of adventurers faces the powerful entity Ahol in a volcanic battleground, using their skills and teamwork to survive and combat the threat.", "scene_id": "sc_001", "scene_title": "Battle against Ahol in the Volcano", "scene_label": "sc_001 · Battle against Ahol in the Volcano", "scene_location": "Kawah Bromo", "scene_pov": "null", "scene_mood": "tense", "scene_summary": "The adventurers strategize and attack Ahol, facing challenges as they try to overcome the powerful elemental threat.", "scene_text": "The group prepares their skills against the formidable Ahol, who retaliates fiercely.", "event_id": "ev_001_002", "seq": 2, "event_title": "WiraMadha's Defense", "event_label": "ev_001_002 · WiraMadha's Defense", "event_location": "Kawah Bromo", "graph_order": 7, "graph_markers": [], "graph_movements": [{"character": "WiraMadha", "from_location": null, "to_location": "Kawah Bromo"}, {"character": "Sylvia", "from_location": null, "to_location": "Kawah Bromo"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["WiraMadha", "Sylvia"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "WiraMadha shields Sylvia from a barrage of lava projectiles in a selfless act of protection.", "bugs": []}, {"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "A group of adventurers faces the powerful entity Ahol in a volcanic battleground, using their skills and teamwork to survive and combat the threat.", "scene_id": "sc_001", "scene_title": "Battle against Ahol in the Volcano", "scene_label": "sc_001 · Battle against Ahol in the Volcano", "scene_location": "Kawah Bromo", "scene_pov": "null", "scene_mood": "tense", "scene_summary": "The adventurers strategize and attack Ahol, facing challenges as they try to overcome the powerful elemental threat.", "scene_text": "The group prepares their skills against the formidable Ahol, who retaliates fiercely.", "event_id": "ev_001_003", "seq": 3, "event_title": "Sylvia's Buff and Attack", "event_label": "ev_001_003 · Sylvia's Buff and Attack", "event_location": "Kawah Bromo", "graph_order": 8, "graph_markers": [], "graph_movements": [{"character": "Ahol", "from_location": "Kawah Bromo", "to_location": "Kawah Bromo"}, {"character": "Sylvia", "from_location": "Kawah Bromo", "to_location": "Kawah Bromo"}, {"character": "Rere", "from_location": null, "to_location": "Kawah Bromo"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["Sylvia", "Rere", "Ahol"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Sylvia summons Rere to provide a fire resistance buff to the party and unleashes a powerful water spell on Ahol.", "bugs": []}, {"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "A group of adventurers faces the powerful entity Ahol in a volcanic battleground, using their skills and teamwork to survive and combat the threat.", "scene_id": "sc_001", "scene_title": "Battle against Ahol in the Volcano", "scene_label": "sc_001 · Battle against Ahol in the Volcano", "scene_location": "Kawah Bromo", "scene_pov": "null", "scene_mood": "tense", "scene_summary": "The adventurers strategize and attack Ahol, facing challenges as they try to overcome the powerful elemental threat.", "scene_text": "The group prepares their skills against the formidable Ahol, who retaliates fiercely.", "event_id": "ev_001_004", "seq": 4, "event_title": "RangRang's Attack", "event_label": "ev_001_004 · RangRang's Attack", "event_location": "Kawah Bromo", "graph_order": 9, "graph_markers": [], "graph_movements": [{"character": "Ahol", "from_location": "Kawah Bromo", "to_location": "Kawah Bromo"}, {"character": "RangRang", "from_location": null, "to_location": "Kawah Bromo"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["RangRang", "Ahol"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "RangRang capitalizes on Ahol's weakness, delivering a rapid flurry of attacks to exploit the damage done by Sylvia.", "bugs": []}, {"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "A group of adventurers faces the powerful entity Ahol in a volcanic battleground, using their skills and teamwork to survive and combat the threat.", "scene_id": "sc_001", "scene_title": "Battle against Ahol in the Volcano", "scene_label": "sc_001 · Battle against Ahol in the Volcano", "scene_location": "Kawah Bromo", "scene_pov": "null", "scene_mood": "tense", "scene_summary": "The adventurers strategize and attack Ahol, facing challenges as they try to overcome the powerful elemental threat.", "scene_text": "The group prepares their skills against the formidable Ahol, who retaliates fiercely.", "event_id": "ev_001_005", "seq": 5, "event_title": "Ahol's Counterattack", "event_label": "ev_001_005 · Ahol's Counterattack", "event_location": "Kawah Bromo", "graph_order": 10, "graph_markers": [], "graph_movements": [{"character": "Ahol", "from_location": "Kawah Bromo", "to_location": "Kawah Bromo"}, {"character": "WiraMadha", "from_location": "Kawah Bromo", "to_location": "Kawah Bromo"}, {"character": "Sylvia", "from_location": "Kawah Bromo", "to_location": "Kawah Bromo"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["Ahol", "WiraMadha", "Sylvia"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Ahol unleashes a powerful counterattack, causing chaos and prompting WiraMadha to organize the party's next moves.", "bugs": [{"id": "bug_002", "severity": "low", "rule": "out_of_character", "message": "WiraMadha exhibits a puzzling dichotomy between being a capable leader and needing to act in a way that is deceptive for the sake of the party's performance. This might strain his established character as a responsible leader committed to team success.", "evidence": {"character": "WiraMadha", "description": "Wira sengaja membiarkan tubuhnya terdorong mundur dua langkah."}, "timeline_role": "matched by evidence"}]}], "timelineUnresolvedBugs": [{"id": "bug_001", "severity": "medium", "rule": "missing_details", "message": "Raka Wiradharma's technical calculations in the heat of combat are introduced, but no details about his prior experiences or skills that allow for such calculations are given. This omission leaves readers questioning the plausibility of his actions.", "evidence": {"character": "Raka Wiradharma", "description": "Raka Wiradharma sedang melakukan kalkulasi teknis yang rumit."}, "timeline_role": "chapter-level"}], "graphData": {"nodes": [{"id": "chapter_003", "label": "chapter_003", "group": "chapter", "title": "chapter_003"}, {"id": "Ahol", "label": "Ahol", "group": "character", "title": "Ahol"}, {"id": "WiraMadha", "label": "WiraMadha", "group": "character", "title": "WiraMadha"}, {"id": "Sylvia", "label": "Sylvia", "group": "character", "title": "Sylvia"}, {"id": "Raka Wiradharma", "label": "Raka Wiradharma", "group": "character", "title": "Raka Wiradharma"}, {"id": "BanyuKandhi", "label": "BanyuKandhi", "group": "character", "title": "BanyuKandhi"}, {"id": "RangRang", "label": "RangRang", "group": "character", "title": "RangRang"}, {"id": "Rere", "label": "Rere", "group": "character", "title": "Rere"}, {"id": "scene:sc_001", "label": "sc_001 · Battle against Ahol in the Volcano", "group": "scene", "title": "sc_001: Battle against Ahol in the Volcano"}, {"id": "Kawah Bromo", "label": "Kawah Bromo", "group": "location", "title": "Kawah Bromo"}, {"id": "event:ev_001_001", "label": "ev_001_001 · Initial Attack by BanyuKandhi", "group": "event", "title": "ev_001_001: Initial Attack by BanyuKandhi"}, {"id": "event:ev_001_002", "label": "ev_001_002 · WiraMadha's Defense", "group": "event", "title": "ev_001_002: WiraMadha's Defense"}, {"id": "event:ev_001_003", "label": "ev_001_003 · Sylvia's Buff and Attack", "group": "event", "title": "ev_001_003: Sylvia's Buff and Attack"}, {"id": "event:ev_001_004", "label": "ev_001_004 · RangRang's Attack", "group": "event", "title": "ev_001_004: RangRang's Attack"}, {"id": "event:ev_001_005", "label": "ev_001_005 · Ahol's Counterattack", "group": "event", "title": "ev_001_005: Ahol's Counterattack"}], "links": [{"source": "chapter_003", "target": "Ahol", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "WiraMadha", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "Sylvia", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "Raka Wiradharma", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "BanyuKandhi", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "RangRang", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "Rere", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "scene:sc_001", "label": "HAS_SCENE"}, {"source": "scene:sc_001", "target": "Kawah Bromo", "label": "SET_IN"}, {"source": "scene:sc_001", "target": "event:ev_001_001", "label": "HAS_EVENT"}, {"source": "BanyuKandhi", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "Ahol", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "scene:sc_001", "target": "event:ev_001_002", "label": "HAS_EVENT"}, {"source": "WiraMadha", "target": "event:ev_001_002", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_001_002", "label": "PARTICIPATES"}, {"source": "scene:sc_001", "target": "event:ev_001_003", "label": "HAS_EVENT"}, {"source": "Sylvia", "target": "event:ev_001_003", "label": "PARTICIPATES"}, {"source": "Rere", "target": "event:ev_001_003", "label": "PARTICIPATES"}, {"source": "Ahol", "target": "event:ev_001_003", "label": "PARTICIPATES"}, {"source": "scene:sc_001", "target": "event:ev_001_004", "label": "HAS_EVENT"}, {"source": "RangRang", "target": "event:ev_001_004", "label": "PARTICIPATES"}, {"source": "Ahol", "target": "event:ev_001_004", "label": "PARTICIPATES"}, {"source": "scene:sc_001", "target": "event:ev_001_005", "label": "HAS_EVENT"}, {"source": "Ahol", "target": "event:ev_001_005", "label": "PARTICIPATES"}, {"source": "WiraMadha", "target": "event:ev_001_005", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_001_005", "label": "PARTICIPATES"}]}, "issueStats": {"high": 0, "medium": 1, "low": 1}, "characterSheet": [{"character": "Ahol", "narrative_summary": "Ahol is the massive volcanic entity and the boss they are battling, who poses a significant threat due to his powerful elemental attacks.", "current_actions": "Ahol attacks the party with Volcanic Barrage and demonstrates immense power by utilizing volcanic projectiles.", "risk_of_plot_hole": "Ahol's immunity to nature-based magic could lead to inconsistencies if he exhibits weakness later on.", "acquired_items_or_spells": []}, {"character": "WiraMadha", "narrative_summary": "WiraMadha is the party's leader and a Warrior who tries to maintain team morale while strategically coordinating their efforts against Ahol.", "current_actions": "He commands team members and risks injury to protect Sylvia, demonstrating his leadership by keeping the party focused.", "risk_of_plot_hole": "His deception for performance might lead to inconsistencies in his characterization as a straightforward leader.", "acquired_items_or_spells": []}, {"character": "Sylvia", "narrative_summary": "Sylvia is the mage of the group, whose role includes utilizing her spells to assist the party in overcoming Ahol.", "current_actions": "She uses her expertise to summon a spirit and cast Water Blast, contributing significantly to the party's strategy against Ahol.", "risk_of_plot_hole": "The increased power of her spells due to the Bonded Echo passive raises concerns about balance in her future spellcasting.", "acquired_items_or_spells": ["Bonded Echo"]}, {"character": "Raka Wiradharma", "narrative_summary": "Raka Wiradharma is a member of the party whose technical knowledge is applied in combat strategy.", "current_actions": "He makes calculations to help optimize the party's combat effectiveness but lacks backstory to support his impressive calculations during battle.", "risk_of_plot_hole": "If Raka's calculations do not reflect any established background, it could appear contrived in later chapters.", "acquired_items_or_spells": []}, {"character": "BanyuKandhi", "narrative_summary": "BanyuKandhi is an Atlantic Wanderer focused on mobility in combat, showcasing his quick reactions and spellcasting.", "current_actions": "He attempts to immobilize Ahol with Nature's Grasp but fails due to Ahol's elemental properties.", "risk_of_plot_hole": "Banyu's failure with his Nature attacks could be overlooked, potentially impacting his character's progression and abilities.", "acquired_items_or_spells": []}, {"character": "RangRang", "narrative_summary": "RangRang is a Rogue who uses agility and stealth in the fight against Ahol, willing to take risks.", "current_actions": "He successfully navigates to attack Ahol's weak point after the team's coordinated efforts.", "risk_of_plot_hole": "RangRang's reliance on agility might be inconsistent if certain attacks in future chapters bypass this trait.", "acquired_items_or_spells": []}, {"character": "Rere", "narrative_summary": "Rere is the spirit summoned by Sylvia to aid in the battle, providing crucial buffs to the party.", "current_actions": "Rere provides a vital fire resistance buff, enabling the party to endure the harsh environment created by Ahol.", "risk_of_plot_hole": "Rere's presence and buff effects need continued relevance in future encounters to avoid feeling like a fleeting addition.", "acquired_items_or_spells": []}]};
+
+function openTab(id) {
+    document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    
+    // Set correct active tab button
+    const btn = document.getElementById("tab-" + id);
+    if (btn) btn.classList.add("active");
+
+    if (id === "graph") {
+        setTimeout(renderGraph, 50);
+    }
+}
+
+function safeEscape(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function formatList(values) {
+    if (!values || !values.length) return "-";
+    return safeEscape(values.join(", "));
+}
+
+function severityBadge(severity) {
+    return `<span class="badge badge-${safeEscape(severity || "low")}">${safeEscape(severity || "low")}</span>`;
+}
+
+function renderTimelineBug(bug) {
+    const evidenceText = bug.evidence && Object.keys(bug.evidence).length
+        ? `<details><summary>Bug evidence</summary><pre>${safeEscape(JSON.stringify(bug.evidence, null, 2))}</pre></details>`
+        : "";
+
+    return `
+        <div class="timeline-bug severity-${safeEscape(bug.severity || "low")}">
+            <div class="timeline-bug-head">
+                ${severityBadge(bug.severity)}
+                <strong>${safeEscape(bug.rule || "story_bug")}</strong>
+                <span class="item-badge">${safeEscape(bug.timeline_role || "event")}</span>
+            </div>
+            <p>${safeEscape(bug.message || "-")}</p>
+            ${evidenceText}
+        </div>
+    `;
+}
+
+function renderGraphDetails(ev) {
+    const rows = [];
+
+    if (ev.graph_order) {
+        rows.push(`<div class="graph-detail-row"><strong>Graph order:</strong> ${safeEscape(ev.graph_order)}</div>`);
+    }
+
+    if (ev.graph_markers && ev.graph_markers.length) {
+        rows.push(`<div class="graph-detail-row"><strong>Graph markers:</strong> ${formatList(ev.graph_markers)}</div>`);
+    }
+
+    if (ev.graph_movements && ev.graph_movements.length) {
+        const movementText = ev.graph_movements
+            .map(m => `${m.character || "?"}: ${m.from_location || "Unknown"} -> ${m.to_location || "Unknown"}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Character movement:</strong> ${safeEscape(movementText)}</div>`);
+    }
+
+    if (ev.graph_item_events && ev.graph_item_events.length) {
+        const itemText = ev.graph_item_events
+            .map(item => `${item.action || "ITEM"} ${item.item || "?"}${item.owner ? " by " + item.owner : ""}${item.users && item.users.length ? " by " + item.users.join(", ") : ""}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Item continuity:</strong> ${safeEscape(itemText)}</div>`);
+    }
+
+    if (ev.graph_fact_events && ev.graph_fact_events.length) {
+        const factText = ev.graph_fact_events
+            .map(fact => `${fact.action || "FACT"}: ${fact.fact || "?"}${fact.character ? " / " + fact.character : ""}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Knowledge/facts:</strong> ${safeEscape(factText)}</div>`);
+    }
+
+    return rows.length ? `<div class="graph-detail-grid">${rows.join("")}</div>` : "";
+}
+
+function filterBugs() {
+    const query = document.getElementById("bugSearch").value.toLowerCase();
+    document.querySelectorAll(".bug-item").forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? "block" : "none";
+    });
+}
+
+if (window.Chart) {
+new Chart(document.getElementById("driftChart"), {
+    type: "bar",
+    data: {
+        labels: ["Similarity", "Drift"],
+        datasets: [{
+            label: "Semantic Score",
+            data: [0.4123, 0.5877],
+            backgroundColor: ["#4f46e5", "#ef4444"]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("bugChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["High", "Medium", "Low"],
+        datasets: [{
+            data: [
+                DASHBOARD_DATA.issueStats.high,
+                DASHBOARD_DATA.issueStats.medium,
+                DASHBOARD_DATA.issueStats.low
+            ],
+            backgroundColor: ["#ef4444", "#f59e0b", "#3b82f6"]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+}
+
+function renderCharacterSheet() {
+    const box = document.getElementById("characterSheetBox");
+    const sheet = DASHBOARD_DATA.characterSheet || [];
+
+    if (!sheet.length) {
+        box.innerHTML = "<p>No character sheet data available for this chapter.</p>";
+        return;
+    }
+
+    box.innerHTML = sheet.map(char => {
+        const items = char.acquired_items_or_spells || [];
+        const itemsList = items.length 
+            ? items.map(item => `<span class="item-badge">${safeEscape(item)}</span>`).join(" ")
+            : "<span class='no-items'>None</span>";
+
+        const hasRisk = char.risk_of_plot_hole && char.risk_of_plot_hole.toLowerCase() !== "none";
+        const riskClass = hasRisk ? "risk-active" : "risk-none";
+
+        return `
+            <div class="character-card">
+                <div class="char-header">
+                    <div class="char-avatar">${safeEscape(char.character ? char.character[0] : "?")}</div>
+                    <div class="char-name-container">
+                        <h3>${safeEscape(char.character)}</h3>
+                    </div>
+                </div>
+                <div class="char-body">
+                    <div class="char-section">
+                        <h4>Narrative Summary</h4>
+                        <p>${safeEscape(char.narrative_summary)}</p>
+                    </div>
+                    <div class="char-section">
+                        <h4>Current Actions</h4>
+                        <p>${safeEscape(char.current_actions)}</p>
+                    </div>
+                    <div class="char-section ${riskClass}">
+                        <h4>Future Plot Hole Risk</h4>
+                        <div class="risk-message">
+                            ${hasRisk 
+                                ? `⚠️ ${safeEscape(char.risk_of_plot_hole)}`
+                                : `✅ No major risks detected`
+                            }
+                        </div>
+                    </div>
+
+                    <div class="char-section">
+                        <h4>Acquired Items & Spells</h4>
+                        <div class="items-container">${itemsList}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderTimeline() {
+    const box = document.getElementById("timelineBox");
+    const rows = DASHBOARD_DATA.timelineData || [];
+    const unresolvedBugs = DASHBOARD_DATA.timelineUnresolvedBugs || [];
+
+    if (!rows.length) {
+        box.innerHTML = "<p>No timeline data available.</p>";
+        return;
+    }
+
+    const unresolvedHtml = unresolvedBugs.length
+        ? `
+            <div class="timeline-empty-bugs">
+                <h3>Chapter-Level Bugs</h3>
+                <p>These story bugs were detected, but the report could not pin them to one exact event.</p>
+                <div class="timeline-bugs">
+                    ${unresolvedBugs.map(renderTimelineBug).join("")}
+                </div>
+            </div>
+        `
+        : "";
+
+    box.innerHTML = unresolvedHtml + rows.map(ev => {
+        const bugs = ev.bugs || [];
+        const bugHtml = bugs.length
+            ? `<div class="timeline-bugs">${bugs.map(renderTimelineBug).join("")}</div>`
+            : "";
+        const graphDetails = renderGraphDetails(ev);
+        const cssClass = bugs.length ? "timeline-item has-bugs" : "timeline-item";
+
+        return `
+        <div class="${cssClass}" id="timeline-${safeEscape(ev.event_id)}">
+            <h4>${safeEscape(ev.chapter_id)} · ${safeEscape(ev.chapter_title || "-")}</h4>
+
+            <div class="timeline-meta">
+                <span><strong>Scene:</strong> ${safeEscape(ev.scene_id)} · ${safeEscape(ev.scene_title || "-")}</span>
+                <span><strong>Event:</strong> ${safeEscape(ev.event_id)} · ${safeEscape(ev.event_title || "-")}</span>
+                ${ev.graph_order ? `<span><strong>Graph Order:</strong> ${safeEscape(ev.graph_order)}</span>` : ""}
+                <span><strong>POV:</strong> ${safeEscape(ev.scene_pov || "-")}</span>
+                <span><strong>Mood:</strong> ${safeEscape(ev.scene_mood || "-")}</span>
+                <span><strong>Location:</strong> ${safeEscape(ev.event_location || ev.scene_location || "-")}</span>
+            </div>
+
+            <h3>${safeEscape(ev.event_id)}: ${safeEscape(ev.event_title || "-")} · Event #${safeEscape(ev.seq)}</h3>
+            ${bugHtml}
+            <p><strong>Event Summary:</strong> ${safeEscape(ev.summary || "-")}</p>
+            <p><strong>Scene Summary:</strong> ${safeEscape(ev.scene_summary || "-")}</p>
+
+            <div class="timeline-meta" style="margin-top: 12px; background: transparent; border: none; padding: 0;">
+                ${ ev.participants && ev.participants.length ? `<span><strong>Participants:</strong> ${formatList(ev.participants)}</span>` : "" }
+                ${ ev.acquired_items && ev.acquired_items.length ? `<span style="background: var(--accent-green-bg); color: #065f46;"><strong>Acquired:</strong> ${formatList(ev.acquired_items)}</span>` : "" }
+                ${ ev.used_items && ev.used_items.length ? `<span style="background: var(--accent-amber-bg); color: #92400e;"><strong>Used:</strong> ${formatList(ev.used_items)}</span>` : "" }
+                ${ ev.revelations && ev.revelations.length ? `<span style="background: var(--accent-blue-bg); color: #1e40af;"><strong>Revelation:</strong> ${formatList(ev.revelations)}</span>` : "" }
+            </div>
+
+            ${graphDetails}
+
+            <details>
+                <summary>Show extracted details</summary>
+                <p><strong>Participants:</strong> ${formatList(ev.participants)}</p>
+                <p><strong>Acquired Items:</strong> ${formatList(ev.acquired_items)}</p>
+                <p><strong>Used Items:</strong> ${formatList(ev.used_items)}</p>
+                <p><strong>Revelations:</strong> ${formatList(ev.revelations)}</p>
+                <p><strong>Knowledge Gains:</strong> ${safeEscape(JSON.stringify(ev.knowledge_gains || {}))}</p>
+                <p><strong>Causal Parents:</strong> ${formatList(ev.causal_parents)}</p>
+                <p><strong>Start Time:</strong> ${safeEscape(ev.start_time || "-")}</p>
+                <p><strong>End Time:</strong> ${safeEscape(ev.end_time || "-")}</p>
+                <p><strong>Graph Markers:</strong> ${formatList(ev.graph_markers)}</p>
+                <p><strong>Scene Text:</strong> ${safeEscape(ev.scene_text || "-")}</p>
+            </details>
+        </div>
+    `;
+    }).join("");
+}
+
+let graphRendered = false;
+
+function renderGraph() {
+    if (graphRendered) return;
+    graphRendered = true;
+
+    const data = DASHBOARD_DATA.graphData || {nodes: [], links: []};
+    const container = document.getElementById("graphBox");
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    if (!data.nodes.length) {
+        container.innerHTML = "<p style='padding:20px;'>No graph data available.</p>";
+        return;
+    }
+
+    const svg = d3.select("#graphBox")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    const color = d3.scaleOrdinal()
+        .domain(["chapter", "scene", "event", "character", "item", "fact", "location"])
+        .range(["#0f172a", "#2563eb", "#7c3aed", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"]);
+
+    const simulation = d3.forceSimulation(data.nodes)
+        .force("link", d3.forceLink(data.links).id(d => d.id).distance(105))
+        .force("charge", d3.forceManyBody().strength(-300))
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const link = svg.append("g")
+        .selectAll("line")
+        .data(data.links)
+        .enter()
+        .append("line")
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2);
+
+    const node = svg.append("g")
+        .selectAll("circle")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 9)
+        .attr("fill", d => color(d.group))
+        .call(drag(simulation));
+
+    const label = svg.append("g")
+        .selectAll("text")
+        .data(data.nodes)
+        .enter()
+        .append("text")
+        .attr("class", "node-label")
+        .text(d => d.label)
+        .attr("dx", 12)
+        .attr("dy", 4)
+        .attr("fill", "#334155");
+
+    node.append("title").text(d => `${d.title} (${d.group})`);
+
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        label
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+    });
+
+    function drag(simulation) {
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        return d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended);
+    }
+}
+
+renderCharacterSheet();
+renderTimeline();
+</script>
+
+</body>
+</html>

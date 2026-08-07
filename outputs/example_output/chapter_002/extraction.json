@@ -1,0 +1,123 @@
+{
+  "chapter_id": "chapter_002",
+  "title": "Chapter 002",
+  "synopsis": "WiraMadha arrives at the city and forms a party with various characters to tackle a dungeon, facing a giant monster and strategizing to overcome challenges while developing relationships.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_002",
+      "title": "Dungeon Preparation",
+      "location": "Unknown",
+      "pov": null,
+      "mood": "tense",
+      "summary": "WiraMadha and party members prepare for a dungeon encounter, introducing themselves and strategizing.",
+      "text": "WiraMadha enters the dungeon lobby, meeting HoppyLite, DrakeCloud, and Sylvia, discussing strategies and forming a team.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_002",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "WiraMadha",
+            "HoppyLite",
+            "DrakeCloud",
+            "Sylvia"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "WiraMadha prepares for the dungeon, meeting fellow players and discussing the quest ahead."
+        }
+      ]
+    },
+    {
+      "scene_id": "sc_002",
+      "chapter_id": "chapter_002",
+      "title": "Dungeon Encounter",
+      "location": "Bosa Dungeon - Arena Agni",
+      "pov": null,
+      "mood": "intense",
+      "summary": "The party battles the giant Agni Centipede, strategizing to defeat it while using their abilities.",
+      "text": "A fierce battle against the Kelabang Agni ensues with teamwork, special abilities, and quick thinking.",
+      "events": [
+        {
+          "event_id": "ev_002_001",
+          "chapter_id": "chapter_002",
+          "scene_id": "sc_002",
+          "seq": 1,
+          "location": "Bosa Dungeon - Arena Agni",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "WiraMadha",
+            "HoppyLite",
+            "DrakeCloud",
+            "Sylvia",
+            "Rere"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "The team battles the Agni Centipede, using their skills effectively to survive and defeat the monster."
+        },
+        {
+          "event_id": "ev_002_002",
+          "chapter_id": "chapter_002",
+          "scene_id": "sc_002",
+          "seq": 2,
+          "location": "Bosa Dungeon - Arena Agni",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "WiraMadha",
+            "Sylvia"
+          ],
+          "acquired_items": [
+            "Essence Shard - Spirit Rain Boost +10%"
+          ],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [
+            "ev_002_001"
+          ],
+          "summary": "After defeating the boss, WiraMadha and Sylvia discuss their next steps and agree to team up for future quests."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "WiraMadha",
+      "aliases": []
+    },
+    {
+      "canonical": "Osmo",
+      "aliases": []
+    },
+    {
+      "canonical": "HoppyLite",
+      "aliases": []
+    },
+    {
+      "canonical": "DrakeCloud",
+      "aliases": []
+    },
+    {
+      "canonical": "Sylvia",
+      "aliases": []
+    },
+    {
+      "canonical": "Rere",
+      "aliases": []
+    }
+  ]
+}

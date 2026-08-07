@@ -1,0 +1,1172 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>chapter_003 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+<style>
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    --dark: #0f172a;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --accent-red: #ef4444;
+    --accent-red-bg: #fee2e2;
+    --accent-amber: #f59e0b;
+    --accent-amber-bg: #fef3c7;
+    --accent-blue: #3b82f6;
+    --accent-blue-bg: #dbeafe;
+    --accent-green: #10b981;
+    --accent-green-bg: #d1fae5;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+header {
+    padding: 36px 48px;
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    border-bottom: 4px solid var(--primary);
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    margin: 8px 0 0 0;
+    font-size: 15px;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+.container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.metric-card .label {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-card .value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-top: 10px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    background: #f1f5f9;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    width: fit-content;
+}
+
+.tab-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--dark);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.tab-btn.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.tab {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.good {
+    color: var(--accent-green);
+    font-weight: 700;
+    background: var(--accent-green-bg);
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Bug list and items styling */
+.bug-item {
+    border-left: 6px solid var(--accent-red);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff5f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    border-left-width: 6px;
+}
+
+.bug-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.bug-item.severity-high {
+    border-left-color: var(--accent-red);
+    background: #fff8f8;
+}
+
+.bug-item.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.bug-item.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.bug-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-high {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+}
+
+.badge-medium {
+    background: var(--accent-amber-bg);
+    color: #92400e;
+}
+
+.badge-low {
+    background: var(--accent-blue-bg);
+    color: #1e40af;
+}
+
+.bug-detail {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 14px;
+}
+
+.bug-detail p {
+    margin: 6px 0;
+}
+
+/* Character Sheet styles */
+.character-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.character-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.character-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.char-header {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+}
+
+.char-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.char-name-container h3 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.char-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+}
+
+.char-section h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.char-section p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.risk-none .risk-message {
+    background: var(--accent-green-bg);
+    color: #065f46;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.risk-active .risk-message {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-red);
+    line-height: 1.4;
+}
+
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.item-badge {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+.no-items {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.analysis-box {
+    margin-top: 16px;
+    background: #f8fafc;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-left-width: 5px;
+}
+
+.arc-analysis h4 {
+    margin: 12px 0 4px 0;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.arc-analysis p {
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.arc-card {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+}
+
+.arc-card img {
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 12px;
+}
+
+.timeline {
+    border-left: 4px solid var(--primary);
+    margin-left: 12px;
+    padding-left: 24px;
+}
+
+.timeline-item {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border: 4px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.timeline-item h4 {
+    margin: 0 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--dark);
+}
+
+.graph-box {
+    height: 540px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.node-label {
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.search-box {
+    padding: 12px 16px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 12px 0;
+}
+
+.timeline-meta span {
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+details {
+    background: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+</style>
+</head>
+
+<body>
+<header>
+    <h1>Chapter 003</h1>
+    <p>Interactive Narrative Debugging Dashboard · Chapter ID: <strong>chapter_003</strong></p>
+</header>
+
+<div class="container">
+
+    <div class="grid">
+        <div class="metric-card">
+            <div class="label">Similarity to Baseline</div>
+            <div class="value">0.8629</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Drift Score</div>
+            <div class="value">0.1371</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Bugs Found</div>
+            <div class="value">12</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">High Severity</div>
+            <div class="value">8</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Overall Chapter Summary</h2>
+        <p>Wira and Sylvia journey toward Gunung Bromo but face challenges with their mounts. They stop in Suradikarta to upgrade Sylvia&#x27;s mount, discuss skills, and prepare to hunt a World Boss.</p>
+    </div>
+
+    <div class="tabs">
+        <button id="tab-overview" class="tab-btn active" onclick="openTab('overview')">Overview</button>
+        <button id="tab-bugs" class="tab-btn" onclick="openTab('bugs')">Story Bugs</button>
+        <button id="tab-charactersheet" class="tab-btn" onclick="openTab('charactersheet')">Character Sheet</button>
+        <button id="tab-arcs" class="tab-btn" onclick="openTab('arcs')">Character Arcs</button>
+        <button id="tab-timeline" class="tab-btn" onclick="openTab('timeline')">Timeline</button>
+        <button id="tab-graph" class="tab-btn" onclick="openTab('graph')">Lore Graph</button>
+    </div>
+
+    <section id="overview" class="tab active">
+        <div class="card">
+            <h2>Chapter Drift Analysis</h2>
+            <p><strong>Similarity:</strong> 0.8629</p>
+            <p><strong>Drift:</strong> 0.1371</p>
+            <p>Low drift. The chapter remains semantically close to the early story baseline.</p>
+            <canvas id="driftChart" height="90"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Bug Severity Distribution</h2>
+            <canvas id="bugChart" height="90"></canvas>
+        </div>
+    </section>
+
+    <section id="bugs" class="tab">
+        <div class="card">
+            <h2>Story Bugs Found</h2>
+            <input class="search-box" id="bugSearch" placeholder="Search bug rule/message..." oninput="filterBugs()">
+            <div id="bugList">
+                
+    <div class="bug-item severity-high" data-rule="duplicate_event_id_conflict">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>duplicate_event_id_conflict</strong>
+        </div>
+        <p>Event ID ev_001_001 appears with different summaries.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> The same event ID <code>ev_001_001</code>
+        is used for different narrative moments.</p>
+        <p><strong>Earlier version:</strong> Wira selects the quest to Mount Bromo and acquires a swift mount named Osmo.</p>
+        <p><strong>New version:</strong> Wira comforts Sylvia about her mount and they decide to search for a nearby town.</p>
+        <p><strong>Why it matters:</strong> duplicated event IDs can corrupt causality,
+        item ownership, memory tracking, and location tracking.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="duplicate_event_id_conflict">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>duplicate_event_id_conflict</strong>
+        </div>
+        <p>Event ID ev_002_001 appears with different summaries.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> The same event ID <code>ev_002_001</code>
+        is used for different narrative moments.</p>
+        <p><strong>Earlier version:</strong> The team battles the Agni Centipede, using their skills effectively to survive and defeat the monster.</p>
+        <p><strong>New version:</strong> Wira buys Sylvia a new mount and additional gear for their upcoming challenges.</p>
+        <p><strong>Why it matters:</strong> duplicated event IDs can corrupt causality,
+        item ownership, memory tracking, and location tracking.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>Wira appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>Sylvia appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-medium" data-rule="item_ownership_transfer_without_loss">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>item_ownership_transfer_without_loss</strong>
+        </div>
+        <p>Osmo moves from Cinta Bumi to Wira without explicit loss/give event.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates item continuity risk.
+        A character may be using, owning, or transferring an item without proper setup.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-medium" data-rule="item_ownership_transfer_without_loss">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>item_ownership_transfer_without_loss</strong>
+        </div>
+        <p>Osmo moves from Cinta Bumi to Sylvia without explicit loss/give event.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates item continuity risk.
+        A character may be using, owning, or transferring an item without proper setup.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>Wira appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>Sylvia appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="item_used_before_acquired">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>item_used_before_acquired</strong>
+        </div>
+        <p>Wira uses Potion LUK UP before acquiring it.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates item continuity risk.
+        A character may be using, owning, or transferring an item without proper setup.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="item_used_before_acquired">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>item_used_before_acquired</strong>
+        </div>
+        <p>Sylvia uses Potion LUK UP before acquiring it.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates item continuity risk.
+        A character may be using, owning, or transferring an item without proper setup.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-medium" data-rule="missing_details">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>missing_details</strong>
+        </div>
+        <p>WiraMadha purchases multiple high-value items for Sylvia, including a premium mount and expensive equipment, without a clear explanation of his financial situation despite previous mentions of grinding for gold. This raises the question of whether this wealth is inconsistent with prior character development.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> Missing Details</p>
+        <p><strong>Definition:</strong> A vital piece of information, a key item, or a character’s injury is forgotten, conveniently disappears, or magically reappears between chapters or scenes.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-medium" data-rule="contradiction">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>contradiction</strong>
+        </div>
+        <p>Sylvia’s introduction of her skill aspirations and the details of obtaining them conflicts with the nature of her character, as previously she seemed more of a novice who was focused on basics. Her knowledge of advanced skills and item requirements does not align with this perceived lack of experience.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> The Contradiction</p>
+        <p><strong>Definition:</strong> A character acts completely out of line with their established personality traits, or previously known facts are suddenly altered to fit a new scene.</p>
+        
+        </div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+
+    <section id="charactersheet" class="tab">
+        <div class="card">
+            <h2>Character Sheet</h2>
+            <p>Summary of character state, current actions, potential future plot hole risks, and acquired items/spells in this chapter.</p>
+            <div id="characterSheetBox" class="character-sheet-grid">
+                <!-- Dynamically filled by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="arcs" class="tab">
+        <div class="card">
+            <h2>Character Arc Analysis</h2>
+            
+            <div class="arc-card">
+                <h3>Buto Kalong</h3>
+                <img src="arc_Buto Kalong.png" alt="Emotion arc for Buto Kalong">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Buto Kalong's emotional journey begins with a sense of sadness as the quest to hunt him is laid out. This transitions to excitement as Wira and Sylvia anticipate facing the World Boss under the full moon.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Initially, Wira discusses the necessity of hunting Buto Kalong, setting a sobering tone. However, excitement builds as they learn of the specific conditions that allow the monster to appear, reflecting the characters' escalating enthusiasm for the challenge ahead.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The climax occurs when Buto Kalong appears, marking a pivotal moment. The emotional shift from planning to confrontation highlights both the risks and thrills involved in their endeavor, elevating anticipation.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter encapsulates the blend of fear and exhilaration associated with looming challenges. It effectively portrays the dual nature of adventure against seemingly daunting foes.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The initial sadness may feel inconsistent with the subsequent joy, as the character's emotional arc could benefit from a smoother transition between these conflicting emotions during their preparations.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>WiraMadha</h3>
+                <img src="arc_WiraMadha.png" alt="Emotion arc for WiraMadha">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>WiraMadha experiences a fluctuating emotional journey, initially feeling happiness as he progresses toward Gunung Bromo. However, this shifts to sadness upon realizing the inadequacy of Sylvia's mount, followed by a brief moment of anger. Ultimately, he regains a sense of positivity as they prepare for their next challenge.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Wira's emotions correlate closely with his actions. His laughter over his mount's speed contrasts sharply with his concern for Sylvia, prompting him to purchase her a premium mount and accessories, signifying deeper feelings of responsibility and care. This shift to sadness illustrates his empathy for her situation.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key turning point occurs when Wira decides to equip Sylvia not just with a mount but also with armor and accessories. This reflects his commitment to her growth and their shared journey, marking a shift in his emotional state from sadness back to a form of optimism.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>The emotional arc underscores themes of loyalty and support in relationships, as Wira navigates his feelings while ensuring Sylvia is prepared for challenges ahead.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The transition from sadness to anger appears abrupt, potentially leading to confusion regarding Wira's emotional consistency, as the actions do not fully justify this emotional variance.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Osmo</h3>
+                <img src="arc_Osmo.png" alt="Emotion arc for Osmo">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Osmo experiences a shift from excitement to sadness as the journey progresses. Initially, he feels happiness at the speed of Wira's mount, yet this is juxtaposed by a sense of sadness when a new mount is purchased for Sylvia, indicating feelings of inadequacy or loss.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>In this chapter, Osmo's actions are minimal; he primarily observes and processes the challenges faced by Sylvia's mount. His decision not to intervene or suggest backup reflects his internalized sadness regarding their mounting difficulties.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key moment occurs when Sylvia acquires the new emerald mount. This action symbolizes a significant change for Osmo, as it signals a moment of stepping up, reinforcing his emotional downturn as he grapples with his feelings of helplessness.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc highlights themes of companionship, competition, and the emotional impacts of perceived inadequacies among friends. As challenges arise, Osmo’s journey serves as a mirror to his internal conflicts.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional shift from joy to sadness lacks direct action support from Osmo, presenting a potential inconsistency. This could be mitigated by providing more insight into Osmo's reactions or thoughts during key events.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Sylvia</h3>
+                <img src="arc_Sylvia.png" alt="Emotion arc for Sylvia">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Sylvia experiences a fluctuating emotional journey, beginning with excitement about the adventure but transitioning into fear and sadness due to her inadequate mount. This is followed by surprise and joy when Wira provides her with a new mount and gear.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <pInitially, Wira comforts Sylvia about her struggle with her mount, prompting feelings of fear and sadness. As Wira buys her new gear, her initial skepticism turns to joy, reflecting her hopes for improvement. However, her feelings of fear return when she contemplates the upcoming challenge against the World Boss.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The pivotal moment occurs when Wira purchases the new mount and gear for Sylvia, significantly boosting her spirits and optimism for future challenges as she begins to envision her ideal build.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc illustrates themes of support, growth, and the complexities of self-worth, aligning Sylvia's emotional state with her journey toward empowerment through teamwork.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <pSome emotional spikes, particularly transitions between joy and fear, might feel abrupt without deeper exploration of Sylvia's internal conflict as they prepare for battle, suggesting a potential inconsistency in emotional engagement.</p>
+</div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="timeline" class="tab">
+        <div class="card">
+            <h2>Event Timeline</h2>
+            <div id="timelineBox" class="timeline"></div>
+        </div>
+    </section>
+
+    <section id="graph" class="tab">
+        <div class="card">
+            <h2>Lore Graph</h2>
+            <p>Nodes represent characters, scenes, events, items, facts, and locations.</p>
+            <div id="graphBox" class="graph-box"></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+const DASHBOARD_DATA = {"arcData": [], "timelineData": [{"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "Wira and Sylvia journey toward Gunung Bromo but face challenges with their mounts. They stop in Suradikarta to upgrade Sylvia's mount, discuss skills, and prepare to hunt a World Boss.", "scene_id": "sc_001", "scene_title": "Journey to Suradikarta", "scene_location": "Unknown", "scene_pov": null, "scene_mood": "determined", "scene_summary": "Wira and Sylvia discuss their mounts and decide to upgrade Sylvia's tired donkey. They make plans for future adventures and head to Suradikarta.", "scene_text": "Wira and Sylvia pause their journey as they discuss upgrading mounts and gear.", "event_id": "ev_001_001", "seq": 1, "event_location": "Unknown", "start_time": null, "end_time": null, "participants": ["Wira", "Sylvia"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Wira comforts Sylvia about her mount and they decide to search for a nearby town."}, {"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "Wira and Sylvia journey toward Gunung Bromo but face challenges with their mounts. They stop in Suradikarta to upgrade Sylvia's mount, discuss skills, and prepare to hunt a World Boss.", "scene_id": "sc_002", "scene_title": "Upgrade at Suradikarta", "scene_location": "Suradikarta", "scene_pov": null, "scene_mood": "excited", "scene_summary": "Wira buys Sylvia a new mount and offers her additional equipment. They discuss skills and equipment for their upcoming battle.", "scene_text": "In Suradikarta, Wira upgrades Sylvia's mount and offers her equipment while discussing skills.", "event_id": "ev_002_001", "seq": 1, "event_location": "Suradikarta", "start_time": null, "end_time": null, "participants": ["Wira", "Sylvia"], "acquired_items": ["Osmo", "armor akar roh", "tongkat kayu roh"], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Wira buys Sylvia a new mount and additional gear for their upcoming challenges."}, {"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "Wira and Sylvia journey toward Gunung Bromo but face challenges with their mounts. They stop in Suradikarta to upgrade Sylvia's mount, discuss skills, and prepare to hunt a World Boss.", "scene_id": "sc_003", "scene_title": "Preparing for the World Boss", "scene_location": "Danau Kaca Tiga Malam", "scene_pov": null, "scene_mood": "tense", "scene_summary": "Wira and Sylvia discuss the upcoming challenge of fighting Buto Kalong and prepare for the confrontation.", "scene_text": "They prepare to face Buto Kalong, discussing strategy and skills needed.", "event_id": "ev_003_001", "seq": 1, "event_location": "Danau Kaca Tiga Malam", "start_time": null, "end_time": null, "participants": ["Wira", "Sylvia"], "acquired_items": [], "used_items": ["Potion LUK UP"], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Wira and Sylvia discuss their plans and the skills they need before facing Buto Kalong."}, {"chapter_id": "chapter_003", "chapter_title": "Chapter 003", "chapter_synopsis": "Wira and Sylvia journey toward Gunung Bromo but face challenges with their mounts. They stop in Suradikarta to upgrade Sylvia's mount, discuss skills, and prepare to hunt a World Boss.", "scene_id": "sc_003", "scene_title": "Preparing for the World Boss", "scene_location": "Danau Kaca Tiga Malam", "scene_pov": null, "scene_mood": "tense", "scene_summary": "Wira and Sylvia discuss the upcoming challenge of fighting Buto Kalong and prepare for the confrontation.", "scene_text": "They prepare to face Buto Kalong, discussing strategy and skills needed.", "event_id": "ev_003_002", "seq": 2, "event_location": "Danau Kaca Tiga Malam", "start_time": null, "end_time": null, "participants": ["Wira", "Sylvia", "Buto Kalong"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "The World Boss Buto Kalong appears as they prepare for the fight."}], "graphData": {"nodes": [{"id": "chapter_003", "label": "chapter_003", "group": "chapter"}, {"id": "Wira", "label": "Wira", "group": "character"}, {"id": "Sylvia", "label": "Sylvia", "group": "character"}, {"id": "Buto Kalong", "label": "Buto Kalong", "group": "character"}, {"id": "scene:sc_001", "label": "sc_001", "group": "scene"}, {"id": "Unknown", "label": "Unknown", "group": "location"}, {"id": "event:ev_001_001", "label": "ev_001_001", "group": "event"}, {"id": "scene:sc_002", "label": "sc_002", "group": "scene"}, {"id": "Suradikarta", "label": "Suradikarta", "group": "location"}, {"id": "event:ev_002_001", "label": "ev_002_001", "group": "event"}, {"id": "Osmo", "label": "Osmo", "group": "item"}, {"id": "armor akar roh", "label": "armor akar roh", "group": "item"}, {"id": "tongkat kayu roh", "label": "tongkat kayu roh", "group": "item"}, {"id": "scene:sc_003", "label": "sc_003", "group": "scene"}, {"id": "Danau Kaca Tiga Malam", "label": "Danau Kaca Tiga Malam", "group": "location"}, {"id": "event:ev_003_001", "label": "ev_003_001", "group": "event"}, {"id": "Potion LUK UP", "label": "Potion LUK UP", "group": "item"}, {"id": "event:ev_003_002", "label": "ev_003_002", "group": "event"}], "links": [{"source": "chapter_003", "target": "Wira", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "Sylvia", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "Buto Kalong", "label": "HAS_CHARACTER"}, {"source": "chapter_003", "target": "scene:sc_001", "label": "HAS_SCENE"}, {"source": "scene:sc_001", "target": "Unknown", "label": "SET_IN"}, {"source": "scene:sc_001", "target": "event:ev_001_001", "label": "HAS_EVENT"}, {"source": "Wira", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "chapter_003", "target": "scene:sc_002", "label": "HAS_SCENE"}, {"source": "scene:sc_002", "target": "Suradikarta", "label": "SET_IN"}, {"source": "scene:sc_002", "target": "event:ev_002_001", "label": "HAS_EVENT"}, {"source": "Wira", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "event:ev_002_001", "target": "Osmo", "label": "ACQUIRES"}, {"source": "event:ev_002_001", "target": "armor akar roh", "label": "ACQUIRES"}, {"source": "event:ev_002_001", "target": "tongkat kayu roh", "label": "ACQUIRES"}, {"source": "chapter_003", "target": "scene:sc_003", "label": "HAS_SCENE"}, {"source": "scene:sc_003", "target": "Danau Kaca Tiga Malam", "label": "SET_IN"}, {"source": "scene:sc_003", "target": "event:ev_003_001", "label": "HAS_EVENT"}, {"source": "Wira", "target": "event:ev_003_001", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_003_001", "label": "PARTICIPATES"}, {"source": "event:ev_003_001", "target": "Potion LUK UP", "label": "USES"}, {"source": "scene:sc_003", "target": "event:ev_003_002", "label": "HAS_EVENT"}, {"source": "Wira", "target": "event:ev_003_002", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_003_002", "label": "PARTICIPATES"}, {"source": "Buto Kalong", "target": "event:ev_003_002", "label": "PARTICIPATES"}]}, "issueStats": {"high": 8, "medium": 4, "low": 0}, "characterSheet": [{"character": "WiraMadha", "narrative_summary": "WiraMadha plays a supportive and strategic role as he helps Sylvia upgrade her mount and equipment, displaying a confident demeanor.", "current_actions": "Purchases a premium mount and expensive equipment for Sylvia to prepare for their quest.", "risk_of_plot_hole": "His sudden ability to afford expensive items without prior explanation could lead to inconsistencies in his character's financial status.", "acquired_items_or_spells": ["Osmo Emerald", "Armor Akar Roh", "Tongkat Kayu Roh", "Aksesoris Mahal"]}, {"character": "Sylvia", "narrative_summary": "Sylvia showcases her character development by discussing her build aspirations while relying on Wira for support and guidance.", "current_actions": "Expresses surprise at the expensive items Wira buys for her and discusses her ideal skills with him.", "risk_of_plot_hole": "Her knowledge and ambition regarding advanced skills may create inconsistencies in the portrayal of her experience level.", "acquired_items_or_spells": ["Potion LUK UP"]}, {"character": "Buto Kalong", "narrative_summary": "The World Boss they are about to face, representing a significant challenge and objective for WiraMadha and Sylvia.", "current_actions": "None (Buto Kalong appears at the end of the chapter as they prepare for battle).", "risk_of_plot_hole": "The mechanics of its appearance and drop rate need to be carefully managed to avoid confusion in future battles.", "acquired_items_or_spells": []}]};
+
+function openTab(id) {
+    document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    
+    // Set correct active tab button
+    const btn = document.getElementById("tab-" + id);
+    if (btn) btn.classList.add("active");
+
+    if (id === "graph") {
+        setTimeout(renderGraph, 50);
+    }
+}
+
+function safeEscape(str) {
+    if (!str) return "";
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function filterBugs() {
+    const query = document.getElementById("bugSearch").value.toLowerCase();
+    document.querySelectorAll(".bug-item").forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? "block" : "none";
+    });
+}
+
+new Chart(document.getElementById("driftChart"), {
+    type: "bar",
+    data: {
+        labels: ["Similarity", "Drift"],
+        datasets: [{
+            label: "Semantic Score",
+            data: [0.8629, 0.1371],
+            backgroundColor: ["#4f46e5", "#ef4444"]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("bugChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["High", "Medium", "Low"],
+        datasets: [{
+            data: [
+                DASHBOARD_DATA.issueStats.high,
+                DASHBOARD_DATA.issueStats.medium,
+                DASHBOARD_DATA.issueStats.low
+            ],
+            backgroundColor: ["#ef4444", "#f59e0b", "#3b82f6"]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+
+function renderCharacterSheet() {
+    const box = document.getElementById("characterSheetBox");
+    const sheet = DASHBOARD_DATA.characterSheet || [];
+
+    if (!sheet.length) {
+        box.innerHTML = "<p>No character sheet data available for this chapter.</p>";
+        return;
+    }
+
+    box.innerHTML = sheet.map(char => {
+        const items = char.acquired_items_or_spells || [];
+        const itemsList = items.length 
+            ? items.map(item => `<span class="item-badge">${safeEscape(item)}</span>`).join(" ")
+            : "<span class='no-items'>None</span>";
+
+        const hasRisk = char.risk_of_plot_hole && char.risk_of_plot_hole.toLowerCase() !== "none";
+        const riskClass = hasRisk ? "risk-active" : "risk-none";
+
+        return `
+            <div class="character-card">
+                <div class="char-header">
+                    <div class="char-avatar">${safeEscape(char.character ? char.character[0] : "?")}</div>
+                    <div class="char-name-container">
+                        <h3>${safeEscape(char.character)}</h3>
+                    </div>
+                </div>
+                <div class="char-body">
+                    <div class="char-section">
+                        <h4>Narrative Summary</h4>
+                        <p>${safeEscape(char.narrative_summary)}</p>
+                    </div>
+                    <div class="char-section">
+                        <h4>Current Actions</h4>
+                        <p>${safeEscape(char.current_actions)}</p>
+                    </div>
+                    <div class="char-section ${riskClass}">
+                        <h4>Future Plot Hole Risk</h4>
+                        <div class="risk-message">
+                            ${hasRisk 
+                                ? `⚠️ ${safeEscape(char.risk_of_plot_hole)}`
+                                : `✅ No major risks detected`
+                            }
+                        </div>
+                    </div>
+
+                    <div class="char-section">
+                        <h4>Acquired Items & Spells</h4>
+                        <div class="items-container">${itemsList}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderTimeline() {
+    const box = document.getElementById("timelineBox");
+    const rows = DASHBOARD_DATA.timelineData || [];
+
+    if (!rows.length) {
+        box.innerHTML = "<p>No timeline data available.</p>";
+        return;
+    }
+
+    box.innerHTML = rows.map(ev => `
+        <div class="timeline-item">
+            <h4>${safeEscape(ev.chapter_id)} · ${safeEscape(ev.chapter_title || "-")}</h4>
+
+            <div class="timeline-meta">
+                <span><strong>Scene:</strong> ${safeEscape(ev.scene_id)} · ${safeEscape(ev.scene_title || "-")}</span>
+                <span><strong>POV:</strong> ${safeEscape(ev.scene_pov || "-")}</span>
+                <span><strong>Mood:</strong> ${safeEscape(ev.scene_mood || "-")}</span>
+                <span><strong>Location:</strong> ${safeEscape(ev.event_location || ev.scene_location || "-")}</span>
+            </div>
+
+            <h3>${safeEscape(ev.event_id)} · Event #${safeEscape(ev.seq)}</h3>
+            <p><strong>Event Summary:</strong> ${safeEscape(ev.summary || "-")}</p>
+            <p><strong>Scene Summary:</strong> ${safeEscape(ev.scene_summary || "-")}</p>
+
+            <details>
+                <summary>Show extracted details</summary>
+                <p><strong>Participants:</strong> ${safeEscape((ev.participants || []).join(", ") || "-")}</p>
+                <p><strong>Acquired Items:</strong> ${safeEscape((ev.acquired_items || []).join(", ") || "-")}</p>
+                <p><strong>Used Items:</strong> ${safeEscape((ev.used_items || []).join(", ") || "-")}</p>
+                <p><strong>Revelations:</strong> ${safeEscape((ev.revelations || []).join(", ") || "-")}</p>
+                <p><strong>Knowledge Gains:</strong> ${safeEscape(JSON.stringify(ev.knowledge_gains || {}))}</p>
+                <p><strong>Causal Parents:</strong> ${safeEscape((ev.causal_parents || []).join(", ") || "-")}</p>
+                <p><strong>Start Time:</strong> ${safeEscape(ev.start_time || "-")}</p>
+                <p><strong>End Time:</strong> ${safeEscape(ev.end_time || "-")}</p>
+                <p><strong>Scene Text:</strong> ${safeEscape(ev.scene_text || "-")}</p>
+            </details>
+        </div>
+    `).join("");
+}
+
+let graphRendered = false;
+
+function renderGraph() {
+    if (graphRendered) return;
+    graphRendered = true;
+
+    const data = DASHBOARD_DATA.graphData || {nodes: [], links: []};
+    const container = document.getElementById("graphBox");
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    if (!data.nodes.length) {
+        container.innerHTML = "<p style='padding:20px;'>No graph data available.</p>";
+        return;
+    }
+
+    const svg = d3.select("#graphBox")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    const color = d3.scaleOrdinal()
+        .domain(["chapter", "scene", "event", "character", "item", "fact", "location"])
+        .range(["#0f172a", "#2563eb", "#7c3aed", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"]);
+
+    const simulation = d3.forceSimulation(data.nodes)
+        .force("link", d3.forceLink(data.links).id(d => d.id).distance(105))
+        .force("charge", d3.forceManyBody().strength(-300))
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const link = svg.append("g")
+        .selectAll("line")
+        .data(data.links)
+        .enter()
+        .append("line")
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2);
+
+    const node = svg.append("g")
+        .selectAll("circle")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 9)
+        .attr("fill", d => color(d.group))
+        .call(drag(simulation));
+
+    const label = svg.append("g")
+        .selectAll("text")
+        .data(data.nodes)
+        .enter()
+        .append("text")
+        .attr("class", "node-label")
+        .text(d => d.label)
+        .attr("dx", 12)
+        .attr("dy", 4)
+        .attr("fill", "#334155");
+
+    node.append("title").text(d => `${d.label} (${d.group})`);
+
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        label
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+    });
+
+    function drag(simulation) {
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        return d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended);
+    }
+}
+
+renderCharacterSheet();
+renderTimeline();
+</script>
+
+</body>
+</html>

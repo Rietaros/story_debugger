@@ -1,0 +1,16 @@
+[
+  {
+    "character": "Mr. Surya",
+    "narrative_summary": "Mr. Surya is the middle-aged barista who manages the coffee shop 'Senja Kala'. He provides a warm and welcoming atmosphere for the customers.",
+    "current_actions": "Mr. Surya serves the young customer with a special coffee called Lamunan Senja and shares a moment of reflection regarding the mysterious single chair in the corner.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Young Customer",
+    "narrative_summary": "A young man in a worn brown jacket who enters the shop looking weary yet curious, seeking comfort in a cup of coffee.",
+    "current_actions": "The young customer orders the Lamunan Senja coffee and engages in a brief dialogue with Mr. Surya regarding the mysterious chair in the shop.",
+    "risk_of_plot_hole": "None",
+    "acquired_items_or_spells": []
+  }
+]

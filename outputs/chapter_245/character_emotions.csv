@@ -1,0 +1,252 @@
+chapter_id,sentence_index,character,emotion_raw,emotion,score,sentence
+chapter_245,1,Tuan Rimuru,LABEL_2,senang,0.814690887928009,"Sama seperti yang aku pikirkan ini,
+
+“Tidak, tida… Kekuatan, kekuatanku habis pada saat terakhir…”
+
+Veldora dengan keras berkata seolah-olah untuk memaafkan apa yang telah terjadi."
+chapter_245,1,Veldora-san,LABEL_2,senang,0.814690887928009,"Sama seperti yang aku pikirkan ini,
+
+“Tidak, tida… Kekuatan, kekuatanku habis pada saat terakhir…”
+
+Veldora dengan keras berkata seolah-olah untuk memaafkan apa yang telah terjadi."
+chapter_245,3,Tuan Rimuru,LABEL_2,senang,0.9921600222587585,"Padahal, aku tidak merasa ingin mengumpulkan sedikit pun perhatian untuknya."
+chapter_245,7,Veldora-san,LABEL_2,senang,0.8773878812789917,"Lagi pula, meskipun itu adalah ledakan besar, tampaknya Veldora adalah satu-satunya yang menerima kerusakan darinya."
+chapter_245,9,Veldora-san,LABEL_2,senang,0.7896291017532349,"Yah, ada perasaan nyaman yang aneh saat mengetahui bahwa Veldora akan baik-baik saja bahkan jika dia terluka parah."
+chapter_245,13,Tuan Rimuru,LABEL_2,senang,0.9547675848007202,"“Hmph, itulah yang akan aku katakan!"
+chapter_245,14,Tuan Rimuru,LABEL_2,senang,0.8124507069587708,"Aku akan menerobos dengan kasar, jadi kenapa kamu tiba-tiba menutup “Koridor”!?”"
+chapter_245,15,Tuan Rimuru,LABEL_2,senang,0.9175704717636108,"Aku bertanya sambil menghela nafas, dan Veldora membalas seolah-olah sedang mengamuk."
+chapter_245,15,Veldora-san,LABEL_2,senang,0.9175704717636108,"Aku bertanya sambil menghela nafas, dan Veldora membalas seolah-olah sedang mengamuk."
+chapter_245,18,Veldora-san,LABEL_2,senang,0.6837522983551025,Veldora adalah yang paling boros dalam hal menguras mana kamu.
+chapter_245,19,Tuan Rimuru,LABEL_2,senang,0.485059529542923,"aku ingin menghukumnya sedikit, jadi aku menghitungnya untuk menjadi liar sehingga dia sendiri yang akan memberikan beberapa kerusakan."
+chapter_245,20,Tuan Rimuru,LABEL_2,senang,0.761319637298584,"Dan kemudian aku menutupnya ""Koridor Jiwa"" pada waktu terbaik.)"
+chapter_245,22,Ciel-san,LABEL_1,takut,0.9845207333564758,"Juga, untuk beberapa alasan, Ciel tampak sangat marah."
+chapter_245,23,Tuan Rimuru,LABEL_1,takut,0.46472764015197754,"Dia bilang dia telah mengizinkannya untuk menggunakannya secara bebas dalam percakapan sebelumnya, jadi apa perubahan sikap yang tiba-tiba ini …
+
+(Pertama-tama, aku menekan penggunaan energi agar tidak menyia-nyiakannya."
+chapter_245,24,Tuan Rimuru,LABEL_2,senang,0.9729676842689514,"Namun, Veldora itu–)
+
+“aku melihat kamu menyerap energi dan berpikir aku akan menyalinnya!"
+chapter_245,24,Veldora-san,LABEL_2,senang,0.9729676842689514,"Namun, Veldora itu–)
+
+“aku melihat kamu menyerap energi dan berpikir aku akan menyalinnya!"
+chapter_245,25,Tuan Rimuru,LABEL_2,senang,0.9181564450263977,Dan aku sangat dekat untuk bisa benar-benar bertenaga.”
+chapter_245,27,Tuan Rimuru,LABEL_2,senang,0.5834963321685791,"aku tidak berpikir begitu…”
+
+Inilah yang dimaksud dengan benar-benar jengkel."
+chapter_245,28,Tuan Rimuru,LABEL_0,marah,0.5692513585090637,"aku tidak akan menyuruhnya untuk tidak pernah meniru orang lain, tetapi aku akan menghargainya jika dia tidak menggunakan situasi yang penuh tekanan seperti ini untuk mencoba dan menguji sesuatu yang jelas-jelas pasti akan gagal."
+chapter_245,29,Veldora-san,LABEL_2,senang,0.845649003982544,"Pertama-tama, Veldora bahkan tidak memiliki kemampuan untuk mengubah energi, jadi bagaimana dia bisa meningkatkan kekuatannya…
+
+Hampir mengesankan bahwa dia bisa gagal dalam pekerjaan sederhana seperti biasanya menekannya untuk penyeimbang."
+chapter_245,30,Veldora-san,LABEL_2,senang,0.9305129647254944,Veldora telah mengendalikannya dengan kekuatan saja.
+chapter_245,36,Ciel-san,LABEL_2,senang,0.8597284555435181,"Jadi begitu…
+
+Aku yakin Ciel setidaknya tidak akan kesulitan memprosesnya, tapi mengirimkan hal-hal aneh bisa menjadi berbahaya jika itu berubah menjadi kebiasaan."
+chapter_245,36,Tuan Rimuru,LABEL_2,senang,0.8597284555435181,"Jadi begitu…
+
+Aku yakin Ciel setidaknya tidak akan kesulitan memprosesnya, tapi mengirimkan hal-hal aneh bisa menjadi berbahaya jika itu berubah menjadi kebiasaan."
+chapter_245,41,Veldora-san,LABEL_1,takut,0.9415950179100037,Itu sebabnya dia menyuruh Veldora menyapu arang seperti ini.
+chapter_245,42,Veldora-san,LABEL_0,marah,0.4546031355857849,"Dia telah melakukannya pada saat penjagaannya turun, jadi bahkan Veldora tidak bisa mengatasinya."
+chapter_245,43,Ciel-san,LABEL_2,senang,0.9801939725875854,"Yah, dia juga mungkin sedang menunggu saat dimana Ciel tidak akan bisa mengatasinya."
+chapter_245,44,Tuan Rimuru,LABEL_2,senang,0.5693773627281189,aku sangat terkejut bahwa pertempuran ofensif dan defensif yang bodoh itu terjadi tanpa aku sadari.
+chapter_245,46,Tuan Rimuru,LABEL_1,takut,0.7589400410652161,"“Grrr… Tidak adil kalau hanya Rimuru yang bisa menggunakan kemampuan berguna seperti itu…”
+
+Jangan marah padaku."
+chapter_245,50,Veldora-san,LABEL_3,sedih,0.9686237573623657,"""Veldora, kamu—""
+
+Lihat."
+chapter_245,51,Velgrynd,LABEL_2,senang,0.9223626852035522,"Tidak bisakah kamu melihat Velgrynd, meletakkan pedangnya di bahunya dan melotot ke sini melalui mata setengah terbuka?"
+chapter_245,53,Tuan Rimuru,LABEL_2,senang,0.9300116896629333,aku mengatakan sebanyak itu kepada Veldora melalui kontak mata.
+chapter_245,53,Veldora-san,LABEL_2,senang,0.9300116896629333,aku mengatakan sebanyak itu kepada Veldora melalui kontak mata.
+chapter_245,55,Veldora-san,LABEL_2,senang,0.9972109198570251,Wajah Veldora sepertinya berkata saat itu berubah menjadi paling menyedihkan.
+chapter_245,57,Tuan Rimuru,LABEL_2,senang,0.9643399715423584,Dia melihat bolak-balik antara aku dan dua saudara perempuannya dengan ekspresi bingung.
+chapter_245,59,Tuan Rimuru,LABEL_0,marah,0.9033176898956299,aku yakin bahkan kamu akan dapat menggunakannya jika kamu berusaha cukup keras.
+chapter_245,61,Velda,LABEL_2,senang,0.4473455250263214,"Tapi hal pertama yang pertama, kamu harus membantu kami mengalahkan Velda. ”"
+chapter_245,62,Tuan Rimuru,LABEL_2,senang,0.9454519152641296,aku memutuskan untuk mengirim Veldora sekoci kecil.
+chapter_245,62,Veldora-san,LABEL_2,senang,0.9454519152641296,aku memutuskan untuk mengirim Veldora sekoci kecil.
+chapter_245,63,Tuan Rimuru,LABEL_2,senang,0.6988933086395264,"Sebagian karena itu akan menjengkelkan jika dia memutuskan untuk merajuk sekarang, tapi aku juga merasa tidak enak melihatnya gemetar seperti ini di depan saudara perempuannya."
+chapter_245,64,Tuan Rimuru,LABEL_2,senang,0.9211397767066956,Jadi aku bertindak seolah-olah ini semua sesuai dengan rencana kami dan hanya ada sedikit kecelakaan.
+chapter_245,66,Tuan Rimuru,LABEL_2,senang,0.9798032641410828,"Memang, sepertinya aku hanya sedikit terlalu percaya diri."
+chapter_245,69,Tuan Rimuru,LABEL_2,senang,0.9658452272415161,"Sekarang, aku akan kembali ke dalam dirimu dan membantumu!”"
+chapter_245,70,Veldora-san,LABEL_2,senang,0.8067225217819214,"Veldora berkata dengan sombong, lalu kembali ke dalam diriku seolah-olah melarikan diri."
+chapter_245,72,Tuan Rimuru,LABEL_2,senang,0.9855452179908752,"Yah, karena dia ingin membantu, aku memutuskan agar Veldora menghuni katanaku."
+chapter_245,72,Veldora-san,LABEL_2,senang,0.9855452179908752,"Yah, karena dia ingin membantu, aku memutuskan agar Veldora menghuni katanaku."
+chapter_245,73,Tuan Rimuru,LABEL_2,senang,0.8689275979995728,Dia memberi aku persetujuannya dan berubah menjadi 'Inti Naga Sejati' yang aku masukkan ke dalam pedang aku.
+chapter_245,74,Tuan Rimuru,LABEL_2,senang,0.9587559103965759,"Seperti yang cocok untuk pertempuran yang menentukan, aku tidak ingin menahan apa pun."
+chapter_245,75,Tuan Rimuru,LABEL_0,marah,0.6065791249275208,"Itu akan membuat Velda sangat berhati-hati jika Veldora berubah tepat di depannya, jadi lebih baik aku bisa mengambilnya kembali seperti ini, secara alami."
+chapter_245,75,Velda,LABEL_0,marah,0.6065791249275208,"Itu akan membuat Velda sangat berhati-hati jika Veldora berubah tepat di depannya, jadi lebih baik aku bisa mengambilnya kembali seperti ini, secara alami."
+chapter_245,75,Veldora-san,LABEL_0,marah,0.6065791249275208,"Itu akan membuat Velda sangat berhati-hati jika Veldora berubah tepat di depannya, jadi lebih baik aku bisa mengambilnya kembali seperti ini, secara alami."
+chapter_245,76,Tuan Rimuru,LABEL_2,senang,0.9948679208755493,"Sepertinya aku hanya mengambilnya karena dia terluka, yang berarti dia tidak akan menyadari perubahan katanaku."
+chapter_245,77,Veldora-san,LABEL_2,senang,0.3644215166568756,"Tindakan nakal Veldora cukup mengejutkan, tapi mungkin itu yang terbaik."
+chapter_245,78,Velda,LABEL_2,senang,0.7972210049629211,"◇◇◇
+
+Nah sekarang, persiapan telah dilakukan, jadi satu-satunya yang tersisa adalah menghancurkan Velda."
+chapter_245,82,Guy,LABEL_2,senang,0.9849473834037781,"Bahkan dikatakan bahwa ketika Guy dan Milim bertarung berabad-abad yang lalu, itu melahirkan gurun yang sunyi."
+chapter_245,82,Milim,LABEL_2,senang,0.9849473834037781,"Bahkan dikatakan bahwa ketika Guy dan Milim bertarung berabad-abad yang lalu, itu melahirkan gurun yang sunyi."
+chapter_245,86,Tuan Rimuru,LABEL_3,sedih,0.5539817214012146,"aku senang dengan tawaran itu, tetapi aku yakin aku bisa melakukannya sendiri."
+chapter_245,87,Tuan Rimuru,LABEL_2,senang,0.4926067888736725,"aku berencana untuk mengayunkan Pedang Veldora ini, jadi yang terbaik adalah tidak melibatkan orang lain."
+chapter_245,87,Veldora-san,LABEL_2,senang,0.4926067888736725,"aku berencana untuk mengayunkan Pedang Veldora ini, jadi yang terbaik adalah tidak melibatkan orang lain."
+chapter_245,88,Tuan Rimuru,LABEL_2,senang,0.9420362710952759,"“Tidak, aku akan melawannya sendiri."
+chapter_245,89,Ramiris,LABEL_0,marah,0.9145198464393616,"Tapi, aku bermaksud menggunakan semua kekuatan aku untuk ini, jadi akan sangat bagus jika kamu bisa membantu Ramiris dengan penghalang."
+chapter_245,89,Tuan Rimuru,LABEL_0,marah,0.9145198464393616,"Tapi, aku bermaksud menggunakan semua kekuatan aku untuk ini, jadi akan sangat bagus jika kamu bisa membantu Ramiris dengan penghalang."
+chapter_245,90,Velda,LABEL_1,takut,0.39189329743385315,"Kami tidak ingin Velda melarikan diri dari sini, jadi kami harus mengambil semua tindakan yang mungkin.”"
+chapter_245,94,Guy,LABEL_3,sedih,0.952394425868988,"laporkan iklan ini
+
+Guy mengangguk dan mulai membantu Ramiris memperkuat 'penghalang dunia' yang menutupi dunia selestial ini."
+chapter_245,94,Ramiris,LABEL_3,sedih,0.952394425868988,"laporkan iklan ini
+
+Guy mengangguk dan mulai membantu Ramiris memperkuat 'penghalang dunia' yang menutupi dunia selestial ini."
+chapter_245,95,Tuan Rimuru,LABEL_2,senang,0.9771080017089844,"“Rimuru, aku mengandalkanmu!”"
+chapter_245,96,Guy,LABEL_2,senang,0.9810676574707031,"Milim menatapku dengan mata penuh harapan, lalu dia mengikuti jejak Guy dan mulai menuangkan kekuatannya ke Gaia, yang dia pegang."
+chapter_245,96,Milim,LABEL_2,senang,0.9810676574707031,"Milim menatapku dengan mata penuh harapan, lalu dia mengikuti jejak Guy dan mulai menuangkan kekuatannya ke Gaia, yang dia pegang."
+chapter_245,98,Tuan Rimuru,LABEL_3,sedih,0.6918615698814392,"""Tuan Rimuru, semoga kamu menang!"""
+chapter_245,99,Diablo,LABEL_2,senang,0.4780882000923157,"Diablo menjaga Testarossa dan yang lainnya, sementara dia mengirim kata-kata penyemangat."
+chapter_245,99,Testarossa,LABEL_2,senang,0.4780882000923157,"Diablo menjaga Testarossa dan yang lainnya, sementara dia mengirim kata-kata penyemangat."
+chapter_245,102,Tuan Rimuru,LABEL_2,senang,0.983712911605835,aku menantikannya.”
+chapter_245,103,Tuan Rimuru,LABEL_1,takut,0.8771929740905762,"“Kalau-kalau aku entah bagaimana kalah–”
+
+""Kamu sedang bercanda."
+chapter_245,105,Diablo,LABEL_2,senang,0.3799417018890381,Diablo menyatakan dengan perasaan percaya sepenuhnya.
+chapter_245,106,Diablo,LABEL_2,senang,0.9518409967422485,"aku tidak punya niat untuk kehilangan diri aku sendiri, tapi itu bukan jaminan untuk menang…
+
+Tapi Diablo tampaknya tidak memiliki sedikit keraguan bahwa aku akan menang."
+chapter_245,106,Tuan Rimuru,LABEL_2,senang,0.9518409967422485,"aku tidak punya niat untuk kehilangan diri aku sendiri, tapi itu bukan jaminan untuk menang…
+
+Tapi Diablo tampaknya tidak memiliki sedikit keraguan bahwa aku akan menang."
+chapter_245,107,Tuan Rimuru,LABEL_2,senang,0.9451169967651367,"""Menguasai-""
+
+“Aku akan mengakhiri semuanya."
+chapter_245,108,Tuan Rimuru,LABEL_2,senang,0.9803990721702576,Sepertinya aku akhirnya bisa membantumu.”
+chapter_245,109,Tuan Rimuru,LABEL_1,takut,0.4940055310726166,"“Aku, tuan… Jika sepertinya kamu akan kalah–”
+
+""Jangan khawatir."
+chapter_245,110,Tuan Rimuru,LABEL_2,senang,0.9678879976272583,Apakah kamu tidak mendengar mereka mengatakan bahwa tidak mungkin bagi aku untuk dikalahkan?
+chapter_245,111,Tuan Rimuru,LABEL_2,senang,0.334137499332428,"Yah, apakah itu benar atau tidak, adalah sesuatu yang lebih baik aku cepat dan buktikan. ”"
+chapter_245,112,Chloe,LABEL_3,sedih,0.6935883164405823,"Aku dengan riang mengutip kata-kata Diablo, yang akhirnya membuat Chloe tersenyum."
+chapter_245,112,Diablo,LABEL_3,sedih,0.6935883164405823,"Aku dengan riang mengutip kata-kata Diablo, yang akhirnya membuat Chloe tersenyum."
+chapter_245,112,Tuan Rimuru,LABEL_3,sedih,0.6935883164405823,"Aku dengan riang mengutip kata-kata Diablo, yang akhirnya membuat Chloe tersenyum."
+chapter_245,114,Tuan Rimuru,LABEL_2,senang,0.9871686697006226,"Aku akan menunggu."""
+chapter_245,115,Tuan Rimuru,LABEL_2,senang,0.9651407599449158,Ekspresi khawatirnya telah melunak dan aku bisa merasakan kekuatan dalam kata-katanya ketika dia mengatakan bahwa dia akan menungguku.
+chapter_245,116,Chloe,LABEL_2,senang,0.8113380074501038,"aku sedikit khawatir tentang Chloe, yang tampak sedikit tidak stabil, tetapi aku tahu dia akan baik-baik saja sekarang."
+chapter_245,116,Tuan Rimuru,LABEL_2,senang,0.8113380074501038,"aku sedikit khawatir tentang Chloe, yang tampak sedikit tidak stabil, tetapi aku tahu dia akan baik-baik saja sekarang."
+chapter_245,117,Chloe,LABEL_3,sedih,0.8717275261878967,"Guy, Milim, Ramiris, Chloe, Diablo dan Testarossa dan yang lainnya."
+chapter_245,117,Diablo,LABEL_3,sedih,0.8717275261878967,"Guy, Milim, Ramiris, Chloe, Diablo dan Testarossa dan yang lainnya."
+chapter_245,117,Guy,LABEL_3,sedih,0.8717275261878967,"Guy, Milim, Ramiris, Chloe, Diablo dan Testarossa dan yang lainnya."
+chapter_245,117,Milim,LABEL_3,sedih,0.8717275261878967,"Guy, Milim, Ramiris, Chloe, Diablo dan Testarossa dan yang lainnya."
+chapter_245,117,Ramiris,LABEL_3,sedih,0.8717275261878967,"Guy, Milim, Ramiris, Chloe, Diablo dan Testarossa dan yang lainnya."
+chapter_245,117,Testarossa,LABEL_3,sedih,0.8717275261878967,"Guy, Milim, Ramiris, Chloe, Diablo dan Testarossa dan yang lainnya."
+chapter_245,118,Velgrynd,LABEL_3,sedih,0.795394241809845,"Saudara perempuan naga, Velzado dan Velgrynd."
+chapter_245,120,Tuan Rimuru,LABEL_2,senang,0.9329484701156616,"Semua tatapan mereka terfokus pada punggungku, jadi aku mengangkat satu tangan sebagai jawaban."
+chapter_245,121,Tuan Rimuru,LABEL_2,senang,0.9968153834342957,Aku terus menatap Velda.
+chapter_245,121,Velda,LABEL_2,senang,0.9968153834342957,Aku terus menatap Velda.
+chapter_245,122,Tuan Rimuru,LABEL_2,senang,0.9958093166351318,“Aku membuatmu menunggu.
+chapter_245,126,Tuan Rimuru,LABEL_2,senang,0.493813693523407,Tidak akan menjadi hal yang sulit bagiku untuk membunuh kalian semua jika aku menggunakan semua kekuatanku.”
+chapter_245,128,Tuan Rimuru,LABEL_2,senang,0.9881176352500916,"aku ragu itu, tetapi kamu mungkin juga mencoba. ”"
+chapter_245,129,Tuan Rimuru,LABEL_2,senang,0.9876300692558289,"Mata aku dan Velda bertemu, dan pada saat yang sama, begitu pula pedang kami."
+chapter_245,129,Velda,LABEL_2,senang,0.9876300692558289,"Mata aku dan Velda bertemu, dan pada saat yang sama, begitu pula pedang kami."
+chapter_245,132,Velda,LABEL_4,terkejut,0.7596081495285034,Wajah Velda berubah menjadi kaget.
+chapter_245,136,Tuan Rimuru,LABEL_2,senang,0.8764594197273254,"aku pikir aku akan mengakhiri Velda sekarang, sehingga suara ini bisa menjadi requiem-nya."
+chapter_245,136,Velda,LABEL_2,senang,0.8764594197273254,"aku pikir aku akan mengakhiri Velda sekarang, sehingga suara ini bisa menjadi requiem-nya."
+chapter_245,137,Velda,LABEL_4,terkejut,0.6903817653656006,Velda tidak panik tetapi malah menciptakan pedang yang sama sekali baru.
+chapter_245,138,Tuan Rimuru,LABEL_2,senang,0.6321430206298828,"aku terkesan bahwa dia segera menguasai dirinya sendiri, tetapi kami telah membuktikan bahwa pedang seperti itu tidak cocok untuk Pedang Veldora."
+chapter_245,138,Veldora-san,LABEL_2,senang,0.6321430206298828,"aku terkesan bahwa dia segera menguasai dirinya sendiri, tetapi kami telah membuktikan bahwa pedang seperti itu tidak cocok untuk Pedang Veldora."
+chapter_245,139,Tuan Rimuru,LABEL_2,senang,0.7532240748405457,Aku mengayunkan katana sekali lagi dan meniup bagian atas pedangnya.
+chapter_245,140,Tuan Rimuru,LABEL_3,sedih,0.8680959343910217,"Hebat sekali dia bisa membuat banyak pedang tingkat Dewa, tapi aku juga bisa melakukan hal serupa."
+chapter_245,145,Veldora-san,LABEL_3,sedih,0.8531641960144043,"Katanaku, Pedang Veldora."
+chapter_245,146,Tuan Rimuru,LABEL_2,senang,0.7225088477134705,"aku belum pernah mendengar tentang Genesis ini sebelumnya, tetapi itu tidak terlalu penting."
+chapter_245,149,Veldora-san,LABEL_2,senang,0.9735385775566101,Hampir sia-sia untuk dengan malas menyebutnya Pedang Veldora.
+chapter_245,152,Tuan Rimuru,LABEL_2,senang,0.8892801403999329,"Jangan khawatir, aku tidak akan pernah melakukan hal seperti itu."
+chapter_245,153,Tuan Rimuru,LABEL_2,senang,0.9629537463188171,"aku pikir aku mendengar suara yang tidak puas, tetapi aku memutuskan untuk tidak memikirkannya."
+chapter_245,154,Tuan Rimuru,LABEL_2,senang,0.4973583519458771,“Aku tidak tahu kelas berapa pedang ini.
+chapter_245,157,Tuan Rimuru,LABEL_2,senang,0.9758487939834595,"Sementara aku punya banyak waktu, aku tidak akan menggunakannya hanya untuk bermain denganmu!”"
+chapter_245,158,Tuan Rimuru,LABEL_2,senang,0.9833444952964783,"Aku meludah ke arahnya, ingin ini selesai."
+chapter_245,160,Tuan Rimuru,LABEL_2,senang,0.9754703640937805,aku juga berpikir untuk keluar semua.
+chapter_245,161,Tuan Rimuru,LABEL_2,senang,0.9404323697090149,Tapi kemudian aku perhatikan ada yang salah dengan Velda.
+chapter_245,161,Velda,LABEL_2,senang,0.9404323697090149,Tapi kemudian aku perhatikan ada yang salah dengan Velda.
+chapter_245,163,Tuan Rimuru,LABEL_2,senang,0.6998171210289001,"Jangan mengejekku, aku penerus sejati Veldanava!!”"
+chapter_245,169,Tuan Rimuru,LABEL_2,senang,0.7074275016784668,kamu harus tersanjung bahwa kamu dapat membuat aku menggunakannya.
+chapter_245,177,Tuan Rimuru,LABEL_2,senang,0.8872442841529846,"Sementara itu tidak lagi menjadi kemenangan yang mudah bagi aku, bahkan ini adalah dalam apa yang aku perkirakan."
+chapter_245,178,Tuan Rimuru,LABEL_2,senang,0.8735583424568176,"“Itu lebih dari yang aku harapkan darimu Rimuru, bahwa kamu akan memiliki pedang untuk menyaingi pedang seperti Genesis."
+chapter_245,179,Tuan Rimuru,LABEL_2,senang,0.9794526100158691,"Tapi sekarang setelah aku menghunus pedang ini, waktumu sudah habis.”"
+chapter_245,180,Velda,LABEL_2,senang,0.77484530210495,Velda menyatakan dengan keyakinan baru.
+chapter_245,182,Tuan Rimuru,LABEL_2,senang,0.8958361744880676,"Itu adalah apa yang hanya bisa digambarkan sebagai kecepatan seperti dewa, dan aku meragukan siapa pun selain aku yang bisa bereaksi terhadapnya."
+chapter_245,183,Velda,LABEL_1,takut,0.928031325340271,"Tetapi-
+
+Dari sudut pandangku, gerakan Velda sangat ceroboh."
+chapter_245,184,Tuan Rimuru,LABEL_2,senang,0.9816591143608093,"Dia telah menyatakan bahwa dia telah selesai menguji aku, tetapi sepertinya bukan itu masalahnya?"
+chapter_245,185,Tuan Rimuru,LABEL_2,senang,0.9871138334274292,"Atau mungkin dia meremehkan aku seolah-olah aku sekarang berada di peringkat di bawahnya …
+
+Aku tidak terlalu peduli apapun itu."
+chapter_245,186,Tuan Rimuru,LABEL_2,senang,0.9957395792007446,aku hanya perlu melakukan apa yang seharusnya aku lakukan.
+chapter_245,188,Tuan Rimuru,LABEL_2,senang,0.9811216592788696,Aku bergumam dan katanaku keluar.
+chapter_245,189,Velda,LABEL_1,takut,0.911777675151825,Velda dengan panik mengubah arah pedangnya dan memblokir katanaku.
+chapter_245,192,Tuan Rimuru,LABEL_0,marah,0.6842125058174133,"Meskipun itu adalah gelombang kejut yang paling besar, itu tidak lebih dari angin lembut bagi aku."
+chapter_245,194,Tuan Rimuru,LABEL_2,senang,0.9710927605628967,"Itu hampir terlalu bodoh untuk menjadi kenyataan, aku pikir, dan menolak pemikiran itu."
+chapter_245,195,Tuan Rimuru,LABEL_2,senang,0.9838089346885681,"Ketika aku bertemu Velda di ibukota kekaisaran, aku merasakan kehadiran yang hampir mengerikan."
+chapter_245,195,Velda,LABEL_2,senang,0.9838089346885681,"Ketika aku bertemu Velda di ibukota kekaisaran, aku merasakan kehadiran yang hampir mengerikan."
+chapter_245,196,Tuan Rimuru,LABEL_2,senang,0.9839365482330322,aku masih percaya bahwa aku akan benar-benar kalah jika aku melawannya saat itu.
+chapter_245,199,Ciel-san,LABEL_2,senang,0.9850961565971375,"Seolah menjawab pertanyaan aku, Ciel menyatakan seolah-olah itu adalah fakta yang paling jelas."
+chapter_245,199,Tuan Rimuru,LABEL_2,senang,0.9850961565971375,"Seolah menjawab pertanyaan aku, Ciel menyatakan seolah-olah itu adalah fakta yang paling jelas."
+chapter_245,202,Tuan Rimuru,LABEL_2,senang,0.9903832077980042,Tapi sekarang kamu pada dasarnya mengatakan bahwa aku menjadi lebih kuat sampai ekstrim!?
+chapter_245,206,Ciel-san,LABEL_2,senang,0.9942647814750671,"Bahkan alasan Ciel hanya karena dia mengesampingkannya dengan nyaman, betapa hebatnya dia."
+chapter_245,208,Tuan Rimuru,LABEL_2,senang,0.6999993324279785,"Dengan 'Raphael Raja Kebijaksanaan,' kalau saja aku memiliki tangan aku di 'Raphael Raja Kebijaksanaan.'"
+chapter_245,209,Tuan Rimuru,LABEL_2,senang,0.9844964742660522,aku akan memiliki bentuk pamungkas !! ”
+chapter_245,210,Velda,LABEL_2,senang,0.9907987117767334,"Untuk beberapa alasan, Velda mulai berteriak dengan penyesalan."
+chapter_245,212,Tuan Rimuru,LABEL_2,senang,0.9852725863456726,Apakah dia berbicara tentang kemampuan pamungkas yang aku miliki?
+chapter_245,213,Ciel-san,LABEL_2,senang,0.7118383646011353,"Ciel telah mengatakan bahwa itu tidak perlu, dan telah menggabungkan dan menghapusnya."
+chapter_245,215,Tuan Rimuru,LABEL_2,senang,0.9935078620910645,"“Dulu aku punya, tapi sekarang sudah hilang."
+chapter_245,218,Tuan Rimuru,LABEL_2,senang,0.9263179898262024,Aku dengan dingin memberi tahu Velda.
+chapter_245,218,Velda,LABEL_2,senang,0.9263179898262024,Aku dengan dingin memberi tahu Velda.
+chapter_245,219,Tuan Rimuru,LABEL_2,senang,0.9512684941291809,"Ada sedikit rasa kasihan dalam kata-kata aku, tetapi kebanyakan aku hanya ingin menghancurkannya."
+chapter_245,221,Velda,LABEL_0,marah,0.866779625415802,Jadi deklarasi melawan Velda ini adalah salah satu yang bisa menjadi pukulan yang menentukan.
+chapter_245,224,Tuan Rimuru,LABEL_2,senang,0.969527542591095,"Maka aku tidak akan bisa membuktikan bahwa aku adalah Veldanava…”
+
+Ekspresinya menjadi hampa saat dia mulai menggumamkan kata-kata yang tidak berarti."
+chapter_245,227,Ciel-san,LABEL_2,senang,0.9251514077186584,Ciel mengirimkan pikirannya seolah-olah itu dimaksudkan untuk menjadi pukulan terakhir bagi Velda.
+chapter_245,227,Velda,LABEL_2,senang,0.9251514077186584,Ciel mengirimkan pikirannya seolah-olah itu dimaksudkan untuk menjadi pukulan terakhir bagi Velda.
+chapter_245,233,Ciel-san,LABEL_2,senang,0.981714129447937,"Rupanya, Ciel hanya mengatakan itu untuk membantuku mematahkan semangat Velda… Tapi aku merasa dia mungkin menyembunyikan sesuatu?"
+chapter_245,233,Tuan Rimuru,LABEL_2,senang,0.981714129447937,"Rupanya, Ciel hanya mengatakan itu untuk membantuku mematahkan semangat Velda… Tapi aku merasa dia mungkin menyembunyikan sesuatu?"
+chapter_245,233,Velda,LABEL_2,senang,0.981714129447937,"Rupanya, Ciel hanya mengatakan itu untuk membantuku mematahkan semangat Velda… Tapi aku merasa dia mungkin menyembunyikan sesuatu?"
+chapter_245,234,Tuan Rimuru,LABEL_2,senang,0.9573183059692383,Aku bahkan tidak tahu dia bisa mengirimkan keinginannya kepada orang lain.
+chapter_245,238,Tuan Rimuru,LABEL_2,senang,0.9697844386100769,"Tidak, bukan itu yang aku… Oh, sudahlah."
+chapter_245,239,Tuan Rimuru,LABEL_2,senang,0.9878409504890442,"Mungkin dia tidak berbohong, tapi aku juga merasa dia tidak mengatakan yang sebenarnya."
+chapter_245,241,Tuan Rimuru,LABEL_2,senang,0.7379366755485535,"Ini aku–aku Veldanava… Tidak akan menerima… Kalau saja aku memiliki 'Raja Kebijaksanaan Raphael,' Lucia yang asli akan menerimaku!!”"
+chapter_245,243,Velda,LABEL_1,takut,0.9070526361465454,"Velda sekarang dengan sembarangan mengayunkan ke arahku, tapi tentu saja, serangan loyo seperti itu tidak akan berpengaruh padaku."
+chapter_245,244,Tuan Rimuru,LABEL_2,senang,0.9762746691703796,Aku dengan ringan menepis pedangnya dan dia terbang menjauh sekali lagi.
+chapter_245,247,Tuan Rimuru,LABEL_1,takut,0.5886857509613037,"aku pikir ini, lalu–
+
+“Rimuru memenangkan yang ini.”"
+chapter_245,248,Guy,LABEL_3,sedih,0.7232900261878967,"laporkan iklan ini
+
+Aku mendengar Guy berkata."
+chapter_245,248,Tuan Rimuru,LABEL_3,sedih,0.7232900261878967,"laporkan iklan ini
+
+Aku mendengar Guy berkata."
+chapter_245,249,Guy,LABEL_1,takut,0.6084404587745667,"Hei, mengatakan sesuatu seperti itu adalah–
+
+“Tidak, Guy!"
+chapter_245,250,Tuan Rimuru,LABEL_1,takut,0.7042528390884399,"Ketika kamu mengatakan sesuatu seperti itu, aku pikir– itu mengaktifkan bendera, itu cukup terkenal di industri! ”"
+chapter_245,252,Tuan Rimuru,LABEL_3,sedih,0.9626756310462952,aku juga membaca buku manga Rimuru dan mempelajarinya.
+chapter_245,254,Guy,LABEL_2,senang,0.9769619703292847,Ramiris dan Milim menghentikan Guy sebelum aku bisa.
+chapter_245,254,Milim,LABEL_2,senang,0.9769619703292847,Ramiris dan Milim menghentikan Guy sebelum aku bisa.
+chapter_245,254,Ramiris,LABEL_2,senang,0.9769619703292847,Ramiris dan Milim menghentikan Guy sebelum aku bisa.
+chapter_245,254,Tuan Rimuru,LABEL_2,senang,0.9769619703292847,Ramiris dan Milim menghentikan Guy sebelum aku bisa.
+chapter_245,255,Guy,LABEL_2,senang,0.5234492421150208,"Namun, saudara perempuan naga dengan cepat datang untuk menyelamatkan Guy."
+chapter_245,257,Tuan Rimuru,LABEL_2,senang,0.5741161108016968,Sangat jelas bahwa Rimuru telah menang. ”
+chapter_245,259,Velda,LABEL_2,senang,0.987154483795166,"Velda mungkin memiliki kekuatan yang menakutkan mengingat dia penipu, tapi dia masih bukan tandingan saudara kandungnya."
+chapter_245,263,Tuan Rimuru,LABEL_2,senang,0.7051205039024353,"“Seperti yang sudah aku katakan, kata-kata seperti itu menjadi pendahulu musuh menjadi lebih kuat, jadi hentikan itu.”"
+chapter_245,266,Milim,LABEL_1,takut,0.8204971551895142,Milim berteriak dan Ramiris setuju.
+chapter_245,266,Ramiris,LABEL_1,takut,0.8204971551895142,Milim berteriak dan Ramiris setuju.
+chapter_245,268,Velda,LABEL_2,senang,0.8762117624282837,Velda tertawa terbahak-bahak saat dia bangkit kembali.
+chapter_245,270,Tuan Rimuru,LABEL_1,takut,0.8118305206298828,"Tidak, ekspresi itu mengatakan sesuatu yang lain–
+
+""Aku tahu itu."
+chapter_245,271,Tuan Rimuru,LABEL_2,senang,0.9839035272598267,"Itu seperti yang aku bayangkan, Rimuru.”"
+chapter_245,272,Tuan Rimuru,LABEL_0,marah,0.9173907041549683,"Itu adalah senyum yang aku kenal baik, dan suaranya halus."
+chapter_245,273,Yuuki,LABEL_2,senang,0.46536365151405334,"Cara bertindak ini, tidak salah lagi–
+
+“Apakah itu kamu, Yuuki?”"
+chapter_245,275,Tuan Rimuru,LABEL_2,senang,0.9927103519439697,Dan itu seperti yang aku pikirkan.
+chapter_245,276,Velda,LABEL_2,senang,0.9800998568534851,Velda tidak cukup untuk mengalahkanmu.
+chapter_245,278,Tuan Rimuru,LABEL_2,senang,0.5297205448150635,aku bisa membeli cukup waktu.
+chapter_245,279,Tuan Rimuru,LABEL_2,senang,0.9595246911048889,"Sekarang, mari kita mulai– Kamu dan aku, pertempuran terakhir.”"
+chapter_245,280,Yuuki,LABEL_2,senang,0.829159140586853,Yuuki berkata sambil tersenyum sambil mendorong Genesis: Veldanava ke arahku.

@@ -1,0 +1,61 @@
+{
+  "chapter_id": "chapter_001",
+  "title": "Chapter 001",
+  "synopsis": "WiraMadha faces a tough decision regarding quests in the game Nusantara Reborn Online, particularly against the powerful Naga Getih.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_001",
+      "title": "Wira's Decision",
+      "location": "Unknown",
+      "pov": "Wira",
+      "mood": "contemplative",
+      "summary": "Wira weighs options for quests while worried about the strength of the Naga Getih boss.",
+      "text": "Wira considers the daunting challenge of defeating Naga Getih and decides to take a quest up Mount Bromo.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_001",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Wira",
+            "Barda",
+            "Cinta Bumi"
+          ],
+          "acquired_items": [
+            "Osmo"
+          ],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Wira selects the quest to Mount Bromo and acquires a swift mount named Osmo."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Wira",
+      "aliases": [
+        "WiraMadha"
+      ]
+    },
+    {
+      "canonical": "Ahol",
+      "aliases": []
+    },
+    {
+      "canonical": "Barda",
+      "aliases": []
+    },
+    {
+      "canonical": "Cinta Bumi",
+      "aliases": []
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "chapter_id": "chapter_246",
+  "title": "Chapter 246",
+  "synopsis": "short summary of the chapter",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_246",
+      "title": "Confrontation in the Forest",
+      "location": "Unknown",
+      "pov": "Ciel",
+      "mood": "tense",
+      "summary": "Ciel confronts an unexpected foe in the forest while Rimuru and Veldora prepare for a potential conflict.",
+      "text": "Ciel faced the looming presence, heart racing, as Rimuru cast a reassuring glance at Veldora.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_246",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "title": "Ciel Encounters the Unknown",
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Ciel",
+            "Rimuru",
+            "Veldora"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Ciel encounters a sinister figure, prompting Rimuru and Veldora to prepare for action."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Ciel",
+      "aliases": [
+        "Ciel-san"
+      ]
+    },
+    {
+      "canonical": "Rimuru",
+      "aliases": [
+        "Tuan Rimuru"
+      ]
+    },
+    {
+      "canonical": "Veldora",
+      "aliases": [
+        "Veldora-san"
+      ]
+    }
+  ]
+}

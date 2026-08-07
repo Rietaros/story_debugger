@@ -1,0 +1,73 @@
+chapter_id,sentence_index,character,emotion_raw,emotion,score,sentence
+chapter_003,3,Ahol,LABEL_2,senang,0.8578822016716003,"Di hadapan empat petualang itu, Ahol berdiri tegak, sebuah monumen kehancuran yang terbuat dari batu obsidian dan lava cair."
+chapter_003,4,Ahol,LABEL_2,senang,0.976691484451294,"Garis-garis cahaya oranye di sekujur tubuh Ahol berdenyut lambat, mengikuti irama gemuruh dari perut bumi yang bergema di dasar kawah."
+chapter_003,7,WiraMadha,LABEL_3,sedih,0.7944200038909912,"""WiraMadha, levelnya... dia level 42!"""
+chapter_003,8,Sylvia,LABEL_2,senang,0.9075142741203308,"Sylvia memekik, suaranya hampir tenggelam oleh suara statis dari petir. """
+chapter_003,9,WiraMadha,LABEL_2,senang,0.8690959811210632,"Selisih levelnya terlalu jauh, Wira!"""
+chapter_003,10,WiraMadha,LABEL_2,senang,0.9017970561981201,"WiraMadha, sang Warrior, menggenggam erat gagang pedangnya."
+chapter_003,12,Raka Wiradharma,LABEL_4,terkejut,0.9959421753883362,"Di balik helmnya, Raka Wiradharma sedang melakukan kalkulasi teknis yang rumit."
+chapter_003,13,BanyuKandhi,LABEL_0,marah,0.5536651015281677,"Secara teori, dengan Perfect Parry, dia bisa menahan serangan apa pun, tetapi dia harus tetap menjaga ""akting"" agar Sylvia, RangRang, dan BanyuKandhi tidak mencurigai status kemampuannya yang tidak masuk akal."
+chapter_003,13,RangRang,LABEL_0,marah,0.5536651015281677,"Secara teori, dengan Perfect Parry, dia bisa menahan serangan apa pun, tetapi dia harus tetap menjaga ""akting"" agar Sylvia, RangRang, dan BanyuKandhi tidak mencurigai status kemampuannya yang tidak masuk akal."
+chapter_003,13,Sylvia,LABEL_0,marah,0.5536651015281677,"Secara teori, dengan Perfect Parry, dia bisa menahan serangan apa pun, tetapi dia harus tetap menjaga ""akting"" agar Sylvia, RangRang, dan BanyuKandhi tidak mencurigai status kemampuannya yang tidak masuk akal."
+chapter_003,15,WiraMadha,LABEL_1,takut,0.45236915349960327,"teriak Wira, memberikan komando yang stabil. """
+chapter_003,16,RangRang,LABEL_2,senang,0.6585230827331543,"RangRang, ambil sisi buta di sebelah kanan!"
+chapter_003,18,Rere,LABEL_3,sedih,0.8353967666625977,"Sylvia, panggil Rere dan jaga buff air kita tetap aktif."
+chapter_003,18,Sylvia,LABEL_3,sedih,0.8353967666625977,"Sylvia, panggil Rere dan jaga buff air kita tetap aktif."
+chapter_003,20,BanyuKandhi,LABEL_2,senang,0.8670023083686829,"Serangan Pembuka: Kegagalan Akar Alam
+
+BanyuKandhi, sang Atlantic Wanderer, tidak membuang waktu."
+chapter_003,22,Ahol,LABEL_2,senang,0.8454229831695557,"Ia menarik busur Ocean's Fang miliknya, matanya yang tajam memindai celah di antara zirah obsidian Ahol."
+chapter_003,27,Ahol,LABEL_2,senang,0.9292899966239929,"Seketika, dari celah-celah batu yang panas di bawah kaki besar Ahol, akar-akar hijau yang tebal dan berduri mencuat keluar."
+chapter_003,29,Ahol,LABEL_2,senang,0.9752019047737122,"Namun, begitu tanaman hijau itu menyentuh kerak obsidian Ahol yang membara, suara mendesis yang memekakkan telinga terdengar."
+chapter_003,34,Ahol,LABEL_4,terkejut,0.9874383807182312,Status Failed: Ahol immune terhadap efek [Entangle] dari elemen kayu di lingkungan bersuhu tinggi.
+chapter_003,37,BanyuKandhi,LABEL_2,senang,0.5626997947692871,"gerutu BanyuKandhi sambil melompat menghindari semburan uap uap panas dari lantai kawah. """
+chapter_003,38,WiraMadha,LABEL_2,senang,0.5547629594802856,Wira!
+chapter_003,41,Ahol,LABEL_2,senang,0.586327850818634,"Fase 1: Tembok Obsidian dan Hujan Peluru Lava
+
+Ahol tampaknya mulai terganggu dengan keberadaan para ""serangga"" kecil ini."
+chapter_003,45,RangRang,LABEL_4,terkejut,0.4057364761829376,"RangRang, dengan kelincahannya, melakukan gerakan zigzag yang mustahil diikuti mata manusia biasa."
+chapter_003,49,Ahol,LABEL_3,sedih,0.9864098429679871,seru RangRang sambil melakukan Shadow Step untuk mendekati punggung Ahol.
+chapter_003,49,RangRang,LABEL_3,sedih,0.9864098429679871,seru RangRang sambil melakukan Shadow Step untuk mendekati punggung Ahol.
+chapter_003,50,Sylvia,LABEL_2,senang,0.9906626343727112,"Namun, situasi berbeda dialami oleh Sylvia."
+chapter_003,53,WiraMadha,LABEL_2,senang,0.4840135872364044,"""Wira!"""
+chapter_003,54,Sylvia,LABEL_2,senang,0.9884282946586609,pekik Sylvia tertahan.
+chapter_003,55,WiraMadha,LABEL_2,senang,0.980544924736023,WiraMadha tidak punya pilihan.
+chapter_003,56,Sylvia,LABEL_2,senang,0.9212062358856201,"Ia melesat ke depan, memposisikan dirinya tepat di depan Sylvia."
+chapter_003,66,WiraMadha,LABEL_2,senang,0.3854474127292633,"Secara sistem, Wira tidak menerima damage sedikit pun, dan bar HP-nya tidak bergeming."
+chapter_003,68,WiraMadha,LABEL_2,senang,0.9110575318336487,"Wira sengaja membiarkan tubuhnya terdorong mundur dua langkah, sepatunya menggores permukaan batu obsidian yang keras hingga menimbulkan percikan api."
+chapter_003,71,WiraMadha,LABEL_2,senang,0.8429806232452393,"Wira mengerang berpura-pura. """
+chapter_003,72,Sylvia,LABEL_2,senang,0.9146154522895813,Sylvia!
+chapter_003,75,Sylvia,LABEL_4,terkejut,0.5681465864181519,"Sylvia menghapus keringat di dahinya, mencoba menstabilkan fokusnya."
+chapter_003,78,Rere,LABEL_3,sedih,0.591829240322113,"""Spirit Summon: Rere!"""
+chapter_003,80,Rere,LABEL_3,sedih,0.6967019438743591,"Kehadiran Rere seketika memberikan buff Resistansi Api kepada seluruh party, membuat suhu panas yang tadinya tak tertahankan menjadi sedikit lebih bersahabat."
+chapter_003,81,Rere,LABEL_2,senang,0.8323544263839722,"""Rere!"
+chapter_003,83,Sylvia,LABEL_3,sedih,0.9903936982154846,seru Sylvia.
+chapter_003,86,Ahol,LABEL_2,senang,0.9803791046142578,"Sebuah semburan air yang sangat kencang meluncur, menghantam dada obsidian Ahol tepat di salah satu retakan lava yang paling terang."
+chapter_003,87,Ahol,LABEL_2,senang,0.7223967909812927,Uap air yang sangat tebal mengepul hebat saat elemen air bertemu dengan tubuh lava Ahol yang bersuhu ribuan derajat.
+chapter_003,88,Ahol,LABEL_2,senang,0.9924083948135376,"Ahol meraung, suaranya seperti batu raksasa yang saling bergesekan."
+chapter_003,90,Sylvia,LABEL_3,sedih,0.9494413733482361,"Berkat skill pasif Bonded Echo yang baru saja didapat Sylvia dari Buto Kalong, sebuah fenomena luar biasa terjadi."
+chapter_003,91,Sylvia,LABEL_2,senang,0.9706405997276306,"Sesaat setelah semburan air pertama memudar, sebuah lingkaran sihir kedua muncul secara otomatis di depan Sylvia tanpa ia harus merapalkan mantra kembali atau menggunakan mana tambahan."
+chapter_003,93,Ahol,LABEL_2,senang,0.9294896721839905,Semburan air kedua yang identik menghantam titik yang sama di dada Ahol dengan kekuatan penuh.
+chapter_003,99,Ahol,LABEL_3,sedih,0.9956751465797424,Element: Water memberikan damage 200% kepada Ahol.
+chapter_003,101,Ahol,LABEL_4,terkejut,0.9610931277275085,Defense fisik Ahol berkurang 30% pada area torso.
+chapter_003,103,RangRang,LABEL_3,sedih,0.8991755843162537,"RangRang, sekarang!"""
+chapter_003,104,Ahol,LABEL_2,senang,0.39673036336898804,perintah Wira sambil tetap menahan gempuran fisik dari cakar obsidian Ahol.
+chapter_003,104,WiraMadha,LABEL_2,senang,0.39673036336898804,perintah Wira sambil tetap menahan gempuran fisik dari cakar obsidian Ahol.
+chapter_003,105,RangRang,LABEL_2,senang,0.9803398251533508,RangRang menyeringai lebar.
+chapter_003,106,Ahol,LABEL_2,senang,0.9690120220184326,"Ia sudah berada di bawah kangkangan kaki raksasa Ahol, menunggu momen ini."
+chapter_003,107,Ahol,LABEL_3,sedih,0.5149040222167969,"Dengan kelincahan seorang Rogue, ia memanjat tubuh berbatu Ahol menggunakan belati dualnya sebagai pengait."
+chapter_003,108,Sylvia,LABEL_2,senang,0.9942331910133362,"Dalam hitungan detik, ia sudah sampai di area dada yang telah rapuh karena sihir ganda Sylvia."
+chapter_003,111,RangRang,LABEL_1,takut,0.49114543199539185,RangRang berteriak.
+chapter_003,113,RangRang,LABEL_2,senang,0.7475542426109314,Kedua belati RangRang bergerak seperti kilat hitam.
+chapter_003,116,Ahol,LABEL_2,senang,0.6004619598388672,Ahol mengeluarkan raungan ultrasonik yang begitu kuat hingga menciptakan gelombang kejut di lautan lava di bawah mereka.
+chapter_003,117,Ahol,LABEL_4,terkejut,0.7985073328018188,"HP Ahol yang tadinya hampir penuh, kini terlihat berkurang satu bar signifikan—turun ke angka 80%."
+chapter_003,119,Ahol,LABEL_2,senang,0.8892449736595154,"BanyuKandhi bersorak dari pilar batunya, sambil terus menghujani sendi sayap Ahol dengan panah-panahnya."
+chapter_003,119,BanyuKandhi,LABEL_2,senang,0.8892449736595154,"BanyuKandhi bersorak dari pilar batunya, sambil terus menghujani sendi sayap Ahol dengan panah-panahnya."
+chapter_003,121,Ahol,LABEL_3,sedih,0.9902651309967041,Ahol tiba-tiba mengepakkan tiga pasang sayapnya sekaligus dengan tenaga luar biasa.
+chapter_003,123,WiraMadha,LABEL_2,senang,0.6136546730995178,"""Wira!"
+chapter_003,125,Sylvia,LABEL_4,terkejut,0.9739519357681274,seru Sylvia panik.
+chapter_003,128,WiraMadha,LABEL_0,marah,0.6398312449455261,Wira memberi peringatan keras.
+chapter_003,130,WiraMadha,LABEL_2,senang,0.9492741227149963,"Fase 1 telah berakhir dengan kemenangan kecil bagi party WiraMadha, namun mereka tahu, sang Tirani Abu baru saja mulai menunjukkan kemarahan sejatinya."
+chapter_003,132,Ahol,LABEL_3,sedih,0.6922681331634521,"[Log Pertempuran Chapter 23]:
+
+Ahol HP: 80% (Phase 1 Clear)"

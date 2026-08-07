@@ -1,0 +1,30 @@
+[
+  {
+    "character": "WiraMadha",
+    "narrative_summary": "WiraMadha plays a supportive and strategic role as he helps Sylvia upgrade her mount and equipment, displaying a confident demeanor.",
+    "current_actions": "Purchases a premium mount and expensive equipment for Sylvia to prepare for their quest.",
+    "risk_of_plot_hole": "His sudden ability to afford expensive items without prior explanation could lead to inconsistencies in his character's financial status.",
+    "acquired_items_or_spells": [
+      "Osmo Emerald",
+      "Armor Akar Roh",
+      "Tongkat Kayu Roh",
+      "Aksesoris Mahal"
+    ]
+  },
+  {
+    "character": "Sylvia",
+    "narrative_summary": "Sylvia showcases her character development by discussing her build aspirations while relying on Wira for support and guidance.",
+    "current_actions": "Expresses surprise at the expensive items Wira buys for her and discusses her ideal skills with him.",
+    "risk_of_plot_hole": "Her knowledge and ambition regarding advanced skills may create inconsistencies in the portrayal of her experience level.",
+    "acquired_items_or_spells": [
+      "Potion LUK UP"
+    ]
+  },
+  {
+    "character": "Buto Kalong",
+    "narrative_summary": "The World Boss they are about to face, representing a significant challenge and objective for WiraMadha and Sylvia.",
+    "current_actions": "None (Buto Kalong appears at the end of the chapter as they prepare for battle).",
+    "risk_of_plot_hole": "The mechanics of its appearance and drop rate need to be carefully managed to avoid confusion in future battles.",
+    "acquired_items_or_spells": []
+  }
+]

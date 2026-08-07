@@ -1,0 +1,20 @@
+[
+  {
+    "severity": "medium",
+    "rule": "missing_details",
+    "message": "Raka Wiradharma's technical calculations in the heat of combat are introduced, but no details about his prior experiences or skills that allow for such calculations are given. This omission leaves readers questioning the plausibility of his actions.",
+    "evidence": {
+      "character": "Raka Wiradharma",
+      "description": "Raka Wiradharma sedang melakukan kalkulasi teknis yang rumit."
+    }
+  },
+  {
+    "severity": "low",
+    "rule": "out_of_character",
+    "message": "WiraMadha exhibits a puzzling dichotomy between being a capable leader and needing to act in a way that is deceptive for the sake of the party's performance. This might strain his established character as a responsible leader committed to team success.",
+    "evidence": {
+      "character": "WiraMadha",
+      "description": "Wira sengaja membiarkan tubuhnya terdorong mundur dua langkah."
+    }
+  }
+]

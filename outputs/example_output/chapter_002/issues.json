@@ -1,0 +1,60 @@
+[
+  {
+    "severity": "high",
+    "rule": "duplicate_event_id_conflict",
+    "message": "Event ID ev_001_001 appears with different summaries.",
+    "evidence": {
+      "event_id": "ev_001_001",
+      "old_summary": "Wira selects the quest to Mount Bromo and acquires a swift mount named Osmo.",
+      "new_summary": "WiraMadha prepares for the dungeon, meeting fellow players and discussing the quest ahead."
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "WiraMadha appears in two locations at the same story step.",
+    "evidence": {
+      "character": "WiraMadha",
+      "chapter_id": "chapter_002",
+      "seq": 1,
+      "previous_location": "Unknown",
+      "current_location": "Bosa Dungeon - Arena Agni"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "HoppyLite appears in two locations at the same story step.",
+    "evidence": {
+      "character": "HoppyLite",
+      "chapter_id": "chapter_002",
+      "seq": 1,
+      "previous_location": "Unknown",
+      "current_location": "Bosa Dungeon - Arena Agni"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "DrakeCloud appears in two locations at the same story step.",
+    "evidence": {
+      "character": "DrakeCloud",
+      "chapter_id": "chapter_002",
+      "seq": 1,
+      "previous_location": "Unknown",
+      "current_location": "Bosa Dungeon - Arena Agni"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "Sylvia appears in two locations at the same story step.",
+    "evidence": {
+      "character": "Sylvia",
+      "chapter_id": "chapter_002",
+      "seq": 1,
+      "previous_location": "Unknown",
+      "current_location": "Bosa Dungeon - Arena Agni"
+    }
+  }
+]

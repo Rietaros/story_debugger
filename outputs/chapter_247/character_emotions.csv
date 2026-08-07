@@ -1,0 +1,201 @@
+chapter_id,sentence_index,character,emotion_raw,emotion,score,sentence
+chapter_247,0,Tuan Rimuru,LABEL_2,senang,0.9875948429107666,"Rimuru vs Yuuki – Bagian 2 –
+
+Yuuki merasakan adegan itu membeku dan dalam hati menikmati kesenangan yang dia rasakan darinya."
+chapter_247,0,Yuuki,LABEL_2,senang,0.9875948429107666,"Rimuru vs Yuuki – Bagian 2 –
+
+Yuuki merasakan adegan itu membeku dan dalam hati menikmati kesenangan yang dia rasakan darinya."
+chapter_247,6,Tuan Rimuru,LABEL_2,senang,0.9894177317619324,"Namun, karena keberadaan Rimuru, yang sekarang berdiri di hadapannya, rencana yang Yuuki buat telah berakhir dengan kegagalan total."
+chapter_247,6,Yuuki,LABEL_2,senang,0.9894177317619324,"Namun, karena keberadaan Rimuru, yang sekarang berdiri di hadapannya, rencana yang Yuuki buat telah berakhir dengan kegagalan total."
+chapter_247,9,Tuan Rimuru,LABEL_2,senang,0.6919639110565186,"Pada saat itu, dia telah melemparkan Hinata padanya sebagai tindakan pengamanan, tetapi Rimuru telah menyelinap pergi dan melarikan diri."
+chapter_247,10,Tuan Rimuru,LABEL_2,senang,0.7728981971740723,"Tidak terpikirkan bahwa Hinata yang selalu berhati-hati dan mengumpulkan akan membuat kesalahan, dan ketika dipastikan bahwa Rimuru telah selamat, Yuuki tahu bahwa Rimuru akan menjadi musuhnya."
+chapter_247,10,Yuuki,LABEL_2,senang,0.7728981971740723,"Tidak terpikirkan bahwa Hinata yang selalu berhati-hati dan mengumpulkan akan membuat kesalahan, dan ketika dipastikan bahwa Rimuru telah selamat, Yuuki tahu bahwa Rimuru akan menjadi musuhnya."
+chapter_247,12,Tuan Rimuru,LABEL_2,senang,0.9945242404937744,"Rencananya tanpa kecuali, dihancurkan oleh tangan Rimuru."
+chapter_247,13,Yuuki,LABEL_1,takut,0.8761707544326782,Yuuki tidak merasa marah dalam hal ini.
+chapter_247,15,Yuuki,LABEL_1,takut,0.37218448519706726,"laporkan iklan ini Ketika formasi papan permainan berubah ke titik di mana Yuuki tidak bisa menang, bahkan jika dia membuang semua bidak di tangannya, saat itulah dia pertama kali memutuskan untuk keluar sendiri."
+chapter_247,19,Velda,LABEL_2,senang,0.908983051776886,"Sementara itu, dia memutuskan untuk membiarkan Velda berdiri di garis tembak dan melakukan apa yang dia mau."
+chapter_247,20,Yuuki,LABEL_2,senang,0.8786068558692932,"Sebagian besar, kepribadian Yuuki diposisikan di atas, tetapi karena mereka adalah makhluk dengan peringkat yang sama yang berganti-ganti dari satu ke yang lain, dia tidak dapat mengubah ini dengan keinginannya sendiri setelah dia mundur."
+chapter_247,22,Velda,LABEL_2,senang,0.9849116802215576,"Tujuan Velda juga untuk menghancurkan dunia, tetapi tujuan akhir mereka berbeda."
+chapter_247,23,Velda,LABEL_2,senang,0.9873164892196655,"Tujuan terakhir Yuuki adalah mengembalikan dunia ini ke ketiadaan, tetapi bukan Velda."
+chapter_247,23,Yuuki,LABEL_2,senang,0.9873164892196655,"Tujuan terakhir Yuuki adalah mengembalikan dunia ini ke ketiadaan, tetapi bukan Velda."
+chapter_247,24,Velda,LABEL_2,senang,0.9807748198509216,"Setelah dunia dihancurkan, Velda ingin menciptakan dunia baru dengan dirinya sebagai dewa."
+chapter_247,25,Yuuki,LABEL_2,senang,0.8201030492782593,"Bagi Yuuki, ini adalah cara berpikir yang begitu memanjakan sehingga dia hanya bisa tertawa."
+chapter_247,27,Yuuki,LABEL_2,senang,0.95988929271698,"Dan hasilnya persis seperti yang Yuuki prediksi…
+
+Yuuki mungkin seorang jenius, tapi itu bukan seolah-olah dia telah memperoleh semua kekuatan Veldanava."
+chapter_247,31,Yuuki,LABEL_2,senang,0.6539472937583923,Yuuki telah memperoleh lebih dari cukup kekuatan untuk membawa kehancuran ke dunia ini.
+chapter_247,32,Velda,LABEL_3,sedih,0.8805457353591919,Manas yang dikenal sebagai Velda memiliki spesialisasi dalam semua keterampilan pamungkas.
+chapter_247,36,Yuuki,LABEL_3,sedih,0.7629674077033997,"Dalam sebulan terakhir, Yuuki telah menganalisis semua kemampuan dan memilih yang dia inginkan."
+chapter_247,48,Milim,LABEL_3,sedih,0.47789737582206726,"Dan 'Mana Breeder Reactor' diwarisi oleh Milim, yang membuatnya menjadi yang paling kuat."
+chapter_247,50,Yuuki,LABEL_2,senang,0.6525200605392456,Yuuki juga telah mereplikasi kekuatan pamungkas ini.
+chapter_247,51,Yuuki,LABEL_2,senang,0.938471794128418,"Yuuki telah menjadi dewa, melebihi bentuk kehidupan spiritual."
+chapter_247,52,Velda,LABEL_0,marah,0.9077358245849609,"Maka dengan sepengetahuan Velda, dia telah menciptakan 'Reaktor Peternakan Mana' dan memiliki kendali penuh atasnya."
+chapter_247,54,Milim,LABEL_2,senang,0.9772329926490784,Dia tidak lebih dari versi Milim yang dipermudah.
+chapter_247,55,Guy,LABEL_2,senang,0.47725728154182434,"Itu mungkin baginya untuk mengontrol output seperti yang dilakukan Guy, tetapi itu tidak akan memungkinkan dia untuk mengungguli mereka."
+chapter_247,56,Yuuki,LABEL_2,senang,0.6663736701011658,Yuuki telah mempertimbangkan semua ini dan kemudian memikirkan gagasan untuk memiliki kemampuan yang direplikasi di Pedang Veldanava.
+chapter_247,59,Milim,LABEL_2,senang,0.9739208221435547,Itu adalah pedang Dewa yang seharusnya diwarisi Milim suatu hari nanti.
+chapter_247,60,Velda,LABEL_4,terkejut,0.7047924399375916,"Akibatnya, tidak perlu meniru kemampuan dalam ingatan Velda."
+chapter_247,61,Velda,LABEL_2,senang,0.8191852569580078,"Dia hanya perlu membongkar keterampilan pamungkasnya sendiri, 'Tuan Pencipta Ahura Mazdā,' dan menggabungkannya dengan pengetahuan Velda."
+chapter_247,65,Velda,LABEL_3,sedih,0.575445830821991,"Itu disesuaikan untuk digunakan oleh Yuuki secara eksklusif, jadi Velda tidak bisa menggunakannya."
+chapter_247,65,Yuuki,LABEL_3,sedih,0.575445830821991,"Itu disesuaikan untuk digunakan oleh Yuuki secara eksklusif, jadi Velda tidak bisa menggunakannya."
+chapter_247,66,Velda,LABEL_0,marah,0.5923545956611633,"Peran Velda adalah menjaga 'Reaktor Pembibit Mana' berada dalam kondisi optimal setiap saat, untuk bertindak sebagai perangkat pemantauan permanen."
+chapter_247,67,Yuuki,LABEL_2,senang,0.6742380857467651,"Dan beginilah cara Yuuki terlahir kembali menjadi perwujudan kekuatan absolut, yang bisa menggunakan semua kemampuan."
+chapter_247,68,Yuuki,LABEL_2,senang,0.9776140451431274,"◇◇◇
+
+Hanya ada satu orang yang tersisa yang Yuuki waspadai."
+chapter_247,69,Tuan Rimuru,LABEL_2,senang,0.9715500473976135,"Hanya Rimuru, yang sekarang berdiri di hadapannya dengan ekspresi tercengang."
+chapter_247,70,Yuuki,LABEL_2,senang,0.9361661672592163,Monster menyebalkan ini selalu bisa melebihi ekspektasi Yuuki.
+chapter_247,72,Yuuki,LABEL_2,senang,0.7311338782310486,"Bergantung pada apa yang bisa dia pastikan tentang kekuatannya, Yuuki mungkin perlu menggunakan keterampilannya yang paling kuat untuk menyingkirkannya."
+chapter_247,74,Yuuki,LABEL_2,senang,0.9884287714958191,Yuuki seperti dewa dan pahlawan yang terbangun.
+chapter_247,75,Tuan Rimuru,LABEL_2,senang,0.826059103012085,"Tetapi bahkan ketika dia menjalankan 'Mana Breeder Reactor' yang paling tinggi, dia tidak dapat menandingi kekuatan Rimuru."
+chapter_247,78,Tuan Rimuru,LABEL_2,senang,0.9165382385253906,"Aku berpikir bahwa aku akan bisa menang dalam hal kekuasaan–)
+
+Yuuki berada di atas angin dalam hal fungsionalitas senjata, tetapi dia tidak tahu apakah itu masih benar jika pertarungan berlangsung terlalu lama."
+chapter_247,78,Yuuki,LABEL_2,senang,0.9165382385253906,"Aku berpikir bahwa aku akan bisa menang dalam hal kekuasaan–)
+
+Yuuki berada di atas angin dalam hal fungsionalitas senjata, tetapi dia tidak tahu apakah itu masih benar jika pertarungan berlangsung terlalu lama."
+chapter_247,79,Tuan Rimuru,LABEL_2,senang,0.9385120868682861,"(Velda, aku akan menggunakan energi dengan kekuatan penuh."
+chapter_247,79,Velda,LABEL_2,senang,0.9385120868682861,"(Velda, aku akan menggunakan energi dengan kekuatan penuh."
+chapter_247,81,Tuan Rimuru,LABEL_1,takut,0.6058490872383118,melaporkan iklan ini Yuuki memerintahkan Velda dan kemudian mulai mengayunkan Rimuru dengan kecepatan yang jauh melampaui serangan sebelumnya.
+chapter_247,81,Velda,LABEL_1,takut,0.6058490872383118,melaporkan iklan ini Yuuki memerintahkan Velda dan kemudian mulai mengayunkan Rimuru dengan kecepatan yang jauh melampaui serangan sebelumnya.
+chapter_247,81,Yuuki,LABEL_1,takut,0.6058490872383118,melaporkan iklan ini Yuuki memerintahkan Velda dan kemudian mulai mengayunkan Rimuru dengan kecepatan yang jauh melampaui serangan sebelumnya.
+chapter_247,82,Tuan Rimuru,LABEL_2,senang,0.9417308568954468,"Namun, bahkan ini dengan mudah ditangkis oleh Rimuru."
+chapter_247,84,Tuan Rimuru,LABEL_2,senang,0.6600552201271057,"Itu mengintervensi setiap bentrokan dan gelombang kejut meletus, tetapi itu tidak lebih dari angin lembut bagi Yuuki dan Rimuru."
+chapter_247,84,Yuuki,LABEL_2,senang,0.6600552201271057,"Itu mengintervensi setiap bentrokan dan gelombang kejut meletus, tetapi itu tidak lebih dari angin lembut bagi Yuuki dan Rimuru."
+chapter_247,85,Tuan Rimuru,LABEL_2,senang,0.829084575176239,"(Aku tidak menyangka dia bisa menghadapi langkah itu… Namun, sepertinya reaksinya menjadi lebih lambat."
+chapter_247,87,Yuuki,LABEL_1,takut,0.7994393110275269,Yuuki menjentikkan jarinya dengan keras.
+chapter_247,95,Tuan Rimuru,LABEL_2,senang,0.9791136384010315,aku kira itu bukan rahasia.”
+chapter_247,96,Yuuki,LABEL_3,sedih,0.7914279103279114,Yuuki tertawa nakal.
+chapter_247,99,Tuan Rimuru,LABEL_4,terkejut,0.523849606513977,"Yang pertama adalah seperti yang dikatakan Rimuru, untuk membatasi penggunaan kemampuan tipe pelepasan."
+chapter_247,100,Tuan Rimuru,LABEL_3,sedih,0.4284602403640747,"Rimuru memiliki banyak metode serangan, dan membatasi pilihannya sekarang akan membantu Yuuki melanjutkan pertarungan dengan keuntungan."
+chapter_247,100,Yuuki,LABEL_3,sedih,0.4284602403640747,"Rimuru memiliki banyak metode serangan, dan membatasi pilihannya sekarang akan membantu Yuuki melanjutkan pertarungan dengan keuntungan."
+chapter_247,101,Diablo,LABEL_0,marah,0.8608447313308716,"Dan terlebih lagi, menghentikan waktu adalah cara terbaik untuk mencegah sihir yang mencurigakan, seperti lingkaran sihir yang Diablo tunjukkan sebelumnya."
+chapter_247,103,Tuan Rimuru,LABEL_2,senang,0.7759703397750854,Yuuki telah menyegel semua serangan sihir Rimuru dan menciptakan lingkungan di mana dia sendiri bisa menggunakan sihir.
+chapter_247,103,Yuuki,LABEL_2,senang,0.7759703397750854,Yuuki telah menyegel semua serangan sihir Rimuru dan menciptakan lingkungan di mana dia sendiri bisa menggunakan sihir.
+chapter_247,105,Tuan Rimuru,LABEL_2,senang,0.9167128205299377,"Yuuki memerintahkan, dan pada saat yang sama, Rimuru diselimuti api."
+chapter_247,105,Yuuki,LABEL_2,senang,0.9167128205299377,"Yuuki memerintahkan, dan pada saat yang sama, Rimuru diselimuti api."
+chapter_247,109,Yuuki,LABEL_2,senang,0.8628801703453064,"Berturut-turut, Yuuki melanjutkan serangan hanya dengan memikirkannya."
+chapter_247,111,Tuan Rimuru,LABEL_2,senang,0.9964838027954102,Kemudian dia memutuskan ruang – mempermainkan Rimuru.
+chapter_247,114,Tuan Rimuru,LABEL_2,senang,0.9221466779708862,"Namun sayangnya, Yuuki telah menyimpulkan bahwa sihir primitif ini tidak cukup untuk mengalahkan Rimuru."
+chapter_247,114,Yuuki,LABEL_2,senang,0.9221466779708862,"Namun sayangnya, Yuuki telah menyimpulkan bahwa sihir primitif ini tidak cukup untuk mengalahkan Rimuru."
+chapter_247,115,Yuuki,LABEL_2,senang,0.48705562949180603,"Jelas tentu saja, tetapi ada alasan yang diperhitungkan dengan baik bahwa Yuuki menggunakan sihir primitif meskipun itu bukan pukulan yang menentukan."
+chapter_247,116,Tuan Rimuru,LABEL_3,sedih,0.5463055372238159,"Menurut penilaian Yuuki, Rimuru memiliki kebiasaan untuk selalu mengamati serangan musuhnya."
+chapter_247,116,Yuuki,LABEL_3,sedih,0.5463055372238159,"Menurut penilaian Yuuki, Rimuru memiliki kebiasaan untuk selalu mengamati serangan musuhnya."
+chapter_247,118,Tuan Rimuru,LABEL_2,senang,0.8275654315948486,"Yuuki percaya bahwa itu berasal dari kelembutan mendasar dalam diri Rimuru, yang ingin mencari maksud sebenarnya dari musuhnya, untuk mengetahui apakah mereka tidak bisa mencapai pemahaman."
+chapter_247,118,Yuuki,LABEL_2,senang,0.8275654315948486,"Yuuki percaya bahwa itu berasal dari kelembutan mendasar dalam diri Rimuru, yang ingin mencari maksud sebenarnya dari musuhnya, untuk mengetahui apakah mereka tidak bisa mencapai pemahaman."
+chapter_247,119,Yuuki,LABEL_3,sedih,0.9506440758705139,"Dan kali ini, Yuuki akan menargetkan kebiasaan ini."
+chapter_247,120,Tuan Rimuru,LABEL_2,senang,0.8684287071228027,"Seperti yang dia prediksi, Rimuru tidak keluar dari awal, yang memungkinkan dia untuk berhasil mengaktifkan pembekuan waktu."
+chapter_247,121,Tuan Rimuru,LABEL_2,senang,0.6734961271286011,"Dan jika dia menggunakan sihir primitifnya saat waktu telah dihentikan, maka ada kemungkinan besar bahwa Rimuru akan mulai menganalisis tindakannya."
+chapter_247,122,Tuan Rimuru,LABEL_2,senang,0.9676950573921204,"Sihir primitif adalah kartu trufnya, tetapi masih mustahil untuk mengalahkan Rimuru seperti ini."
+chapter_247,124,Yuuki,LABEL_2,senang,0.9825426340103149,Itu adalah keputusan Yuuki.
+chapter_247,127,Yuuki,LABEL_1,takut,0.9525595307350159,"Inilah yang Yuuki pikirkan, jadi dia tidak berniat pelit dengan itu."
+chapter_247,128,Tuan Rimuru,LABEL_2,senang,0.4261544644832611,"Lagi pula, jika dia menggunakan semua yang dia miliki dan menang melawan Rimuru, dia akan dapat mencapai harapannya."
+chapter_247,129,Tuan Rimuru,LABEL_2,senang,0.9177634716033936,"Musuhnya adalah Rimuru sendiri–Setiap kali dia memikirkan ini, Yuuki akan menilai Rimuru dengan sangat tinggi."
+chapter_247,129,Yuuki,LABEL_2,senang,0.9177634716033936,"Musuhnya adalah Rimuru sendiri–Setiap kali dia memikirkan ini, Yuuki akan menilai Rimuru dengan sangat tinggi."
+chapter_247,130,Tuan Rimuru,LABEL_2,senang,0.7391026020050049,Sepertinya Rimuru sedang menganalisis sihir primitif seperti yang direncanakan Yuuki.
+chapter_247,130,Yuuki,LABEL_2,senang,0.7391026020050049,Sepertinya Rimuru sedang menganalisis sihir primitif seperti yang direncanakan Yuuki.
+chapter_247,132,Tuan Rimuru,LABEL_2,senang,0.932637095451355,"Namun, dalam pertarungan seperti Yuuki dan Rimuru yang terlibat sekarang, di mana mereka berada di tengah-tengah pertarungan yang ketat, memikirkan sesuatu yang begitu kecil bisa menjadi langkah yang buruk."
+chapter_247,132,Yuuki,LABEL_2,senang,0.932637095451355,"Namun, dalam pertarungan seperti Yuuki dan Rimuru yang terlibat sekarang, di mana mereka berada di tengah-tengah pertarungan yang ketat, memikirkan sesuatu yang begitu kecil bisa menjadi langkah yang buruk."
+chapter_247,133,Yuuki,LABEL_4,terkejut,0.43874940276145935,"Sejak pertarungan ini dimulai–tidak, bahkan sebelum dimulai–Yuuki telah membuat banyak persiapan."
+chapter_247,134,Velda,LABEL_2,senang,0.610481321811676,"Selain menganalisis kemampuan di dalam Velda, dia terus-menerus memikirkan rencana apa yang harus dilakukan untuk membunuh makhluk paling kuat yang mampu menandinginya."
+chapter_247,135,Tuan Rimuru,LABEL_2,senang,0.7500587701797485,Dia tidak membekukan waktu dan membatasi kemampuan Rimuru hanya untuk menempatkan dirinya pada posisi yang menguntungkan.
+chapter_247,136,Tuan Rimuru,LABEL_2,senang,0.7737001776695251,"Jika ada, tujuan Yuuki adalah membuat Rimuru percaya bahwa itulah sebabnya dia melakukannya."
+chapter_247,136,Yuuki,LABEL_2,senang,0.7737001776695251,"Jika ada, tujuan Yuuki adalah membuat Rimuru percaya bahwa itulah sebabnya dia melakukannya."
+chapter_247,137,Yuuki,LABEL_2,senang,0.987701952457428,"Tujuan sebenarnya untuk menghentikan waktu tidak sekecil itu–
+
+“Kau terlalu mudah Yuuki."
+chapter_247,138,Tuan Rimuru,LABEL_2,senang,0.9922735095024109,Aku ke kamu sekarang.
+chapter_247,140,Tuan Rimuru,LABEL_2,senang,0.7569894790649414,"Tampaknya Rimuru telah selesai menganalisis sihir primitif seperti, tidak, jauh lebih cepat dari yang diperkirakan Yuuki."
+chapter_247,140,Yuuki,LABEL_2,senang,0.7569894790649414,"Tampaknya Rimuru telah selesai menganalisis sihir primitif seperti, tidak, jauh lebih cepat dari yang diperkirakan Yuuki."
+chapter_247,141,Tuan Rimuru,LABEL_2,senang,0.9632733464241028,Api primitif yang baru saja Yuuki keluarkan tanpa nyanyian sekarang dibekukan oleh Rimuru.
+chapter_247,141,Yuuki,LABEL_2,senang,0.9632733464241028,Api primitif yang baru saja Yuuki keluarkan tanpa nyanyian sekarang dibekukan oleh Rimuru.
+chapter_247,142,Yuuki,LABEL_2,senang,0.9938704967498779,Kehendak Yuuki dibatalkan oleh pertarungan antara api dan es ini.
+chapter_247,143,Yuuki,LABEL_3,sedih,0.5134106874465942,"Tidak ada yang bisa dilakukan selain tertawa, pikir Yuuki."
+chapter_247,145,Yuuki,LABEL_2,senang,0.9211810231208801,"Namun, bahkan ini sesuai dengan rencana Yuuki."
+chapter_247,148,Tuan Rimuru,LABEL_2,senang,0.9931778907775879,"Lagi pula, meski hanya sesaat, dia berhasil mengalihkan kesadaran Rimuru."
+chapter_247,149,Tuan Rimuru,LABEL_2,senang,0.9961695075035095,–Aku telah menunggu saat ini!!–
+chapter_247,150,Yuuki,LABEL_3,sedih,0.6425132155418396,laporkan iklan ini Yuuki menyeringai.
+chapter_247,151,Tuan Rimuru,LABEL_2,senang,0.9807985424995422,"Dan saat dia bentrok dengan Rimuru sekali lagi dengan seluruh kekuatannya, dia memasuki fase terakhir dari rencana pertarungannya."
+chapter_247,153,Tuan Rimuru,LABEL_2,senang,0.6557018160820007,"Tentu saja, sekarang Rimuru mengerti sihir primitif, dia bisa mengaktifkan sihirnya sendiri untuk membatalkannya sebagai balasannya."
+chapter_247,155,Tuan Rimuru,LABEL_0,marah,0.8267293572425842,"Aku tahu bahwa Rimuru akan mengambil tindakan yang tepat, semua sesuai dengan naskahnya.)"
+chapter_247,156,Yuuki,LABEL_2,senang,0.989082932472229,"Yuuki cukup puas, tetapi pada saat yang sama merasakan sedikit perasaan hampa juga."
+chapter_247,159,Yuuki,LABEL_2,senang,0.9900062680244446,"Yuuki merasakan sentimen seperti itu di dalam hatinya, tetapi dia melepaskan kartu truf terakhirnya sebelum dia bisa memahaminya."
+chapter_247,160,Tuan Rimuru,LABEL_2,senang,0.9945828318595886,"Pada akhirnya, Yuuki dan Rimuru hanyalah musuh."
+chapter_247,160,Yuuki,LABEL_2,senang,0.9945828318595886,"Pada akhirnya, Yuuki dan Rimuru hanyalah musuh."
+chapter_247,161,Tuan Rimuru,LABEL_2,senang,0.7783942222595215,"Pada saat yang sama Rimuru mengaktifkan pembatalan sihir, Yuuki mengaktifkan perangkat yang telah dipasang di lengan buatan kirinya."
+chapter_247,161,Yuuki,LABEL_2,senang,0.7783942222595215,"Pada saat yang sama Rimuru mengaktifkan pembatalan sihir, Yuuki mengaktifkan perangkat yang telah dipasang di lengan buatan kirinya."
+chapter_247,162,Tuan Rimuru,LABEL_2,senang,0.7823055386543274,"Lengannya berubah dengan mulus, dan dia mengarahkan lingkaran sihir yang diukir ke Rimuru dan menembak."
+chapter_247,167,Tuan Rimuru,LABEL_2,senang,0.931959331035614,"Dan dengan energi yang tak terukur ini, ia telah membawa Rimuru pergi ke 'akhir ruang-waktu.'"
+chapter_247,168,Tuan Rimuru,LABEL_2,senang,0.9417138695716858,"Sebagai kontinum ruang-waktu, bahkan tubuh klon terkait benar-benar dicabut bersama dengan Rimuru…
+
+Seandainya 'Koridor Jiwa' tidak ditutup, maka bawahan Rimuru dan bahkan Velgrynd mungkin menjadi sasaran sihir."
+chapter_247,168,Velgrynd,LABEL_2,senang,0.9417138695716858,"Sebagai kontinum ruang-waktu, bahkan tubuh klon terkait benar-benar dicabut bersama dengan Rimuru…
+
+Seandainya 'Koridor Jiwa' tidak ditutup, maka bawahan Rimuru dan bahkan Velgrynd mungkin menjadi sasaran sihir."
+chapter_247,171,Yuuki,LABEL_2,senang,0.5791112184524536,Tidak mungkin bagi Yuuki untuk mengaktifkan Chrono Saltation sendiri.
+chapter_247,175,Yuuki,LABEL_3,sedih,0.5492440462112427,Apa yang Yuuki pasang ke lengan buatannya adalah teknik pamungkas yang sederhana.
+chapter_247,179,Yuuki,LABEL_2,senang,0.9522968530654907,Itu bukan sesuatu yang Yuuki aktifkan hanya setelah mengetahui sihir apa yang akan dia gunakan.
+chapter_247,182,Tuan Rimuru,LABEL_2,senang,0.7944139242172241,"Sekarang dia telah membatasi penggunaan sihir melalui pembekuan waktu, adalah mungkin baginya untuk memimpin Rimuru menggunakan sihir yang dia ingin dia gunakan."
+chapter_247,183,Tuan Rimuru,LABEL_2,senang,0.4802396893501282,Sihir yang akan diaktifkan Rimuru sederhana dan mudah dimengerti.
+chapter_247,185,Yuuki,LABEL_2,senang,0.870929479598999,"Jika dia mencoba menganalisis sihir yang diaktifkan Yuuki, dia tidak akan bisa menghentikannya."
+chapter_247,186,Yuuki,LABEL_2,senang,0.8279943466186523,"Jika kamu mempertimbangkan margin waktu, dia harus membatalkan pada saat yang sama ketika Yuuki mengaktifkan sihirnya, atau itu akan terlambat."
+chapter_247,187,Yuuki,LABEL_2,senang,0.9853801131248474,Itulah yang Yuuki pikirkan.
+chapter_247,188,Tuan Rimuru,LABEL_1,takut,0.7172202467918396,"Jadi dia telah mengungkapkan kartu asnya kepada Rimuru untuk memancing pikirannya ke tempat yang dia inginkan, jadi dia akan bertindak seperti ini dalam situasi ini."
+chapter_247,189,Tuan Rimuru,LABEL_2,senang,0.8615768551826477,"Dan seperti yang direncanakan Yuuki, Rimuru telah mengaktifkan sihirnya."
+chapter_247,189,Yuuki,LABEL_2,senang,0.8615768551826477,"Dan seperti yang direncanakan Yuuki, Rimuru telah mengaktifkan sihirnya."
+chapter_247,190,Tuan Rimuru,LABEL_2,senang,0.7935076951980591,"Semua itu melalui persiapan Yuuki, dan Rimuru telah bertindak sesuai tanpa menyadarinya."
+chapter_247,190,Yuuki,LABEL_2,senang,0.7935076951980591,"Semua itu melalui persiapan Yuuki, dan Rimuru telah bertindak sesuai tanpa menyadarinya."
+chapter_247,191,Yuuki,LABEL_2,senang,0.90056973695755,"Di atmosfer di mana energi tingkat Genesis bertabrakan dan bahkan gempa chrono terjadi, Yuuki telah menggunakan sihir ruang-waktu: Time Stop."
+chapter_247,194,Yuuki,LABEL_2,senang,0.9686746597290039,"Namun, situasinya sedikit berbeda kali ini, karena sesuatu yang telah Yuuki atur."
+chapter_247,195,Tuan Rimuru,LABEL_2,senang,0.9390896558761597,"Rimuru telah mengaktifkan sihirnya sehingga hanya berisi energi yang memiliki sifat berlawanan dengan sihir Yuuki, untuk meniadakannya."
+chapter_247,195,Yuuki,LABEL_2,senang,0.9390896558761597,"Rimuru telah mengaktifkan sihirnya sehingga hanya berisi energi yang memiliki sifat berlawanan dengan sihir Yuuki, untuk meniadakannya."
+chapter_247,196,Yuuki,LABEL_2,senang,0.9532005190849304,"Dan sihir itu dibalikkan melalui trik Yuuki, dan itu telah berubah menjadi sihir dengan energi yang sama persis dalam properti dan kuantitas."
+chapter_247,202,Yuuki,LABEL_2,senang,0.8918474912643433,"Jika dia tidak bisa mengalahkannya, maka dia bisa menghadapinya di kemudian hari – itulah kesimpulan yang Yuuki dapatkan."
+chapter_247,203,Tuan Rimuru,LABEL_2,senang,0.9624283313751221,"Rimuru, orang yang bisa menandingi dia – atau bahkan mungkin mengalahkannya – makhluk peringkat ultra ini, adalah kebodohan untuk melawannya secara langsung."
+chapter_247,207,Yuuki,LABEL_3,sedih,0.8470187187194824,"Yuuki puas, dan senyum yang dia tunjukkan datang dari lubuk hatinya."
+chapter_247,208,Tuan Rimuru,LABEL_2,senang,0.688364565372467,"◆◆◆
+
+Pembekuan waktu dinonaktifkan pada saat yang sama ketika Rimuru menghilang."
+chapter_247,211,Tuan Rimuru,LABEL_2,senang,0.9515220522880554,"Tapi, fakta bahwa Rimuru telah menghilang adalah satu hal yang mereka semua pahami dengan sangat jelas."
+chapter_247,212,Tuan Rimuru,LABEL_4,terkejut,0.9215448498725891,"laporkan iklan ini
+
+“Sekarang, aku memiliki kendala terbesar aku melakukan perjalanan kecil ke masa depan."
+chapter_247,213,Tuan Rimuru,LABEL_1,takut,0.7918023467063904,aku kira kamu bisa mengatakan bahwa ini adalah skakmat. ”
+chapter_247,214,Yuuki,LABEL_3,sedih,0.9884854555130005,Yuuki mengumumkan dengan senyum tipis.
+chapter_247,215,Milim,LABEL_2,senang,0.9969010353088379,"Mendengar ini, Milim duduk di tanah dan menangis."
+chapter_247,216,Milim,LABEL_2,senang,0.9946777820587158,"“Rimuru adalah… Rimuru telah menghilang…”
+
+Saat Milim menggumamkan kesedihannya, Ramiris menjadi marah."
+chapter_247,216,Ramiris,LABEL_2,senang,0.9946777820587158,"“Rimuru adalah… Rimuru telah menghilang…”
+
+Saat Milim menggumamkan kesedihannya, Ramiris menjadi marah."
+chapter_247,216,Tuan Rimuru,LABEL_2,senang,0.9946777820587158,"“Rimuru adalah… Rimuru telah menghilang…”
+
+Saat Milim menggumamkan kesedihannya, Ramiris menjadi marah."
+chapter_247,217,Tuan Rimuru,LABEL_2,senang,0.9539597630500793,"Sementara dia masih tidak menyadarinya, penampilannya tiba-tiba mulai berubah menjadi orang dewasa–
+
+“Rimuru pasti akan baik-baik saja!"
+chapter_247,218,Tuan Rimuru,LABEL_3,sedih,0.6712315678596497,Ayo kalahkan orang ini agar kita bisa segera memanggil Rimuru kembali kepada kita!”
+chapter_247,219,Ramiris,LABEL_1,takut,0.8506489992141724,teriak Ramiris.
+chapter_247,220,Milim,LABEL_2,senang,0.9853547811508179,Kekuatan kembali ke mata Milim ketika dia mendengar ini.
+chapter_247,222,Ramiris,LABEL_3,sedih,0.9863417744636536,"Ayo lakukan ini, Ramiris!”"
+chapter_247,225,Milim,LABEL_2,senang,0.5623049736022949,Milim berdiri lagi dengan kekuatan baru.
+chapter_247,226,Yuuki,LABEL_2,senang,0.7373939752578735,"Bahkan Gaia, yang berada di bahunya, memelototi Yuuki."
+chapter_247,227,Milim,LABEL_2,senang,0.4833754003047943,Dan di sebelah Milim adalah Ramiris yang kini telah tumbuh menjadi wanita cantik.
+chapter_247,227,Ramiris,LABEL_2,senang,0.4833754003047943,Dan di sebelah Milim adalah Ramiris yang kini telah tumbuh menjadi wanita cantik.
+chapter_247,230,Tuan Rimuru,LABEL_0,marah,0.576295793056488,"Dia tampak seperti monster yang sulit dipercaya, tetapi jika ini akan menjadi akhir kita, maka setidaknya akan menyenangkan untuk memberikan semua yang aku miliki. ”"
+chapter_247,232,Guy,LABEL_2,senang,0.992531955242157,"Sudah lama, bukan, Guy?"
+chapter_247,233,Tuan Rimuru,LABEL_2,senang,0.9928008317947388,"Aku tidak akan meninggalkanmu sampai akhir, kau tahu.”"
+chapter_247,235,Tuan Rimuru,LABEL_2,senang,0.9648557305335999,aku ingin melihat bagaimana dunia telah berubah sejak aku memiliki kesempatan untuk bangkit dari kematian.
+chapter_247,236,Tuan Rimuru,LABEL_1,takut,0.634751558303833,"Yah, aku kira itu tidak dapat membantu karena hal-hal menjadi seperti ini."
+chapter_247,237,Velgrynd,LABEL_2,senang,0.9604819416999817,"Velgrynd, jika kita bertahan, maukah kamu menunjukkan kepadaku keliling dunia?”"
+chapter_247,238,Rudra,LABEL_2,senang,0.9796937108039856,"“Rudra, bodoh."
+chapter_247,239,Tuan Rimuru,LABEL_2,senang,0.9966116547584534,"Alih-alih dunia, aku akan mencari dirimu yang bereinkarnasi."
+chapter_247,240,Tuan Rimuru,LABEL_2,senang,0.9891931414604187,Juga … aku pikir kamu harus mengerti bahwa kamu tidak dihidupkan kembali.
+chapter_247,242,Tuan Rimuru,LABEL_2,senang,0.9608394503593445,Tidak dapat diduga bahwa Lord Rimuru telah dikalahkan.
+chapter_247,244,Tuan Rimuru,LABEL_2,senang,0.6010830402374268,"""Ya, tuan mungkin memiliki niatnya sendiri, tapi aku ragu kita tidak diizinkan untuk mengalahkan benda itu."""
+chapter_247,245,Yuuki,LABEL_2,senang,0.9329278469085693,Masing-masing dari mereka mengatakan apa yang mereka pikirkan dan bersatu untuk menentang Yuuki.
+chapter_247,246,Yuuki,LABEL_2,senang,0.6130159497261047,"Dan sekaligus, dengan seluruh tubuh dan jiwa mereka, mereka masing-masing menargetkan Yuuki dengan satu serangan paling mematikan mereka."
+chapter_247,247,Yuuki,LABEL_3,sedih,0.8285748958587646,–Semuanya sesuai dengan rencana Yuuki.
+chapter_247,248,Yuuki,LABEL_3,sedih,0.9878281354904175,"Sekarang Yuuki bisa menggunakan setiap kemampuan terakhir melalui skill asal, 'Information King: Akashic Records.'"
+chapter_247,250,Yuuki,LABEL_0,marah,0.6416206955909729,"Dengan energi yang cukup dibutuhkan untuk membawa kehancuran dunia yang akan datang sekarang di depannya, Yuuki tersenyum muram."

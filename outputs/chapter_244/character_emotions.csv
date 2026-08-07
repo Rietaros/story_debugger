@@ -1,0 +1,221 @@
+chapter_id,sentence_index,character,emotion_raw,emotion,score,sentence
+chapter_244,0,Tuan Rimuru,LABEL_2,senang,0.9233015179634094,"Bab 244/251 Pertempuran Tegas di Puncak Bagian 5
+
+Dan yah, begitulah aku juga telah bekerja keras."
+chapter_244,1,Tuan Rimuru,LABEL_2,senang,0.9253562688827515,aku yakin kamu semua mengerti sekarang bahwa aku sama sekali tidak mengendur.
+chapter_244,2,Velda,LABEL_4,terkejut,0.826447069644928,Velda terkejut dengan pintu masukku.
+chapter_244,4,Tuan Rimuru,LABEL_2,senang,0.8560980558395386,"Lagipula, aku muncul di sini menggunakan 'Teleportasi Instan' yang aku dapatkan beberapa waktu lalu."
+chapter_244,5,Ciel-san,LABEL_2,senang,0.8223612904548645,"Tepat saat aku mendapatkannya, Ciel mengimplementasikannya ke dalam 'Void God Azathoth'."
+chapter_244,5,Tuan Rimuru,LABEL_2,senang,0.8223612904548645,"Tepat saat aku mendapatkannya, Ciel mengimplementasikannya ke dalam 'Void God Azathoth'."
+chapter_244,6,Mai,LABEL_2,senang,0.949310839176178,"Sepertinya Mai tidak bisa pergi ke mana pun kecuali tempat-tempat yang pernah dia kunjungi, tetapi itu hanya batas bagi manusia."
+chapter_244,8,Tuan Rimuru,LABEL_3,sedih,0.7575602531433105,"Namun, aku menambahkan sihir pengawasan ke dalamnya dan dapat menangkap banyak informasi luar angkasa dengan mudah."
+chapter_244,9,Tuan Rimuru,LABEL_2,senang,0.6401718854904175,"Dengan kata lain, ini berarti aku bisa langsung berteleportasi ke mana saja yang bisa aku lihat."
+chapter_244,10,Diablo,LABEL_2,senang,0.8682690858840942,"Bahkan sekarang, aku bisa memahami situasinya melalui mata Diablo dan Veldora-san."
+chapter_244,10,Tuan Rimuru,LABEL_2,senang,0.8682690858840942,"Bahkan sekarang, aku bisa memahami situasinya melalui mata Diablo dan Veldora-san."
+chapter_244,10,Veldora-san,LABEL_2,senang,0.8682690858840942,"Bahkan sekarang, aku bisa memahami situasinya melalui mata Diablo dan Veldora-san."
+chapter_244,11,Tuan Rimuru,LABEL_2,senang,0.96181321144104,Itu juga alasan mengapa aku begitu mudah bisa datang.
+chapter_244,12,Tuan Rimuru,LABEL_0,marah,0.5114108324050903,"Melihat Velda berjaga-jaga karena penampilanku, aku memasang senyum berani."
+chapter_244,12,Velda,LABEL_0,marah,0.5114108324050903,"Melihat Velda berjaga-jaga karena penampilanku, aku memasang senyum berani."
+chapter_244,13,Tuan Rimuru,LABEL_1,takut,0.9786771535873413,Aku memprovokasi dia.
+chapter_244,15,Velda,LABEL_2,senang,0.9726755619049072,Rencanaku adalah melanjutkan persiapanku untuk menghentikan Velda di celah itu.
+chapter_244,16,Tuan Rimuru,LABEL_2,senang,0.6670410633087158,"Sebelum Velda bisa melakukan apa pun, aku menekan energi dan menyerap semuanya."
+chapter_244,16,Velda,LABEL_2,senang,0.6670410633087158,"Sebelum Velda bisa melakukan apa pun, aku menekan energi dan menyerap semuanya."
+chapter_244,17,Tuan Rimuru,LABEL_0,marah,0.9550506472587585,"Untungnya, energi aku masih belum pulih dan 'Void Space' terus terisi."
+chapter_244,18,Ciel-san,LABEL_2,senang,0.7565191984176636,Dan Ciel-san dengan rajin mengubahnya menjadi energi yang bisa kugunakan.
+chapter_244,19,Tuan Rimuru,LABEL_0,marah,0.9539043307304382,"Berkat itu, energiku, yang hampir habis, terisi kembali dan sekarang aku bisa menghadapi Velda dengan mudah."
+chapter_244,19,Velda,LABEL_0,marah,0.9539043307304382,"Berkat itu, energiku, yang hampir habis, terisi kembali dan sekarang aku bisa menghadapi Velda dengan mudah."
+chapter_244,21,Tuan Rimuru,LABEL_2,senang,0.9853657484054565,"Omong-omong, setelah datang ke tempat ini, aku menemukan mengapa energi aku tidak terisi."
+chapter_244,22,Veldora-san,LABEL_2,senang,0.9251446723937988,Penjahat di baliknya mungkin adalah Veldora-san.
+chapter_244,23,Tuan Rimuru,LABEL_1,takut,0.9648160934448242,aku pikir dia mengamuk setelah membuat klon.
+chapter_244,25,Ciel-san,LABEL_2,senang,0.9437984228134155,"Itu yang aku pikirkan tapi…
+
+Ketika aku mengkonfirmasinya dengan Ciel, jawaban yang mengejutkan datang kembali."
+chapter_244,25,Tuan Rimuru,LABEL_2,senang,0.9437984228134155,"Itu yang aku pikirkan tapi…
+
+Ketika aku mengkonfirmasinya dengan Ciel, jawaban yang mengejutkan datang kembali."
+chapter_244,27,Benimaru,LABEL_3,sedih,0.9880120754241943,Saya juga mengirim sedikit ke Diablo dan Benimaru.
+chapter_244,27,Diablo,LABEL_3,sedih,0.9880120754241943,Saya juga mengirim sedikit ke Diablo dan Benimaru.
+chapter_244,28,Tuan Rimuru,LABEL_0,marah,0.5416508316993713,Dan lebih banyak energi yang terkuras dalam mengembangkan kemampuan Velgrynd daripada yang saya harapkan.]
+chapter_244,28,Velgrynd,LABEL_0,marah,0.5416508316993713,Dan lebih banyak energi yang terkuras dalam mengembangkan kemampuan Velgrynd daripada yang saya harapkan.]
+chapter_244,30,Tuan Rimuru,LABEL_2,senang,0.7900387644767761,Dia mengatakannya begitu santai sehingga aku bingung bagaimana menjawabnya.
+chapter_244,31,Tuan Rimuru,LABEL_0,marah,0.6292953491210938,"Sekarang, dengarkan di sini, kamu menggunakan energi aku atas kemauan kamu sendiri, kamu tahu ……
+
+Tapi, meskipun aku ingin mengeluh, aku sedikit terbantu dengan jumlah energi yang rendah sebagai hasilnya."
+chapter_244,32,Tuan Rimuru,LABEL_2,senang,0.9708960652351379,aku memiliki banyak hal untuk dikatakan tetapi aku memutuskan untuk tidak melakukannya.
+chapter_244,33,Ciel-san,LABEL_4,terkejut,0.7235499024391174,"Atau lebih tepatnya, mungkinkah ……
+
+Apakah situasi ini juga di dalam lingkup hipotesis Ciel atau semacamnya?"
+chapter_244,35,Tuan Rimuru,LABEL_2,senang,0.9817678928375244,Itu pasti aku terlalu memikirkannya.
+chapter_244,37,Velda,LABEL_2,senang,0.44861283898353577,Tidak mungkin dia bisa melihat sejauh itu ke masa depan dan juga memprediksi tindakan seperti apa yang akan diambil Velda.
+chapter_244,39,Tuan Rimuru,LABEL_2,senang,0.9831704497337341,"Ya, aku tahu itu."
+chapter_244,41,Tuan Rimuru,LABEL_0,marah,0.8551066517829895,"Karena itu, sebagai sarana untuk situasi itu, saya sengaja mempertahankan keadaan 'energi rendah'.]"
+chapter_244,43,Velda,LABEL_0,marah,0.43607738614082336,"Selain itu, Velda mungkin telah menyerap semua energi dan menjadi sangat kuat atau semacamnya."
+chapter_244,44,Tuan Rimuru,LABEL_2,senang,0.9345633387565613,aku tidak mungkin melawan Velda itu ketika aku kehabisan bensin dan apa rencana kamu jika energi aku tidak pulih dengan benar?
+chapter_244,44,Velda,LABEL_2,senang,0.9345633387565613,aku tidak mungkin melawan Velda itu ketika aku kehabisan bensin dan apa rencana kamu jika energi aku tidak pulih dengan benar?
+chapter_244,48,Veldora-san,LABEL_2,senang,0.9063959121704102,".Aku tidak bisa memikirkan tuanku kehilangan hanya karena memiliki lebih sedikit energi dan bahkan dalam kasus itu, dengan mengambil paksa Veldora dan Velgrynd, adalah mungkin untuk mengisi 60% energi dalam sekejap."
+chapter_244,48,Velgrynd,LABEL_2,senang,0.9063959121704102,".Aku tidak bisa memikirkan tuanku kehilangan hanya karena memiliki lebih sedikit energi dan bahkan dalam kasus itu, dengan mengambil paksa Veldora dan Velgrynd, adalah mungkin untuk mengisi 60% energi dalam sekejap."
+chapter_244,51,Tuan Rimuru,LABEL_2,senang,0.9901816248893738,"kamu menyatakan bahwa menjadi sangat kuat tidak mungkin, tetapi bagaimana dengan aku?"
+chapter_244,52,Tuan Rimuru,LABEL_2,senang,0.9946348667144775,Apakah aku mungkin pengecualian?
+chapter_244,53,Ciel-san,LABEL_2,senang,0.9937500357627869,"……Aku merasa kamu terlalu melebih-lebihkanku, Ciel-san."
+chapter_244,53,Tuan Rimuru,LABEL_2,senang,0.9937500357627869,"……Aku merasa kamu terlalu melebih-lebihkanku, Ciel-san."
+chapter_244,54,Ciel-san,LABEL_2,senang,0.8720825910568237,Ciel-san adalah tipe orang yang menyelesaikan sesuatu ketika mereka mengatakan akan melakukannya.
+chapter_244,56,Veldora-san,LABEL_2,senang,0.8387405276298523,"Veldora-san dan Velgrynd memulihkan energi mereka sendiri sekarang jadi kurasa mungkin saja membuat mereka bekerja sama denganku, dalam skenario terburuk."
+chapter_244,56,Velgrynd,LABEL_2,senang,0.8387405276298523,"Veldora-san dan Velgrynd memulihkan energi mereka sendiri sekarang jadi kurasa mungkin saja membuat mereka bekerja sama denganku, dalam skenario terburuk."
+chapter_244,58,Ciel-san,LABEL_2,senang,0.9969011545181274,Aku merasa seperti baru saja melihat sekilas ketakutan Ciel-san tapi keraguanku hilang.
+chapter_244,58,Tuan Rimuru,LABEL_2,senang,0.9969011545181274,Aku merasa seperti baru saja melihat sekilas ketakutan Ciel-san tapi keraguanku hilang.
+chapter_244,59,Velda,LABEL_2,senang,0.9904815554618835,Yang tersisa hanyalah mengalahkan Velda.
+chapter_244,60,Tuan Rimuru,LABEL_2,senang,0.9511215686798096,"Dan, sebelum itu……
+
+Aku melihat bola di tangan kiriku."
+chapter_244,62,Tuan Rimuru,LABEL_2,senang,0.8657041192054749,Sepertinya mirip dengan boneka yang aku buat tapi konsepnya benar-benar berbeda.
+chapter_244,64,Tuan Rimuru,LABEL_2,senang,0.9897570610046387,"aku pikir itu untuk aku tetapi untuk berpikir aku akan menjalaninya seperti ini, ya?"
+chapter_244,65,Tuan Rimuru,LABEL_2,senang,0.9911835193634033,"Meskipun, mengatakan aku 'hidup' terasa agak aneh."
+chapter_244,68,Tuan Rimuru,LABEL_2,senang,0.9834274649620056,Aku menatap bola kaget.
+chapter_244,71,Rudra,LABEL_2,senang,0.939625084400177,“Rudra!
+chapter_244,73,Velgrynd,LABEL_3,sedih,0.4875124394893646,"Velgrynd bertanya, meskipun mengalami sedikit kesulitan, ke bola."
+chapter_244,74,Rudra,LABEL_2,senang,0.7317950129508972,"Hmm… bola ini, Rudra?"
+chapter_244,75,Rudra,LABEL_2,senang,0.9098907113075256,"aku merasa kepribadiannya benar-benar berbeda dari Rudra yang aku kenal…
+
+“Hah!"
+chapter_244,75,Tuan Rimuru,LABEL_2,senang,0.9098907113075256,"aku merasa kepribadiannya benar-benar berbeda dari Rudra yang aku kenal…
+
+“Hah!"
+chapter_244,78,Tuan Rimuru,LABEL_2,senang,0.9785839915275574,"Bahkan jika kamu mengatakan kamu kokoh sebagai makhluk hidup, itu agak …
+
+Atau begitulah saat aku hendak membalas dengan sembarangan–
+
+Velda datang menutup celah di antara kami dalam sekejap dan mencoba memotongku."
+chapter_244,78,Velda,LABEL_2,senang,0.9785839915275574,"Bahkan jika kamu mengatakan kamu kokoh sebagai makhluk hidup, itu agak …
+
+Atau begitulah saat aku hendak membalas dengan sembarangan–
+
+Velda datang menutup celah di antara kami dalam sekejap dan mencoba memotongku."
+chapter_244,79,Tuan Rimuru,LABEL_2,senang,0.6647101044654846,"Namun, karena aku tidak lengah bahkan saat berbicara, aku menendang pedang yang ditancapkan ke tanah dan menghentikan pedang Velda dengan itu."
+chapter_244,79,Velda,LABEL_2,senang,0.6647101044654846,"Namun, karena aku tidak lengah bahkan saat berbicara, aku menendang pedang yang ditancapkan ke tanah dan menghentikan pedang Velda dengan itu."
+chapter_244,81,Tuan Rimuru,LABEL_2,senang,0.9377108216285706,"aku tidak terlalu meremehkan kamu untuk membiarkan penjagaan aku di sini, pada tahap akhir!"
+chapter_244,82,Tuan Rimuru,LABEL_2,senang,0.9510265588760376,aku tidak benar-benar ingin memuji dia tapi itu kebenaran jadi mau bagaimana lagi.
+chapter_244,83,Tuan Rimuru,LABEL_3,sedih,0.651986300945282,Velda tidak diragukan lagi adalah orang terkuat yang aku kenal.
+chapter_244,83,Velda,LABEL_3,sedih,0.651986300945282,Velda tidak diragukan lagi adalah orang terkuat yang aku kenal.
+chapter_244,84,Tuan Rimuru,LABEL_2,senang,0.9343534111976624,"Dilihat dari pandangan singkat yang aku dapatkan darinya, dia tampaknya menjadi lebih kuat."
+chapter_244,85,Guy,LABEL_2,senang,0.7942835688591003,"Rasanya seperti kombinasi dari kekuatan Mahakuasa Guy, kekuatan Milim dan tingkat energi naga."
+chapter_244,85,Milim,LABEL_2,senang,0.7942835688591003,"Rasanya seperti kombinasi dari kekuatan Mahakuasa Guy, kekuatan Milim dan tingkat energi naga."
+chapter_244,86,Tuan Rimuru,LABEL_2,senang,0.9647828340530396,"aku berpikir untuk menyerangnya saat dia masih berhati-hati terhadap aku, tetapi itu benar untuk berhenti."
+chapter_244,87,Tuan Rimuru,LABEL_2,senang,0.5996972918510437,"Seperti yang diharapkan, aku tidak boleh lengah di sekitar orang ini."
+chapter_244,88,Tuan Rimuru,LABEL_2,senang,0.9941800832748413,aku harus melanjutkan dengan hati-hati.
+chapter_244,90,Tuan Rimuru,LABEL_2,senang,0.980442464351654,"Dan sementara hal-hal seperti itu ada, tidak mungkin aku lengah."
+chapter_244,91,Tuan Rimuru,LABEL_2,senang,0.9297059178352356,"Setelah bertukar beberapa pukulan dengannya, aku membuat jarak di antara kami."
+chapter_244,95,Tuan Rimuru,LABEL_3,sedih,0.5058820247650146,"Dalam hal kinerja murni, yang satu ini lebih baik dari aku."
+chapter_244,96,Tuan Rimuru,LABEL_2,senang,0.8598243594169617,"Meski begitu, karena aku sudah terbiasa menggunakan milikku dan rasanya jauh lebih baik, aku tidak akan mengkhianatinya."
+chapter_244,101,Tuan Rimuru,LABEL_2,senang,0.8531206250190735,Bola yang aku pegang di tangan kiri aku terus memberikan evaluasi seperti itu.
+chapter_244,102,Tuan Rimuru,LABEL_2,senang,0.9224576950073242,Atau lebih tepatnya … bagaimana aku harus mengatakannya … siapa kamu?
+chapter_244,103,Tuan Rimuru,LABEL_2,senang,0.9920246601104736,"Karena aku memelukmu, aku harus berurusan dengan Velda hanya dengan tangan kananku, tahu?"
+chapter_244,103,Velda,LABEL_2,senang,0.9920246601104736,"Karena aku memelukmu, aku harus berurusan dengan Velda hanya dengan tangan kananku, tahu?"
+chapter_244,104,Tuan Rimuru,LABEL_2,senang,0.5398986339569092,"Itu standar bagiku untuk menggunakan pedang dengan dua tangan, jadi aku tidak terbiasa dengan ini."
+chapter_244,106,Rudra,LABEL_1,takut,0.8776165246963501,"Rudra yang aku kenal adalah kaisar jadi dia juga cukup sombong, tetapi kamu berada di level yang sama sekali berbeda. ”"
+chapter_244,106,Tuan Rimuru,LABEL_1,takut,0.8776165246963501,"Rudra yang aku kenal adalah kaisar jadi dia juga cukup sombong, tetapi kamu berada di level yang sama sekali berbeda. ”"
+chapter_244,108,Tuan Rimuru,LABEL_2,senang,0.9920706152915955,Jadi aku memang menjadi kaisar.
+chapter_244,109,Tuan Rimuru,LABEL_2,senang,0.9234639406204224,"Nah, jika aku berhenti membidik lebih tinggi setelah itu maka aku pasti sudah melunak, ya? ”"
+chapter_244,110,Tuan Rimuru,LABEL_2,senang,0.7298772931098938,“Itu tidak terlalu penting bagi aku dan aku juga tidak tertarik.
+chapter_244,112,Tuan Rimuru,LABEL_4,terkejut,0.9877419471740723,"Mengabaikan bola saat mulai berbicara tentang dirinya sendiri, aku mengajukan pertanyaan penting."
+chapter_244,113,Tuan Rimuru,LABEL_2,senang,0.9827081561088562,Aku tidak bisa dengan santai menghadapinya dengan Velda di depanku.
+chapter_244,113,Velda,LABEL_2,senang,0.9827081561088562,Aku tidak bisa dengan santai menghadapinya dengan Velda di depanku.
+chapter_244,115,Rudra,LABEL_2,senang,0.9921330809593201,"kamu, kamu tampak persis seperti Rudra dan kamu tidak merasa seperti hanya reproduksi kenangan. ”"
+chapter_244,117,Velgrynd,LABEL_3,sedih,0.9361013174057007,Kata-kata Velgrynd menarik minatku.
+chapter_244,123,Tuan Rimuru,LABEL_2,senang,0.9974527955055237,Bola memori yang aku buat hanya mereproduksi kenangan.
+chapter_244,125,Tuan Rimuru,LABEL_2,senang,0.975002646446228,"Jika itu mungkin, aku tidak akan melalui rencana yang menyusahkan ini. ”"
+chapter_244,126,Velda,LABEL_4,terkejut,0.6543445587158203,Sepertinya Velda juga tertarik dengan fenomena ini.
+chapter_244,127,Rudra,LABEL_2,senang,0.7373777031898499,Dia tampaknya sangat menyadari bidang yang dia ciptakan dan fakta bahwa Rudra memperoleh kehendak bebas itu sendiri seharusnya tidak mungkin.
+chapter_244,130,Tuan Rimuru,LABEL_2,senang,0.9976231455802917,"Aku terlalu kuat, begitulah adanya.”"
+chapter_244,132,Rudra,LABEL_2,senang,0.9944955706596375,Rudra pasti mati.
+chapter_244,136,Rudra,LABEL_2,senang,0.7258333563804626,[Kaisar Rudra menghabiskan jiwanya dengan bereinkarnasi berkali-kali.
+chapter_244,143,Tuan Rimuru,LABEL_2,senang,0.8644784688949585,"Lagipula, kalau dipikir-pikir, aku bereinkarnasi sebagai slime juga tidak mungkin."
+chapter_244,144,Rudra,LABEL_2,senang,0.8081017732620239,"Jadi, di suatu tempat di dunia ini, ada seseorang yang memegang pecahan jiwa Rudra dan dengan demikian, ingatan yang direproduksi oleh bola ingatan juga bisa mereproduksi kehendaknya, kan?"
+chapter_244,145,Tuan Rimuru,LABEL_2,senang,0.9963799118995667,"Jika itu masalahnya maka–
+
+Ini menyadarkan aku."
+chapter_244,146,Tuan Rimuru,LABEL_2,senang,0.9227927923202515,"Dan kemudian, aku menjalankan apa yang diperintahkan hati nakal aku."
+chapter_244,147,Tuan Rimuru,LABEL_2,senang,0.8463824987411499,"“Rimuru, apa yang kamu– ?!”"
+chapter_244,149,Velgrynd,LABEL_2,senang,0.9632259607315063,Velgrynd mengangkat suaranya dengan bingung.
+chapter_244,150,Rudra,LABEL_2,senang,0.9842267632484436,Dan Rudra penasaran.
+chapter_244,151,Tuan Rimuru,LABEL_2,senang,0.9967562556266785,Bukannya aku melakukan sesuatu yang hebat.
+chapter_244,152,Tuan Rimuru,LABEL_2,senang,0.5770332217216492,Aku baru saja melemparkan pedang ke arah Velgrynd.
+chapter_244,152,Velgrynd,LABEL_2,senang,0.5770332217216492,Aku baru saja melemparkan pedang ke arah Velgrynd.
+chapter_244,154,Tuan Rimuru,LABEL_2,senang,0.9801614880561829,Aku memasukkan bola bercahaya itu ke dalam akar tubuh pedang Dewa.
+chapter_244,155,Tuan Rimuru,LABEL_2,senang,0.9764590263366699,aku menggabungkannya sedemikian rupa sehingga menjadi satu dengan pedang.
+chapter_244,156,Rudra,LABEL_2,senang,0.6405202746391296,"Jika dia benar-benar bereinkarnasi dengan jiwa, maka dengan memiliki pedang, Rudra harus bisa mengeluarkan kemampuannya sendiri."
+chapter_244,157,Tuan Rimuru,LABEL_0,marah,0.6722986698150635,aku membuatnya dengan cara itu sehingga tidak boleh ada kesalahan.
+chapter_244,158,Ciel-san,LABEL_2,senang,0.6906759142875671,aku juga membuat Ciel-sensei mengubah Rudra menjadi Manas semu agar pemiliknya juga bisa berbicara dengannya.
+chapter_244,158,Rudra,LABEL_2,senang,0.6906759142875671,aku juga membuat Ciel-sensei mengubah Rudra menjadi Manas semu agar pemiliknya juga bisa berbicara dengannya.
+chapter_244,158,Tuan Rimuru,LABEL_2,senang,0.6906759142875671,aku juga membuat Ciel-sensei mengubah Rudra menjadi Manas semu agar pemiliknya juga bisa berbicara dengannya.
+chapter_244,159,Tuan Rimuru,LABEL_4,terkejut,0.7109212279319763,Seharusnya sudah jelas tetapi aku sudah menganalisis data bola memori.
+chapter_244,160,Tuan Rimuru,LABEL_2,senang,0.9772198796272278,“Aku membuatnya menjadi 'Sentient Sword'.
+chapter_244,161,Rudra,LABEL_2,senang,0.8652437925338745,"Aku menggabungkan pedang dengan wasiat Rudra jadi mulai sekarang, pedang itu tidak bisa digunakan oleh siapa pun yang tidak sepaham dengannya."
+chapter_244,161,Tuan Rimuru,LABEL_2,senang,0.8652437925338745,"Aku menggabungkan pedang dengan wasiat Rudra jadi mulai sekarang, pedang itu tidak bisa digunakan oleh siapa pun yang tidak sepaham dengannya."
+chapter_244,162,Rudra,LABEL_0,marah,0.48702460527420044,"Dengan kata lain, itu akan menjadi bukti bahwa orang yang memenuhi syarat untuk memegang pedang adalah reinkarnasi Rudra."
+chapter_244,164,Tuan Rimuru,LABEL_1,takut,0.9350758790969849,aku pikir aku akan dimarahi seperti 'Jangan lakukan apapun yang kamu suka!'
+chapter_244,165,Velgrynd,LABEL_2,senang,0.9293544888496399,atau sesuatu tapi Velgrynd baru saja menerima pedang dan memeluknya.
+chapter_244,166,Rudra,LABEL_3,sedih,0.924075722694397,Rudra tertawa seperti sedang bersenang-senang.
+chapter_244,168,Tuan Rimuru,LABEL_2,senang,0.9860545992851257,"Begitu, jadi maksudmu ada kemungkinan aku bereinkarnasi?"
+chapter_244,169,Tuan Rimuru,LABEL_2,senang,0.7583411335945129,"Begitu, itu juga akan membuktikan mengapa aku memiliki kebebasan berkehendak!"
+chapter_244,171,Rudra,LABEL_2,senang,0.7216095924377441,"Mendengar Rudra, Velgrynd juga mengangguk, setuju."
+chapter_244,171,Velgrynd,LABEL_2,senang,0.7216095924377441,"Mendengar Rudra, Velgrynd juga mengangguk, setuju."
+chapter_244,172,Velda,LABEL_2,senang,0.7196418642997742,Velda merasa jengkel tetapi juga terlihat puas di suatu tempat saat dia memelototiku.
+chapter_244,173,Ciel-san,LABEL_2,senang,0.8364374041557312,"Memikirkan bagaimana dan mengapa rencananya gagal, dia mengakui bahwa deduksi milikku—atau lebih tepatnya, Ciel, benar."
+chapter_244,174,Tuan Rimuru,LABEL_2,senang,0.9190699458122253,"Menggunakan celah ketika Velda melihat ke 'Sentient Sword', aku menghunus pedangku dan mengambil kuda-kuda."
+chapter_244,174,Velda,LABEL_2,senang,0.9190699458122253,"Menggunakan celah ketika Velda melihat ke 'Sentient Sword', aku menghunus pedangku dan mengambil kuda-kuda."
+chapter_244,175,Tuan Rimuru,LABEL_3,sedih,0.8291846513748169,"Dengan ini, aku bisa keluar semua."
+chapter_244,177,Tuan Rimuru,LABEL_2,senang,0.9744487404823303,aku berharap dapat bertemu dengannya.”
+chapter_244,180,Tuan Rimuru,LABEL_2,senang,0.9924571514129639,"Jika dia benar-benar ada di suatu tempat, aku ingin bertemu dengannya."
+chapter_244,181,Velgrynd,LABEL_2,senang,0.3993384838104248,"Reinkarnasimu, yang benar-benar beruntung dan pengecut–” kata Velgrynd dengan santai."
+chapter_244,184,Tuan Rimuru,LABEL_2,senang,0.6305835247039795,"Dia tidak memiliki karisma tetapi keberuntungan yang dia miliki pasti lebih dari mengimbanginya…
+
+Kemampuan yang dia miliki juga 'Yang Terpilih' jika aku ingat benar ……
+
+Ini kebetulan."
+chapter_244,186,Rudra,LABEL_2,senang,0.9768436551094055,Aku mengabaikan percakapan Rudra dan Velgrynd dan memutuskan untuk tidak memikirkannya lagi.
+chapter_244,186,Tuan Rimuru,LABEL_2,senang,0.9768436551094055,Aku mengabaikan percakapan Rudra dan Velgrynd dan memutuskan untuk tidak memikirkannya lagi.
+chapter_244,186,Velgrynd,LABEL_2,senang,0.9768436551094055,Aku mengabaikan percakapan Rudra dan Velgrynd dan memutuskan untuk tidak memikirkannya lagi.
+chapter_244,187,Rudra,LABEL_2,senang,0.9532691240310669,"Jika takdir menghendakinya, maka mereka akan bertemu secara kebetulan dan jika dia benar-benar reinkarnasi dari Rudra, maka mereka pasti akan bertemu bahkan tanpa aku mengatakan apapun tentangnya."
+chapter_244,187,Tuan Rimuru,LABEL_2,senang,0.9532691240310669,"Jika takdir menghendakinya, maka mereka akan bertemu secara kebetulan dan jika dia benar-benar reinkarnasi dari Rudra, maka mereka pasti akan bertemu bahkan tanpa aku mengatakan apapun tentangnya."
+chapter_244,188,Velgrynd,LABEL_2,senang,0.960078239440918,"Selain itu, jika, secara kebetulan, apa yang menurutku benar, dia mungkin tidak akan bisa melarikan diri dari Velgrynd."
+chapter_244,190,Tuan Rimuru,LABEL_2,senang,0.8983222842216492,Aku agak merasa seperti aku mungkin telah berlebihan beberapa hal tapi itu masalah mereka sekarang.
+chapter_244,191,Rudra,LABEL_2,senang,0.9388970136642456,"Meski tidak bertanggung jawab, aku memutuskan untuk tidak berhubungan dengan masalah Rudra ke depan."
+chapter_244,191,Tuan Rimuru,LABEL_2,senang,0.9388970136642456,"Meski tidak bertanggung jawab, aku memutuskan untuk tidak berhubungan dengan masalah Rudra ke depan."
+chapter_244,193,Velda,LABEL_1,takut,0.43003684282302856,Velda menjadi terlalu waspada terhadapku dan tidak akan datang menggunakan serangan habis-habisan.
+chapter_244,194,Tuan Rimuru,LABEL_3,sedih,0.9630825519561768,laporkan iklan ini aku hanya menangkisnya dengan ringan dan menunggu persiapannya selesai.
+chapter_244,195,Tuan Rimuru,LABEL_2,senang,0.5294451117515564,"Dan akhirnya-
+
+“Aku berhasil, Rimuru!"
+chapter_244,196,Tuan Rimuru,LABEL_2,senang,0.9089540839195251,Gaia dan aku menyegel seluruh dunia surgawi ke dimensi lain!”
+chapter_244,197,Ramiris,LABEL_1,takut,0.8506489992141724,teriak Ramiris.
+chapter_244,200,Tuan Rimuru,LABEL_3,sedih,0.9567874073982239,Aku tersenyum penuh kemenangan ke arah Velda.
+chapter_244,200,Velda,LABEL_3,sedih,0.9567874073982239,Aku tersenyum penuh kemenangan ke arah Velda.
+chapter_244,202,Ramiris,LABEL_2,senang,0.9744754433631897,"Jadi, aku membawa Ramiris dan Gaia–Naga Bumi, ke dunia selestial untuk menutup tempat itu sepenuhnya."
+chapter_244,202,Tuan Rimuru,LABEL_2,senang,0.9744754433631897,"Jadi, aku membawa Ramiris dan Gaia–Naga Bumi, ke dunia selestial untuk menutup tempat itu sepenuhnya."
+chapter_244,203,Ramiris,LABEL_2,senang,0.5355655550956726,Ramiris sudah memiliki labirinnya jadi tidak mungkin baginya tapi Gaia bisa membuat labirin palsu–dia mendemonstrasikannya sebelumnya.
+chapter_244,204,Ramiris,LABEL_0,marah,0.4758702218532562,"Di bawah bimbingan Ramiris, labirin Gaia benar-benar menutupi seluruh dunia surgawi."
+chapter_244,206,Velda,LABEL_2,senang,0.953781247138977,"Untuk pertama kalinya, warna emosi bisa dilihat dari ekspresi Velda."
+chapter_244,207,Tuan Rimuru,LABEL_2,senang,0.9746641516685486,"Dan itu adalah agitasi, seperti yang aku inginkan."
+chapter_244,208,Milim,LABEL_2,senang,0.6950274109840393,"Dan di atas itu, Ramiris dan Gaia berhasil menyelamatkan Milim, yang tertangkap."
+chapter_244,208,Ramiris,LABEL_2,senang,0.6950274109840393,"Dan di atas itu, Ramiris dan Gaia berhasil menyelamatkan Milim, yang tertangkap."
+chapter_244,212,Milim,LABEL_3,sedih,0.4653138816356659,Milim diselamatkan dengan aman dan dikejutkan oleh pertumbuhan Gaia.
+chapter_244,213,Tuan Rimuru,LABEL_2,senang,0.7462865114212036,"“Kita sudah selesai dengan misi kita di sini, Rimuru!"
+chapter_244,215,Ramiris,LABEL_1,takut,0.5987821221351624,Ramiris memberiku tanda 'GO' dengan sombong.
+chapter_244,216,Tuan Rimuru,LABEL_2,senang,0.9829402565956116,"Menambah itu,
+
+“Sejujurnya, aku ingin melakukannya tetapi aku tidak bisa menang."
+chapter_244,217,Tuan Rimuru,LABEL_2,senang,0.8962261080741882,"Rimuru, balas dendam padaku!”"
+chapter_244,218,Milim,LABEL_2,senang,0.9811995029449463,kata Milim.
+chapter_244,220,Tuan Rimuru,LABEL_2,senang,0.8792384266853333,Aku akan mengukirnya ke dalam tubuhnya – pembalasan yang dia dapatkan karena menumpangkan tangan pada sekutuku!”
+chapter_244,221,Milim,LABEL_2,senang,0.592968225479126,aku menjawab Milim mengangkat satu tangan dan juga menyatakan kepada Velda.
+chapter_244,221,Tuan Rimuru,LABEL_2,senang,0.592968225479126,aku menjawab Milim mengangkat satu tangan dan juga menyatakan kepada Velda.
+chapter_244,221,Velda,LABEL_2,senang,0.592968225479126,aku menjawab Milim mengangkat satu tangan dan juga menyatakan kepada Velda.
+chapter_244,223,Tuan Rimuru,LABEL_2,senang,0.9919412136077881,"Itu yang aku pikirkan tapi…
+
+Suara ledakan yang sangat keras bisa terdengar dan salah satu sudut dunia selestial terhempas."
+chapter_244,224,Tuan Rimuru,LABEL_2,senang,0.972146213054657,"Aku melihat ke arah itu dengan terkejut tapi–
+
+Di sana, aku bisa melihat Veldora-san yang menjadi gelap gulita."
+chapter_244,224,Veldora-san,LABEL_2,senang,0.972146213054657,"Aku melihat ke arah itu dengan terkejut tapi–
+
+Di sana, aku bisa melihat Veldora-san yang menjadi gelap gulita."

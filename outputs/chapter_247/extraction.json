@@ -1,0 +1,53 @@
+{
+  "chapter_id": "chapter_247",
+  "title": "Chapter 247",
+  "synopsis": "A decisive battle unfolds between Rimuru and Yuuki, where strategies and abilities clash as Yuuki seeks power and dominance.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_247",
+      "title": "Yuuki's Strategy Against Rimuru",
+      "location": "Unknown",
+      "pov": "Yuuki",
+      "mood": "tense",
+      "summary": "Yuuki revels in his power but acknowledges Rimuru as a formidable opponent, strategizing to gain the upper hand.",
+      "text": "Yuuki contemplates his next move against Rimuru, reflecting on past encounters and planning his strategy.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_247",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "title": "Yuuki Decides to Use His Full Power",
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Yuuki",
+            "Rimuru"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Yuuki resolves to unleash his full power against Rimuru, sensing the urgency of the battle."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Rimuru",
+      "aliases": []
+    },
+    {
+      "canonical": "Yuuki",
+      "aliases": []
+    },
+    {
+      "canonical": "Velda",
+      "aliases": []
+    }
+  ]
+}

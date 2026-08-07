@@ -1,0 +1,1345 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>chapter_247 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+<style>
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    --dark: #0f172a;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --accent-red: #ef4444;
+    --accent-red-bg: #fee2e2;
+    --accent-amber: #f59e0b;
+    --accent-amber-bg: #fef3c7;
+    --accent-blue: #3b82f6;
+    --accent-blue-bg: #dbeafe;
+    --accent-green: #10b981;
+    --accent-green-bg: #d1fae5;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+header {
+    padding: 36px 48px;
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    border-bottom: 4px solid var(--primary);
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    margin: 8px 0 0 0;
+    font-size: 15px;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+.container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.metric-card .label {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-card .value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-top: 10px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    background: #f1f5f9;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    width: fit-content;
+}
+
+.tab-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--dark);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.tab-btn.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.tab {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.good {
+    color: var(--accent-green);
+    font-weight: 700;
+    background: var(--accent-green-bg);
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Bug list and items styling */
+.bug-item {
+    border-left: 6px solid var(--accent-red);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff5f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    border-left-width: 6px;
+}
+
+.bug-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.bug-item.severity-high {
+    border-left-color: var(--accent-red);
+    background: #fff8f8;
+}
+
+.bug-item.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.bug-item.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.bug-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-high {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+}
+
+.badge-medium {
+    background: var(--accent-amber-bg);
+    color: #92400e;
+}
+
+.badge-low {
+    background: var(--accent-blue-bg);
+    color: #1e40af;
+}
+
+.bug-detail {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 14px;
+}
+
+.bug-detail p {
+    margin: 6px 0;
+}
+
+.bug-timeline-links {
+    margin: 12px 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+}
+
+.bug-timeline-links p {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+}
+
+.bug-timeline-links ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.bug-timeline-links li {
+    margin: 4px 0;
+    font-size: 13px;
+}
+
+.bug-timeline-links a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Character Sheet styles */
+.character-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.character-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.character-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.char-header {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+}
+
+.char-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.char-name-container h3 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.char-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+}
+
+.char-section h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.char-section p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.risk-none .risk-message {
+    background: var(--accent-green-bg);
+    color: #065f46;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.risk-active .risk-message {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-red);
+    line-height: 1.4;
+}
+
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.item-badge {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+.no-items {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.analysis-box {
+    margin-top: 16px;
+    background: #f8fafc;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-left-width: 5px;
+}
+
+.arc-analysis h4 {
+    margin: 12px 0 4px 0;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.arc-analysis p {
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.arc-card {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+}
+
+.arc-card img {
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 12px;
+}
+
+.timeline {
+    border-left: 4px solid var(--primary);
+    margin-left: 12px;
+    padding-left: 24px;
+}
+
+.timeline-item {
+    margin-bottom: 24px;
+    position: relative;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.03);
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border: 4px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.timeline-item h4 {
+    margin: 0 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--dark);
+}
+
+.timeline-item.has-bugs {
+    border-color: rgba(239, 68, 68, 0.35);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.08);
+}
+
+.timeline-item.has-bugs::before {
+    background: var(--accent-red);
+    box-shadow: 0 0 0 2px var(--accent-red);
+}
+
+.timeline-bugs {
+    margin: 14px 0;
+    display: grid;
+    gap: 10px;
+}
+
+.timeline-bug {
+    border: 1px solid rgba(239, 68, 68, 0.22);
+    border-left: 5px solid var(--accent-red);
+    background: #fff8f8;
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.timeline-bug.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.timeline-bug.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.timeline-bug-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.timeline-bug p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.timeline-empty-bugs {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+}
+
+.graph-detail-grid {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.graph-detail-row {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.graph-box {
+    height: 540px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.node-label {
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.search-box {
+    padding: 12px 16px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 12px 0;
+}
+
+.timeline-meta span {
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+details {
+    background: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+</style>
+</head>
+
+<body>
+<header>
+    <h1>Chapter 247</h1>
+    <p>Interactive Narrative Debugging Dashboard · Chapter ID: <strong>chapter_247</strong></p>
+</header>
+
+<div class="container">
+
+    <div class="grid">
+        <div class="metric-card">
+            <div class="label">Similarity to Baseline</div>
+            <div class="value">0.4441</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Drift Score</div>
+            <div class="value">0.5559</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Bugs Found</div>
+            <div class="value">2</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">High Severity</div>
+            <div class="value">1</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Overall Chapter Summary</h2>
+        <p>A decisive battle unfolds between Rimuru and Yuuki, where strategies and abilities clash as Yuuki seeks power and dominance.</p>
+    </div>
+
+    <div class="tabs">
+        <button id="tab-overview" class="tab-btn active" onclick="openTab('overview')">Overview</button>
+        <button id="tab-bugs" class="tab-btn" onclick="openTab('bugs')">Story Bugs</button>
+        <button id="tab-charactersheet" class="tab-btn" onclick="openTab('charactersheet')">Character Sheet</button>
+        <button id="tab-arcs" class="tab-btn" onclick="openTab('arcs')">Character Arcs</button>
+        <button id="tab-timeline" class="tab-btn" onclick="openTab('timeline')">Timeline</button>
+        <button id="tab-graph" class="tab-btn" onclick="openTab('graph')">Lore Graph</button>
+    </div>
+
+    <section id="overview" class="tab active">
+        <div class="card">
+            <h2>Chapter Drift Analysis</h2>
+            <p><strong>Similarity:</strong> 0.4441</p>
+            <p><strong>Drift:</strong> 0.5559</p>
+            <p>High drift. The chapter may strongly shift tone, theme, mood, or narrative direction.</p>
+            <canvas id="driftChart" height="90"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Bug Severity Distribution</h2>
+            <canvas id="bugChart" height="90"></canvas>
+        </div>
+    </section>
+
+    <section id="bugs" class="tab">
+        <div class="card">
+            <h2>Story Bugs Found</h2>
+            <input class="search-box" id="bugSearch" placeholder="Search bug rule/message..." oninput="filterBugs()">
+            <div id="bugList">
+                
+    <div class="bug-item severity-high" data-rule="contradiction">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>contradiction</strong>
+        </div>
+        <p>Yuuki&#x27;s ability to stop time and simultaneously use a powerful spell seems incongruent with previously established rules of magic where simultaneous complex spellcasting is not feasible.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>matched by evidence:</strong> <a href="#timeline-ev_001_001">ev_001_001 · Yuuki Decides to Use His Full Power</a> in sc_001 · Yuuki&#x27;s Strategy Against Rimuru at <code>Unknown</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> The Contradiction</p>
+        <p><strong>Definition:</strong> A character acts completely out of line with their established personality traits, or previously known facts are suddenly altered to fit a new scene.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-medium" data-rule="missing_details">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>missing_details</strong>
+        </div>
+        <p>The transition of characters like Milim and Ramiris from a state of despair to suddenly gaining determination to fight lacks sufficient buildup, making it feel abrupt.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>chapter-level:</strong> No exact event match in Chapter-level issue at <code>Unknown</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> Missing Details</p>
+        <p><strong>Definition:</strong> A vital piece of information, a key item, or a character’s injury is forgotten, conveniently disappears, or magically reappears between chapters or scenes.</p>
+        
+        </div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+
+    <section id="charactersheet" class="tab">
+        <div class="card">
+            <h2>Character Sheet</h2>
+            <p>Summary of character state, current actions, potential future plot hole risks, and acquired items/spells in this chapter.</p>
+            <div id="characterSheetBox" class="character-sheet-grid">
+                <!-- Dynamically filled by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="arcs" class="tab">
+        <div class="card">
+            <h2>Character Arc Analysis</h2>
+            
+            <div class="arc-card">
+                <h3>Velda</h3>
+                <img src="arc_Velda.png" alt="Emotion arc for Velda">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Velda experiences a complex emotional trajectory, beginning with feelings of happiness and ambition regarding his world-making plans, as seen in his intentions to create a new world and defeat Rimuru. However, this is contrasted by moments of sadness and anger associated with his role in managing the Mana Reactor and his limitations against Yuuki.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Although Velda is portrayed as confident and strategic in his actions, such as analyzing abilities and planning to counter Rimuru, he remains constrained and frustrated by his inability to use certain skills. His actions reflect an ongoing struggle to exert power while grappling with his dire circumstances.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The emotional climax occurs when Velda's anger surfaces upon realizing Yuuki's full control over the Mana Reactor, marking a shift from anticipation to a feeling of betrayal and helplessness.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This layered emotional journey underscores Velda's ambition juxtaposed with the limitations imposed upon him, highlighting his inner conflict as a villain and his strategic calculations.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>Velda's emotional states experience moments of inconsistency, particularly the shift from happiness to sadness and anger without supporting actions, which could confuse readers about his motivations.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Guy</h3>
+                <img src="arc_Guy.png" alt="Emotion arc for Guy">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In this chapter, Guy's emotions fluctuate between a sense of limited control and a nostalgic happiness. He shows a mix of anticipation and cheerfulness as he reflects on past encounters.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Guy does not display any explicit actions or decisions during the decisive battle between Rimuru and Yuuki, which feels somewhat detached. His feeling of 'senang' is connected to recollections rather than present engagement.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The mention of nostalgia in the line 'Sudah lama, bukan, Guy?' marks a critical emotional point. It anchors Guy's emotional experience to past battles, indicating a longing for connection despite current events.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>Guy’s emotional arc suggests a struggle between his past relationships and his current situation. The lack of active participation in the conflict may symbolize a deeper internal conflict or resignation.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The disparity between emotional peaks and Guy's inactivity may indicate a narrative inconsistency. Emotional highs are not fully supported by actions, which could weaken character engagement in the story's climax.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Milim</h3>
+                <img src="arc_Milim.png" alt="Emotion arc for Milim">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Milim experiences a fluctuating emotional journey in this chapter, beginning with a sense of sadness as she inherits the 'Mana Breeder Reactor,' symbolizing her immense power. Her emotions shift through joy upon incorporating the legacy of the sword, reflecting her pride and potential.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Despite not taking explicit actions during critical moments, Milim's emotional responses are deeply tied to her realizations. For instance, she sits down and cries, highlighting her vulnerability regarding Rimuru's disappearance, indicating a personal connection and emotional investment in the battle's outcome.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The pivotal moment occurs when Milim learns of Rimuru's status, initially leading to despair but quickly transforming into renewed strength. This intense emotional shift coincides with her rising determination to stand again, indicating a resurgence of power linked to her bond with Rimuru.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter illustrates the complexity of Milim's character, blending joy and sorrow intertwined with her identity and connections, showcasing her emotional depth and growth.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>Milim's rapid emotional oscillation, particularly from deep sadness to strength, might appear inconsistent without overt actions driving these shifts, potentially confusing readers regarding her stability.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Ramiris</h3>
+                <img src="arc_Ramiris.png" alt="Emotion arc for Ramiris">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Ramiris experiences a volatile emotional journey through joy, fear, and sadness as the battle unfolds. Initially, she is happy but quickly shifts to anger and fear upon realizing Rimuru's absence, feeling the weight of the situation.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>In this chapter, Ramiris’s emotions influence her reactions. When she becomes angry after Milim expresses sadness, it demonstrates her protective feelings towards Rimuru. Her fear intensifies when she shouts, indicating a desperate response to the chaos around her.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point occurs when Ramiris goes from anger to fear, reflecting her vulnerability during a critical moment. This shift highlights her concern for Rimuru and her role in the battle.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc underlines the stakes of the battle and how personal stakes affect individuals involved. Ramiris’s feelings serve to emphasize the implications of Rimuru's situation on their unity.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>There is a potential inconsistency where Ramiris initially exhibits happiness and then quickly transitions to sadness and fear without a clear event tying these emotions together, making her emotional journey feel abrupt.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Velgrynd</h3>
+                <img src="arc_Velgrynd.png" alt="Emotion arc for Velgrynd">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Velgrynd experiences moments of joy (senang) as the battle unfolds, highlighted by her eagerness to explore the world with another character. These emotional peaks suggest optimism amidst the chaos of battle.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Although specific actions by Velgrynd are absent in this chapter, her emotions indicate her readiness to engage and possibly reflect a supportive role in the dynamics between Rimuru and Yuuki. Her emotional highs signal an investment in the outcome of the conflict.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The conversation about exploring the world serves as a crucial moment where Velgrynd’s optimism contrasts with the surrounding tension of the battle, implying a deeper connection to the stakes at hand even without direct action.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>Velgrynd's emotional state provides depth to the narrative, suggesting that even in conflict, desires for companionship and adventure persist, highlighting themes of hope and camaraderie.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The lack of concrete actions accompanying significant emotional spikes may lead to inconsistencies in character portrayal, as her feelings do not clearly align with any visible contributions to the conflict.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Rudra</h3>
+                <img src="arc_Rudra.png" alt="Emotion arc for Rudra">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Rudra's emotional journey is best captured by the single moment of joy ("senang") expressed through the phrase, “Rudra, bodoh.” This suggests a moment of levity, possibly in the context of a wider conflict.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Despite the presence of a decisive battle between Rimuru and Yuuki, Rudra's actions in this chapter are not explicitly mentioned. The lack of concrete actions limits understanding of how his emotions translate into the narrative.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The only notable emotional spike occurs at sentence index 238, where Rudra's joyful reaction might serve as a brief respite amid tension, hinting at a rare moment of personal triumph or clarity.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This interplay of emotion without substantial action raises questions about Rudra's role in the battle. His joy might suggest confidence or mockery but lacks context, leaving his character’s agency in doubt.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The absence of specific actions does not align with the emotional high point, indicating a potential inconsistency. Clarifying Rudra's involvement could enhance his emotional arc and maintain narrative coherence.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Tuan Rimuru</h3>
+                <img src="arc_Tuan Rimuru.png" alt="Emotion arc for Tuan Rimuru">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Tuan Rimuru experiences a tumultuous emotional arc primarily characterized by moments of joy amidst intense conflict. His confidence spikes as he demonstrates superiority, but underlying tensions occasionally lead to surprise and sadness.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Rimuru's composure is repeatedly tested by Yuuki's strategic maneuvers. For instance, Rimuru successfully dodges attacks and analyzes Yuuki's primitive magic, maintaining a sense of triumph despite the stakes. However, as Yuuki manages to seal Rimuru's magic attacks, there are hints of vulnerability.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The pivotal moment occurs when Yuuki believes he has gained a tactical advantage by using time freeze magic. This moment creates a duality of Rimuru's high confidence clashing with Yuuki's desperate tactics, leading to an emotional fluctuation.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>The contrasting emotions enhance the high-stakes nature of the battle. Rimuru’s emotional stability serves as a counterbalance to Yuuki's escalating desperation, emphasizing the theme of confidence versus anxiety in conflict.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>Some emotional peaks, like Rimuru's surprise, lack direct narrative support, implying inconsistency. Clarifying these emotional reactions could strengthen character development.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Diablo</h3>
+                <img src="arc_Diablo.png" alt="Emotion arc for Diablo">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In this chapter, Diablo experiences a surge of anger, indicated by an emotional score of 0.86. His frustration likely arises from external threats and the chaotic nature of the battle unfolding between Rimuru and Yuuki.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>While specific actions for Diablo are not provided, his emotional response suggests he is either reacting to or strategizing against the ongoing conflict. His anger could signal a pivotal moment where he must decide whether to intervene or further observe the battle.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key turning point for Diablo hinges on his emotional intensity, reflecting a potential shift in how he engages with the battle. The mounting frustration might compel him to alter his approach, either by strengthening his resolve to assist Rimuru or by deciding to exploit the chaos for his own gain.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>Diablo's emotional state adds depth to the ongoing battle, emphasizing the stakes involved. It also lays the groundwork for potential conflict within the larger narrative, as his anger could lead to unpredictable decisions.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The lack of concrete actions from Diablo makes the emotional spike feel somewhat unsupported, risking reader connection and engagement. Aligning emotions more closely with his actions could enhance narrative coherence.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Yuuki</h3>
+                <img src="arc_Yuuki.png" alt="Emotion arc for Yuuki">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Yuuki exhibits a fluctuating emotional arc throughout the chapter, oscillating between feelings of excitement and dread. Initial excitement arises as he prepares to unleash his power against Rimuru, reveling in his strategic gameplay. However, as the battle progresses and he faces setbacks, fear and sadness intermingle with moments of triumph.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Yuuki's actions reflect his emotional state: he confidently resolves to use his full power and executes spells to overpower Rimuru. His shifts to fear emerge when his tactics fail, and he realizes the battle's escalating difficulty. Despite reasserting control, he senses a potential downfall, stemming from the limitations of his strategies.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The pivotal moment occurs when Yuuki, initially full of excitement, suddenly confronts the reality of his dwindling options and the powerful responses from Rimuru, shifting his emotional state from happiness to fear and sadness.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional complexity underscores Yuuki's ambition and vulnerability, highlighting that even the most powerful can feel overwhelmed.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>Some emotional spikes, particularly fear and sadness, arise during moments of action that may not fully support the depth of his reactions, indicating a potential inconsistency in emotional development.</p>
+</div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="timeline" class="tab">
+        <div class="card">
+            <h2>Event Timeline</h2>
+            <div id="timelineBox" class="timeline"></div>
+        </div>
+    </section>
+
+    <section id="graph" class="tab">
+        <div class="card">
+            <h2>Lore Graph</h2>
+            <p>Nodes represent characters, scenes, events, items, facts, and locations.</p>
+            <div id="graphBox" class="graph-box"></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+const DASHBOARD_DATA = {"arcData": [], "timelineData": [{"chapter_id": "chapter_247", "chapter_title": "Chapter 247", "chapter_synopsis": "A decisive battle unfolds between Rimuru and Yuuki, where strategies and abilities clash as Yuuki seeks power and dominance.", "scene_id": "sc_001", "scene_title": "Yuuki's Strategy Against Rimuru", "scene_label": "sc_001 · Yuuki's Strategy Against Rimuru", "scene_location": "Unknown", "scene_pov": "Yuuki", "scene_mood": "tense", "scene_summary": "Yuuki revels in his power but acknowledges Rimuru as a formidable opponent, strategizing to gain the upper hand.", "scene_text": "Yuuki contemplates his next move against Rimuru, reflecting on past encounters and planning his strategy.", "event_id": "ev_001_001", "seq": 1, "event_title": "Yuuki Decides to Use His Full Power", "event_label": "ev_001_001 · Yuuki Decides to Use His Full Power", "event_location": "Unknown", "graph_order": 6, "graph_markers": [], "graph_movements": [{"character": "Rimuru", "from_location": "Unknown", "to_location": "Unknown"}, {"character": "Yuuki", "from_location": null, "to_location": "Unknown"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["Yuuki", "Rimuru"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Yuuki resolves to unleash his full power against Rimuru, sensing the urgency of the battle.", "bugs": [{"id": "bug_001", "severity": "high", "rule": "contradiction", "message": "Yuuki's ability to stop time and simultaneously use a powerful spell seems incongruent with previously established rules of magic where simultaneous complex spellcasting is not feasible.", "evidence": {"character": "Yuuki", "description": "‘Tidak mungkin bagi Yuuki untuk mengaktifkan Chrono Saltation sendiri.’"}, "timeline_role": "matched by evidence"}]}], "timelineUnresolvedBugs": [{"id": "bug_002", "severity": "medium", "rule": "missing_details", "message": "The transition of characters like Milim and Ramiris from a state of despair to suddenly gaining determination to fight lacks sufficient buildup, making it feel abrupt.", "evidence": {"character": "Milim", "description": "‘Rimuru adalah… Rimuru telah menghilang…’ dan kemudian ‘Ya, kamu benar sekali. Ayo lakukan ini, Ramiris!’"}, "timeline_role": "chapter-level"}], "graphData": {"nodes": [{"id": "chapter_247", "label": "chapter_247", "group": "chapter", "title": "chapter_247"}, {"id": "Rimuru", "label": "Rimuru", "group": "character", "title": "Rimuru"}, {"id": "Yuuki", "label": "Yuuki", "group": "character", "title": "Yuuki"}, {"id": "Velda", "label": "Velda", "group": "character", "title": "Velda"}, {"id": "scene:sc_001", "label": "sc_001 · Yuuki's Strategy Against Rimuru", "group": "scene", "title": "sc_001: Yuuki's Strategy Against Rimuru"}, {"id": "Unknown", "label": "Unknown", "group": "location", "title": "Unknown"}, {"id": "event:ev_001_001", "label": "ev_001_001 · Yuuki Decides to Use His Full Power", "group": "event", "title": "ev_001_001: Yuuki Decides to Use His Full Power"}], "links": [{"source": "chapter_247", "target": "Rimuru", "label": "HAS_CHARACTER"}, {"source": "chapter_247", "target": "Yuuki", "label": "HAS_CHARACTER"}, {"source": "chapter_247", "target": "Velda", "label": "HAS_CHARACTER"}, {"source": "chapter_247", "target": "scene:sc_001", "label": "HAS_SCENE"}, {"source": "scene:sc_001", "target": "Unknown", "label": "SET_IN"}, {"source": "scene:sc_001", "target": "event:ev_001_001", "label": "HAS_EVENT"}, {"source": "Yuuki", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "Rimuru", "target": "event:ev_001_001", "label": "PARTICIPATES"}]}, "issueStats": {"high": 1, "medium": 1, "low": 0}, "characterSheet": [{"character": "Rimuru", "narrative_summary": "Rimuru faces off against Yuuki, demonstrating immense power and strategic insight throughout the battle.", "current_actions": "Rimuru analyzes Yuuki's primitive magic and attempts to counter it.", "risk_of_plot_hole": "Rimuru's analysis of Yuuki’s magic could be glossed over in future chapters, reducing the consistency of his character growth and strategic prowess.", "acquired_items_or_spells": []}, {"character": "Yuuki", "narrative_summary": "Yuuki showcases his cunning tactics and powerful abilities while battling Rimuru, fully deploying his plans.", "current_actions": "Yuuki utilizes time-stopping magic and launches multiple attacks to gain the upper hand in combat.", "risk_of_plot_hole": "If the time-stopping technique or its implications are not addressed in the future, this could create inconsistencies in the magic system.", "acquired_items_or_spells": ["Chrono Saltation"]}, {"character": "Velda", "narrative_summary": "Velda serves as a tool within Yuuki's plans, his powers being referenced but not actively involved in the confrontation.", "current_actions": "Velda's role is implied as he supports Yuuki's endeavors but does not take direct action.", "risk_of_plot_hole": "Velda's involvement and powers could be overlooked in future developments, leading to potential narrative inconsistencies.", "acquired_items_or_spells": []}]};
+
+function openTab(id) {
+    document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    
+    // Set correct active tab button
+    const btn = document.getElementById("tab-" + id);
+    if (btn) btn.classList.add("active");
+
+    if (id === "graph") {
+        setTimeout(renderGraph, 50);
+    }
+}
+
+function safeEscape(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function formatList(values) {
+    if (!values || !values.length) return "-";
+    return safeEscape(values.join(", "));
+}
+
+function severityBadge(severity) {
+    return `<span class="badge badge-${safeEscape(severity || "low")}">${safeEscape(severity || "low")}</span>`;
+}
+
+function renderTimelineBug(bug) {
+    const evidenceText = bug.evidence && Object.keys(bug.evidence).length
+        ? `<details><summary>Bug evidence</summary><pre>${safeEscape(JSON.stringify(bug.evidence, null, 2))}</pre></details>`
+        : "";
+
+    return `
+        <div class="timeline-bug severity-${safeEscape(bug.severity || "low")}">
+            <div class="timeline-bug-head">
+                ${severityBadge(bug.severity)}
+                <strong>${safeEscape(bug.rule || "story_bug")}</strong>
+                <span class="item-badge">${safeEscape(bug.timeline_role || "event")}</span>
+            </div>
+            <p>${safeEscape(bug.message || "-")}</p>
+            ${evidenceText}
+        </div>
+    `;
+}
+
+function renderGraphDetails(ev) {
+    const rows = [];
+
+    if (ev.graph_order) {
+        rows.push(`<div class="graph-detail-row"><strong>Graph order:</strong> ${safeEscape(ev.graph_order)}</div>`);
+    }
+
+    if (ev.graph_markers && ev.graph_markers.length) {
+        rows.push(`<div class="graph-detail-row"><strong>Graph markers:</strong> ${formatList(ev.graph_markers)}</div>`);
+    }
+
+    if (ev.graph_movements && ev.graph_movements.length) {
+        const movementText = ev.graph_movements
+            .map(m => `${m.character || "?"}: ${m.from_location || "Unknown"} -> ${m.to_location || "Unknown"}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Character movement:</strong> ${safeEscape(movementText)}</div>`);
+    }
+
+    if (ev.graph_item_events && ev.graph_item_events.length) {
+        const itemText = ev.graph_item_events
+            .map(item => `${item.action || "ITEM"} ${item.item || "?"}${item.owner ? " by " + item.owner : ""}${item.users && item.users.length ? " by " + item.users.join(", ") : ""}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Item continuity:</strong> ${safeEscape(itemText)}</div>`);
+    }
+
+    if (ev.graph_fact_events && ev.graph_fact_events.length) {
+        const factText = ev.graph_fact_events
+            .map(fact => `${fact.action || "FACT"}: ${fact.fact || "?"}${fact.character ? " / " + fact.character : ""}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Knowledge/facts:</strong> ${safeEscape(factText)}</div>`);
+    }
+
+    return rows.length ? `<div class="graph-detail-grid">${rows.join("")}</div>` : "";
+}
+
+function filterBugs() {
+    const query = document.getElementById("bugSearch").value.toLowerCase();
+    document.querySelectorAll(".bug-item").forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? "block" : "none";
+    });
+}
+
+if (window.Chart) {
+new Chart(document.getElementById("driftChart"), {
+    type: "bar",
+    data: {
+        labels: ["Similarity", "Drift"],
+        datasets: [{
+            label: "Semantic Score",
+            data: [0.4441, 0.5559],
+            backgroundColor: ["#4f46e5", "#ef4444"]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("bugChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["High", "Medium", "Low"],
+        datasets: [{
+            data: [
+                DASHBOARD_DATA.issueStats.high,
+                DASHBOARD_DATA.issueStats.medium,
+                DASHBOARD_DATA.issueStats.low
+            ],
+            backgroundColor: ["#ef4444", "#f59e0b", "#3b82f6"]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+}
+
+function renderCharacterSheet() {
+    const box = document.getElementById("characterSheetBox");
+    const sheet = DASHBOARD_DATA.characterSheet || [];
+
+    if (!sheet.length) {
+        box.innerHTML = "<p>No character sheet data available for this chapter.</p>";
+        return;
+    }
+
+    box.innerHTML = sheet.map(char => {
+        const items = char.acquired_items_or_spells || [];
+        const itemsList = items.length 
+            ? items.map(item => `<span class="item-badge">${safeEscape(item)}</span>`).join(" ")
+            : "<span class='no-items'>None</span>";
+
+        const hasRisk = char.risk_of_plot_hole && char.risk_of_plot_hole.toLowerCase() !== "none";
+        const riskClass = hasRisk ? "risk-active" : "risk-none";
+
+        return `
+            <div class="character-card">
+                <div class="char-header">
+                    <div class="char-avatar">${safeEscape(char.character ? char.character[0] : "?")}</div>
+                    <div class="char-name-container">
+                        <h3>${safeEscape(char.character)}</h3>
+                    </div>
+                </div>
+                <div class="char-body">
+                    <div class="char-section">
+                        <h4>Narrative Summary</h4>
+                        <p>${safeEscape(char.narrative_summary)}</p>
+                    </div>
+                    <div class="char-section">
+                        <h4>Current Actions</h4>
+                        <p>${safeEscape(char.current_actions)}</p>
+                    </div>
+                    <div class="char-section ${riskClass}">
+                        <h4>Future Plot Hole Risk</h4>
+                        <div class="risk-message">
+                            ${hasRisk 
+                                ? `⚠️ ${safeEscape(char.risk_of_plot_hole)}`
+                                : `✅ No major risks detected`
+                            }
+                        </div>
+                    </div>
+
+                    <div class="char-section">
+                        <h4>Acquired Items & Spells</h4>
+                        <div class="items-container">${itemsList}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderTimeline() {
+    const box = document.getElementById("timelineBox");
+    const rows = DASHBOARD_DATA.timelineData || [];
+    const unresolvedBugs = DASHBOARD_DATA.timelineUnresolvedBugs || [];
+
+    if (!rows.length) {
+        box.innerHTML = "<p>No timeline data available.</p>";
+        return;
+    }
+
+    const unresolvedHtml = unresolvedBugs.length
+        ? `
+            <div class="timeline-empty-bugs">
+                <h3>Chapter-Level Bugs</h3>
+                <p>These story bugs were detected, but the report could not pin them to one exact event.</p>
+                <div class="timeline-bugs">
+                    ${unresolvedBugs.map(renderTimelineBug).join("")}
+                </div>
+            </div>
+        `
+        : "";
+
+    box.innerHTML = unresolvedHtml + rows.map(ev => {
+        const bugs = ev.bugs || [];
+        const bugHtml = bugs.length
+            ? `<div class="timeline-bugs">${bugs.map(renderTimelineBug).join("")}</div>`
+            : "";
+        const graphDetails = renderGraphDetails(ev);
+        const cssClass = bugs.length ? "timeline-item has-bugs" : "timeline-item";
+
+        return `
+        <div class="${cssClass}" id="timeline-${safeEscape(ev.event_id)}">
+            <h4>${safeEscape(ev.chapter_id)} · ${safeEscape(ev.chapter_title || "-")}</h4>
+
+            <div class="timeline-meta">
+                <span><strong>Scene:</strong> ${safeEscape(ev.scene_id)} · ${safeEscape(ev.scene_title || "-")}</span>
+                <span><strong>Event:</strong> ${safeEscape(ev.event_id)} · ${safeEscape(ev.event_title || "-")}</span>
+                ${ev.graph_order ? `<span><strong>Graph Order:</strong> ${safeEscape(ev.graph_order)}</span>` : ""}
+                <span><strong>POV:</strong> ${safeEscape(ev.scene_pov || "-")}</span>
+                <span><strong>Mood:</strong> ${safeEscape(ev.scene_mood || "-")}</span>
+                <span><strong>Location:</strong> ${safeEscape(ev.event_location || ev.scene_location || "-")}</span>
+            </div>
+
+            <h3>${safeEscape(ev.event_id)}: ${safeEscape(ev.event_title || "-")} · Event #${safeEscape(ev.seq)}</h3>
+            ${bugHtml}
+            <p><strong>Event Summary:</strong> ${safeEscape(ev.summary || "-")}</p>
+            <p><strong>Scene Summary:</strong> ${safeEscape(ev.scene_summary || "-")}</p>
+
+            <div class="timeline-meta" style="margin-top: 12px; background: transparent; border: none; padding: 0;">
+                ${ ev.participants && ev.participants.length ? `<span><strong>Participants:</strong> ${formatList(ev.participants)}</span>` : "" }
+                ${ ev.acquired_items && ev.acquired_items.length ? `<span style="background: var(--accent-green-bg); color: #065f46;"><strong>Acquired:</strong> ${formatList(ev.acquired_items)}</span>` : "" }
+                ${ ev.used_items && ev.used_items.length ? `<span style="background: var(--accent-amber-bg); color: #92400e;"><strong>Used:</strong> ${formatList(ev.used_items)}</span>` : "" }
+                ${ ev.revelations && ev.revelations.length ? `<span style="background: var(--accent-blue-bg); color: #1e40af;"><strong>Revelation:</strong> ${formatList(ev.revelations)}</span>` : "" }
+            </div>
+
+            ${graphDetails}
+
+            <details>
+                <summary>Show extracted details</summary>
+                <p><strong>Participants:</strong> ${formatList(ev.participants)}</p>
+                <p><strong>Acquired Items:</strong> ${formatList(ev.acquired_items)}</p>
+                <p><strong>Used Items:</strong> ${formatList(ev.used_items)}</p>
+                <p><strong>Revelations:</strong> ${formatList(ev.revelations)}</p>
+                <p><strong>Knowledge Gains:</strong> ${safeEscape(JSON.stringify(ev.knowledge_gains || {}))}</p>
+                <p><strong>Causal Parents:</strong> ${formatList(ev.causal_parents)}</p>
+                <p><strong>Start Time:</strong> ${safeEscape(ev.start_time || "-")}</p>
+                <p><strong>End Time:</strong> ${safeEscape(ev.end_time || "-")}</p>
+                <p><strong>Graph Markers:</strong> ${formatList(ev.graph_markers)}</p>
+                <p><strong>Scene Text:</strong> ${safeEscape(ev.scene_text || "-")}</p>
+            </details>
+        </div>
+    `;
+    }).join("");
+}
+
+let graphRendered = false;
+
+function renderGraph() {
+    if (graphRendered) return;
+    graphRendered = true;
+
+    const data = DASHBOARD_DATA.graphData || {nodes: [], links: []};
+    const container = document.getElementById("graphBox");
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    if (!data.nodes.length) {
+        container.innerHTML = "<p style='padding:20px;'>No graph data available.</p>";
+        return;
+    }
+
+    const svg = d3.select("#graphBox")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    const color = d3.scaleOrdinal()
+        .domain(["chapter", "scene", "event", "character", "item", "fact", "location"])
+        .range(["#0f172a", "#2563eb", "#7c3aed", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"]);
+
+    const simulation = d3.forceSimulation(data.nodes)
+        .force("link", d3.forceLink(data.links).id(d => d.id).distance(105))
+        .force("charge", d3.forceManyBody().strength(-300))
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const link = svg.append("g")
+        .selectAll("line")
+        .data(data.links)
+        .enter()
+        .append("line")
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2);
+
+    const node = svg.append("g")
+        .selectAll("circle")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 9)
+        .attr("fill", d => color(d.group))
+        .call(drag(simulation));
+
+    const label = svg.append("g")
+        .selectAll("text")
+        .data(data.nodes)
+        .enter()
+        .append("text")
+        .attr("class", "node-label")
+        .text(d => d.label)
+        .attr("dx", 12)
+        .attr("dy", 4)
+        .attr("fill", "#334155");
+
+    node.append("title").text(d => `${d.title} (${d.group})`);
+
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        label
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+    });
+
+    function drag(simulation) {
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        return d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended);
+    }
+}
+
+renderCharacterSheet();
+renderTimeline();
+</script>
+
+</body>
+</html>

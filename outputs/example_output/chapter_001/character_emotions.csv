@@ -1,0 +1,33 @@
+chapter_id,sentence_index,character,emotion_raw,emotion,score,sentence
+chapter_001,0,WiraMadha,LABEL_2,senang,0.991600513458252,WiraMadha berdiri terpaku di antara pilihan.
+chapter_001,7,WiraMadha,LABEL_2,senang,0.9915668368339539,Wira menghela napas.
+chapter_001,11,WiraMadha,LABEL_1,takut,0.9938279986381531,"""Konyol,"" desah Wira. """
+chapter_001,16,Cinta Bumi,LABEL_3,sedih,0.9428430199623108,"Pendakian Gunung Bromo
+
+Bantu arkeolog Nusantara Cinta Bumi untuk menuju puncak Gunung Bromo."
+chapter_001,17,Ahol,LABEL_2,senang,0.5660934448242188,Konon di sana bersemayam boss kuno bernama Ahol.
+chapter_001,24,WiraMadha,LABEL_2,senang,0.9477218389511108,"---
+
+Wira menatap ketiga opsi."
+chapter_001,32,Barda,LABEL_3,sedih,0.7016368508338928,"Pop-up muncul:
+
+[Temui NPC Barda di Kota Buitenzorg – Quest Dimulai!]"
+chapter_001,35,Barda,LABEL_3,sedih,0.8983942270278931,"NPC Barda langsung menyambut:
+
+""Kau yang ditugaskan mendampingi Cinta Bumi ke puncak Bromo?"
+chapter_001,35,Cinta Bumi,LABEL_3,sedih,0.8983942270278931,"NPC Barda langsung menyambut:
+
+""Kau yang ditugaskan mendampingi Cinta Bumi ke puncak Bromo?"
+chapter_001,39,Barda,LABEL_3,sedih,0.5179063081741333,"Barda menunjuk ke arah NPC Stable Master, tempat berbagai jenis tunggangan berjajar."
+chapter_001,48,Osmo,LABEL_2,senang,0.6655715703964233,"Osmo – Monster purbakala, monster mirip burung unta dengan bulu hijau-kuning, paruh elang, dan kaki bercakar runcing."
+chapter_001,52,Osmo,LABEL_3,sedih,0.9897430539131165,"Wira tanpa ragu memilih Osmo. """
+chapter_001,52,WiraMadha,LABEL_3,sedih,0.9897430539131165,"Wira tanpa ragu memilih Osmo. """
+chapter_001,56,Osmo,LABEL_4,terkejut,0.7212002873420715,"katanya sambil membayar
+
+[Anda membeli Mount: Osmo – Class: Swift Raptor]
+
+[Osmo telah ditambahkan ke daftar tunggangan Anda.]"
+chapter_001,57,Osmo,LABEL_2,senang,0.8613019585609436,"Begitu ia menaiki Osmo, burung raksasa itu mengeluarkan pekikan rendah, lalu menjejak tanah dengan tenaga eksplosif."
+chapter_001,58,WiraMadha,LABEL_4,terkejut,0.8177044987678528,Kecepatan larinya membuat pandangan Wira seperti kabur dalam motion blur.
+chapter_001,59,WiraMadha,LABEL_3,sedih,0.9955881834030151,Wira tersenyum puas.
+chapter_001,61,Ahol,LABEL_3,sedih,0.5191346406936646,"Dan kamu, Ahol... siap-siap bantai bantai!"""

@@ -1,0 +1,67 @@
+[
+  {
+    "character": "Aku",
+    "narrative_summary": "Protagonis yang berupaya menghentikan Velda dan memahami situasinya saat menghadapi pertempuran.",
+    "current_actions": "Menghadapi Velda dan berusaha untuk menyerap energi, serta membuat rencana untuk melawan Velda.",
+    "risk_of_plot_hole": "Membuat kesepakatan atau strategi yang mungkin tidak dikembangkan lebih lanjut.",
+    "acquired_items_or_spells": [
+      "Teleportasi Instan"
+    ]
+  },
+  {
+    "character": "Ciel",
+    "narrative_summary": "Entitas yang memberikan informasi penting tentang energi dan kemampuan melawan Velda.",
+    "current_actions": "Menjelaskan situasi energi dan menjawab kekhawatiran protagonis.",
+    "risk_of_plot_hole": "Keterangan tentang pengelolaan energi terlalu sederhana dan mungkin tidak dipertahankan di masa depan.",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Velda",
+    "narrative_summary": "Antagonis utama yang menunjukkan kekuatan besar dalam pertarungan dengan protagonis.",
+    "current_actions": "Menjaga kewaspadaan saat berhadapan dengan protagonis dan berusaha menyerang.",
+    "risk_of_plot_hole": "Kekuatan dan kemampuannya tidak dijelaskan dengan baik, berpotensi menimbulkan kebingungan di masa depan.",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Mai",
+    "narrative_summary": "Karakter yang tidak banyak disoroti dalam bab ini.",
+    "current_actions": "Tidak aktif dalam chapter ini.",
+    "risk_of_plot_hole": "Ketidakhadiran dan kontribusinya yang tidak jelas dapat ditanya di masa depan.",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Diablo",
+    "narrative_summary": "Tokoh sekutu yang terlibat namun tidak banyak ditampilkan.",
+    "current_actions": "Hanya disebutkan dalam konteks pengiriman energi.",
+    "risk_of_plot_hole": "Keterlibatan dan perannya di masa depan mungkin tidak dijelaskan dengan baik.",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Veldora",
+    "narrative_summary": "Karakter yang diperlihatkan dengan situasi misterius di akhir chapter.",
+    "current_actions": "Dijelaskan sebagai dalam keadaan gelap, menunjukkan potensi perubahan situasi.",
+    "risk_of_plot_hole": "Keberadaannya yang mengintimidasi dan abrub penampilannya dapat menimbulkan kebingungan jika tidak dijelaskan lebih lanjut.",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Velgrynd",
+    "narrative_summary": "Sekutu yang tampak berinteraksi dengan bola Rudra dan terlibat dalam pertempuran.",
+    "current_actions": "Menginterogasi bola Rudra dan bereaksi terhadap pernyataan protagonis.",
+    "risk_of_plot_hole": "Motivasi dan dukungannya dalam pertarungan harus ditekankan lebih lanjut.",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Rudra",
+    "narrative_summary": "Sosok misterius yang muncul sebagai bola memori, menawarkan potensi baru dalam pertempuran.",
+    "current_actions": "Memberikan dialog dan reaksi yang menunjukkan kepribadiannya dan hubungan dengan Velgrynd.",
+    "risk_of_plot_hole": "Identitas dan potensi kekuatannya dalam perjuangan melawan Velda harus diselidiki lebih jauh.",
+    "acquired_items_or_spells": []
+  },
+  {
+    "character": "Benimaru",
+    "narrative_summary": "Sekutu yang disebutkan tetapi tidak berperan dalam bab ini.",
+    "current_actions": "Tidak aktif dalam chapter ini.",
+    "risk_of_plot_hole": "Ketidakhadiran dan kontribusinya yang belum jelas dapat menjadi masalah di masa depan.",
+    "acquired_items_or_spells": []
+  }
+]

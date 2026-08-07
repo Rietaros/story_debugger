@@ -1,0 +1,122 @@
+{
+  "chapter_id": "chapter_245",
+  "title": "Chapter 245",
+  "synopsis": "A fierce battle unfolds as Rimuru prepares to face Velda while managing the chaos created by Veldora and Ciel.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_245",
+      "title": "Rimuru's Preparations for Battle",
+      "location": "Unknown",
+      "pov": "Rimuru",
+      "mood": "tense",
+      "summary": "Rimuru strategizes for the impending battle against Velda while dealing with Veldora's antics and Ciel's frustration.",
+      "text": "Rimuru reflects on Veldora's failure and prepares for the confrontation with Velda while managing the tensions among allies.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_245",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "title": "Veldora's Recklessness",
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Rimuru",
+            "Veldora",
+            "Ciel"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Veldora's miscalculation leads to a confrontation with Rimuru and Ciel over the misuse of energy."
+        },
+        {
+          "event_id": "ev_001_002",
+          "chapter_id": "chapter_245",
+          "scene_id": "sc_001",
+          "seq": 2,
+          "title": "Rimuru's Confidence",
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Rimuru",
+            "Guy",
+            "Milim",
+            "Ramiris",
+            "Chloe",
+            "Diablo",
+            "Testarossa",
+            "Velgrynd",
+            "Velza"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Rimuru prepares to face Velda, rallying allies and instilling confidence ahead of the crucial battle."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Rimuru",
+      "aliases": [
+        "Aku",
+        "saya"
+      ]
+    },
+    {
+      "canonical": "Veldora",
+      "aliases": [
+        "Veldora-san"
+      ]
+    },
+    {
+      "canonical": "Ciel",
+      "aliases": []
+    },
+    {
+      "canonical": "Guy",
+      "aliases": []
+    },
+    {
+      "canonical": "Milim",
+      "aliases": []
+    },
+    {
+      "canonical": "Ramiris",
+      "aliases": []
+    },
+    {
+      "canonical": "Chloe",
+      "aliases": []
+    },
+    {
+      "canonical": "Diablo",
+      "aliases": []
+    },
+    {
+      "canonical": "Testarossa",
+      "aliases": []
+    },
+    {
+      "canonical": "Velza",
+      "aliases": []
+    },
+    {
+      "canonical": "Velgrynd",
+      "aliases": []
+    },
+    {
+      "canonical": "Velda",
+      "aliases": []
+    }
+  ]
+}

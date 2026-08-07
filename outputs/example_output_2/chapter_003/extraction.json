@@ -1,0 +1,153 @@
+{
+  "chapter_id": "chapter_003",
+  "title": "Chapter 003",
+  "synopsis": "A group of adventurers faces the powerful entity Ahol in a volcanic battleground, using their skills and teamwork to survive and combat the threat.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_003",
+      "title": "Battle against Ahol in the Volcano",
+      "location": "Kawah Bromo",
+      "pov": "null",
+      "mood": "tense",
+      "summary": "The adventurers strategize and attack Ahol, facing challenges as they try to overcome the powerful elemental threat.",
+      "text": "The group prepares their skills against the formidable Ahol, who retaliates fiercely.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "title": "Initial Attack by BanyuKandhi",
+          "location": "Kawah Bromo",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "BanyuKandhi",
+            "Ahol"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "BanyuKandhi attempts to restrain Ahol using a nature-based spell but fails due to elemental incompatibility."
+        },
+        {
+          "event_id": "ev_001_002",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_001",
+          "seq": 2,
+          "title": "WiraMadha's Defense",
+          "location": "Kawah Bromo",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "WiraMadha",
+            "Sylvia"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "WiraMadha shields Sylvia from a barrage of lava projectiles in a selfless act of protection."
+        },
+        {
+          "event_id": "ev_001_003",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_001",
+          "seq": 3,
+          "title": "Sylvia's Buff and Attack",
+          "location": "Kawah Bromo",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Sylvia",
+            "Rere",
+            "Ahol"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Sylvia summons Rere to provide a fire resistance buff to the party and unleashes a powerful water spell on Ahol."
+        },
+        {
+          "event_id": "ev_001_004",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_001",
+          "seq": 4,
+          "title": "RangRang's Attack",
+          "location": "Kawah Bromo",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "RangRang",
+            "Ahol"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "RangRang capitalizes on Ahol's weakness, delivering a rapid flurry of attacks to exploit the damage done by Sylvia."
+        },
+        {
+          "event_id": "ev_001_005",
+          "chapter_id": "chapter_003",
+          "scene_id": "sc_001",
+          "seq": 5,
+          "title": "Ahol's Counterattack",
+          "location": "Kawah Bromo",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Ahol",
+            "WiraMadha",
+            "Sylvia"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Ahol unleashes a powerful counterattack, causing chaos and prompting WiraMadha to organize the party's next moves."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Ahol",
+      "aliases": []
+    },
+    {
+      "canonical": "WiraMadha",
+      "aliases": [
+        "Wira"
+      ]
+    },
+    {
+      "canonical": "Sylvia",
+      "aliases": []
+    },
+    {
+      "canonical": "Raka Wiradharma",
+      "aliases": []
+    },
+    {
+      "canonical": "BanyuKandhi",
+      "aliases": []
+    },
+    {
+      "canonical": "RangRang",
+      "aliases": []
+    },
+    {
+      "canonical": "Rere",
+      "aliases": []
+    }
+  ]
+}

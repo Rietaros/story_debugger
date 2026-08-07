@@ -1,0 +1,106 @@
+{
+  "chapter_id": "chapter_001",
+  "title": "Chapter 001",
+  "synopsis": "Arsa Andhika, seorang penulis muda, menghadapi kenyataan pahit tentang karyanya yang tidak laku, sambil berjuang dengan kenangan masa lalu dan tanggung jawab sebagai kepala keluarga.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_001",
+      "title": "Arsa di Toko Buku",
+      "location": "Gramedia Grand Indonesia",
+      "pov": "Arsa Andhika",
+      "mood": "melankolis",
+      "summary": "Arsa melihat bukunya di rak 'New Release' dan merindukan harapan untuk sukses, tapi merasa tertekan oleh penjualannya yang buruk.",
+      "text": "Arsa berdiri di depan rak buku, mengingat segala pengorbanannya dan menghadapi kenyataan pahit tentang karya tulisnya.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_001",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "title": "Pengamatan Arsa di Toko Buku",
+          "location": "Gramedia Grand Indonesia",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Arsa Andhika"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Arsa melihat bukunya di rak dan merasa campur aduk, mengingat usaha dan harapannya."
+        }
+      ]
+    },
+    {
+      "scene_id": "sc_002",
+      "chapter_id": "chapter_001",
+      "title": "Arsa Kembali ke Rumah",
+      "location": "Rumah Arsa",
+      "pov": "Arsa Andhika",
+      "mood": "sedih",
+      "summary": "Arsa pulang ke rumah dan berbincang dengan ibunya tentang hidup dan kehilangan ayahnya.",
+      "text": "Setelah pulang, Arsa duduk dengan ibunya dan merindukan sosok ayahnya yang telah tiada.",
+      "events": [
+        {
+          "event_id": "ev_002_001",
+          "chapter_id": "chapter_001",
+          "scene_id": "sc_002",
+          "seq": 1,
+          "title": "Percakapan Arsa dan Ibunya",
+          "location": "Rumah Arsa",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Arsa Andhika"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Arsa dan ibunya berbagi tentang kerinduan terhadap ayah dan impian yang belum tercapai."
+        }
+      ]
+    },
+    {
+      "scene_id": "sc_003",
+      "chapter_id": "chapter_001",
+      "title": "Refleksi Malam Arsa",
+      "location": "Unknown",
+      "pov": "Arsa Andhika",
+      "mood": "renungan",
+      "summary": "Arsa merenungkan kenangan masa lalu sambil mencoba menulis di depan laptopnya.",
+      "text": "Malam itu, Arsa menghadapi kenangan dan tanggung jawabnya sambil menulis di laptop.",
+      "events": [
+        {
+          "event_id": "ev_003_001",
+          "chapter_id": "chapter_001",
+          "scene_id": "sc_003",
+          "seq": 1,
+          "title": "Momen Renungan di Depan Laptop",
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Arsa Andhika"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Arsa mencoba menulis sambil merindukan ayahnya dan mengenang masa lalu."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Arsa Andhika",
+      "aliases": []
+    }
+  ]
+}

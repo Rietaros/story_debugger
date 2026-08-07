@@ -1,0 +1,3 @@
+chapter_id,sentence_index,character,emotion_raw,emotion,score,sentence
+chapter_001,7,Arsa Andhika,LABEL_3,sedih,0.776874840259552,"Di bawahnya, tertulis nama penulis Arsa Andhika."
+chapter_001,9,Arsa Andhika,LABEL_2,senang,0.9583790898323059,"Nama kecil itu tertulis kecil di bagian bawah, Arsa Andhika."

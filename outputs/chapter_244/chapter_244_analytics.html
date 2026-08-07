@@ -1,0 +1,1456 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>chapter_244 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+<style>
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    --dark: #0f172a;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --accent-red: #ef4444;
+    --accent-red-bg: #fee2e2;
+    --accent-amber: #f59e0b;
+    --accent-amber-bg: #fef3c7;
+    --accent-blue: #3b82f6;
+    --accent-blue-bg: #dbeafe;
+    --accent-green: #10b981;
+    --accent-green-bg: #d1fae5;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+header {
+    padding: 36px 48px;
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    border-bottom: 4px solid var(--primary);
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    margin: 8px 0 0 0;
+    font-size: 15px;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+.container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.metric-card .label {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-card .value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-top: 10px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    background: #f1f5f9;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    width: fit-content;
+}
+
+.tab-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--dark);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.tab-btn.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.tab {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.good {
+    color: var(--accent-green);
+    font-weight: 700;
+    background: var(--accent-green-bg);
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Bug list and items styling */
+.bug-item {
+    border-left: 6px solid var(--accent-red);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff5f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    border-left-width: 6px;
+}
+
+.bug-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.bug-item.severity-high {
+    border-left-color: var(--accent-red);
+    background: #fff8f8;
+}
+
+.bug-item.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.bug-item.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.bug-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-high {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+}
+
+.badge-medium {
+    background: var(--accent-amber-bg);
+    color: #92400e;
+}
+
+.badge-low {
+    background: var(--accent-blue-bg);
+    color: #1e40af;
+}
+
+.bug-detail {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 14px;
+}
+
+.bug-detail p {
+    margin: 6px 0;
+}
+
+.bug-timeline-links {
+    margin: 12px 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+}
+
+.bug-timeline-links p {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+}
+
+.bug-timeline-links ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.bug-timeline-links li {
+    margin: 4px 0;
+    font-size: 13px;
+}
+
+.bug-timeline-links a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Character Sheet styles */
+.character-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.character-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.character-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.char-header {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+}
+
+.char-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.char-name-container h3 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.char-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+}
+
+.char-section h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.char-section p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.risk-none .risk-message {
+    background: var(--accent-green-bg);
+    color: #065f46;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.risk-active .risk-message {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-red);
+    line-height: 1.4;
+}
+
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.item-badge {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+.no-items {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.analysis-box {
+    margin-top: 16px;
+    background: #f8fafc;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-left-width: 5px;
+}
+
+.arc-analysis h4 {
+    margin: 12px 0 4px 0;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.arc-analysis p {
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.arc-card {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+}
+
+.arc-card img {
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 12px;
+}
+
+.timeline {
+    border-left: 4px solid var(--primary);
+    margin-left: 12px;
+    padding-left: 24px;
+}
+
+.timeline-item {
+    margin-bottom: 24px;
+    position: relative;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.03);
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border: 4px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.timeline-item h4 {
+    margin: 0 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--dark);
+}
+
+.timeline-item.has-bugs {
+    border-color: rgba(239, 68, 68, 0.35);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.08);
+}
+
+.timeline-item.has-bugs::before {
+    background: var(--accent-red);
+    box-shadow: 0 0 0 2px var(--accent-red);
+}
+
+.timeline-bugs {
+    margin: 14px 0;
+    display: grid;
+    gap: 10px;
+}
+
+.timeline-bug {
+    border: 1px solid rgba(239, 68, 68, 0.22);
+    border-left: 5px solid var(--accent-red);
+    background: #fff8f8;
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.timeline-bug.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.timeline-bug.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.timeline-bug-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.timeline-bug p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.timeline-empty-bugs {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+}
+
+.graph-detail-grid {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.graph-detail-row {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.graph-box {
+    height: 540px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.node-label {
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.search-box {
+    padding: 12px 16px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 12px 0;
+}
+
+.timeline-meta span {
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+details {
+    background: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+</style>
+</head>
+
+<body>
+<header>
+    <h1>Chapter 244</h1>
+    <p>Interactive Narrative Debugging Dashboard · Chapter ID: <strong>chapter_244</strong></p>
+</header>
+
+<div class="container">
+
+    <div class="grid">
+        <div class="metric-card">
+            <div class="label">Similarity to Baseline</div>
+            <div class="value">1.0000</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Drift Score</div>
+            <div class="value">0.0000</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Bugs Found</div>
+            <div class="value">4</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">High Severity</div>
+            <div class="value">1</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Overall Chapter Summary</h2>
+        <p>Pertempuran berlanjut dengan strategi untuk menghentikan Velda, sambil menjelajahi kekuatan dan hubungan karakter.</p>
+    </div>
+
+    <div class="tabs">
+        <button id="tab-overview" class="tab-btn active" onclick="openTab('overview')">Overview</button>
+        <button id="tab-bugs" class="tab-btn" onclick="openTab('bugs')">Story Bugs</button>
+        <button id="tab-charactersheet" class="tab-btn" onclick="openTab('charactersheet')">Character Sheet</button>
+        <button id="tab-arcs" class="tab-btn" onclick="openTab('arcs')">Character Arcs</button>
+        <button id="tab-timeline" class="tab-btn" onclick="openTab('timeline')">Timeline</button>
+        <button id="tab-graph" class="tab-btn" onclick="openTab('graph')">Lore Graph</button>
+    </div>
+
+    <section id="overview" class="tab active">
+        <div class="card">
+            <h2>Chapter Drift Analysis</h2>
+            <p><strong>Similarity:</strong> 1.0000</p>
+            <p><strong>Drift:</strong> 0.0000</p>
+            <p>Low drift. The chapter remains semantically close to the early story baseline.</p>
+            <canvas id="driftChart" height="90"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Bug Severity Distribution</h2>
+            <canvas id="bugChart" height="90"></canvas>
+        </div>
+    </section>
+
+    <section id="bugs" class="tab">
+        <div class="card">
+            <h2>Story Bugs Found</h2>
+            <input class="search-box" id="bugSearch" placeholder="Search bug rule/message..." oninput="filterBugs()">
+            <div id="bugList">
+                
+    <div class="bug-item severity-medium" data-rule="memory_claim_without_knowledge_event">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>memory_claim_without_knowledge_event</strong>
+        </div>
+        <p>Event implies memory/knowledge, but no knowledge_gains or revelations were extracted.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>event:</strong> <a href="#timeline-ev_002_001">ev_002_001 · Penemuan Bola Ingatan</a> in sc_002 · Diskusi tentang Rudra at <code>Unknown</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates memory or knowledge inconsistency.
+        A character may know, remember, or reference something that has not been established.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="contradiction">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>contradiction</strong>
+        </div>
+        <p>Ciel claims that even if Velda accumulated a lot of energy, he would still not become overwhelmingly strong, yet Velda demonstrates impressive power that challenges this assertion. This creates a contradiction regarding the known limits of Velda&#x27;s abilities.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>matched by evidence:</strong> <a href="#timeline-ev_001_001">ev_001_001 · Pertemuan dengan Velda</a> in sc_001 · Strategi untuk Menghadapi Velda at <code>Unknown</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> The Contradiction</p>
+        <p><strong>Definition:</strong> A character acts completely out of line with their established personality traits, or previously known facts are suddenly altered to fit a new scene.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-medium" data-rule="missing_details">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>missing_details</strong>
+        </div>
+        <p>The chapter introduces the sudden ability of Velda to close the gap between himself and the protagonist quickly without explaining the extent of his powers or how he managed to do so amid the ongoing circumstances. This lack of detail leaves a gap in the understanding of the battle dynamics.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>chapter-level:</strong> No exact event match in Chapter-level issue at <code>Unknown</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> Missing Details</p>
+        <p><strong>Definition:</strong> A vital piece of information, a key item, or a character’s injury is forgotten, conveniently disappears, or magically reappears between chapters or scenes.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-medium" data-rule="forgotten_subplot">
+        <div class="bug-head">
+            <span class="badge badge-medium">medium</span>
+            <strong>forgotten_subplot</strong>
+        </div>
+        <p>Rudra&#x27;s reappearance as a memory ball creates intrigue, yet the implications of his identity and abilities in the ongoing battle are not explored or resolved, leaving a significant narrative thread unresolved.</p>
+        
+        <div class="bug-timeline-links">
+            <p><strong>Appears on timeline:</strong></p>
+            <ul><li><strong>matched by evidence:</strong> <a href="#timeline-ev_002_001">ev_002_001 · Penemuan Bola Ingatan</a> in sc_002 · Diskusi tentang Rudra at <code>Unknown</code></li></ul>
+        </div>
+        
+        <div class="bug-detail">
+            
+        <p><strong>Type:</strong> Forgotten Subplots</p>
+        <p><strong>Definition:</strong> A secondary character is introduced with a heavy, specific conflict (like being cursed or having a missing family member), but this thread is completely abandoned before the story ends.</p>
+        
+        </div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+
+    <section id="charactersheet" class="tab">
+        <div class="card">
+            <h2>Character Sheet</h2>
+            <p>Summary of character state, current actions, potential future plot hole risks, and acquired items/spells in this chapter.</p>
+            <div id="characterSheetBox" class="character-sheet-grid">
+                <!-- Dynamically filled by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="arcs" class="tab">
+        <div class="card">
+            <h2>Character Arc Analysis</h2>
+            
+            <div class="arc-card">
+                <h3>Velda</h3>
+                <img src="arc_Velda.png" alt="Emotion arc for Velda">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Velda experiences a fluctuating emotional state throughout the chapter, starting with surprise at the protagonist's entrance, transitioning to anger as she becomes more vigilant. Her emotional arc then stabilizes into satisfaction and confidence as she prepares for the confrontation, but shifts to fear and sadness as the protagonist gains the upper hand.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Velda’s actions reveal her initial surprise, followed by a protective stance against the protagonist. As the protagonist executes their plan, Velda's anger surfaces; however, she seems to settle into a more proactive position, even showing a complex mix of irritation and satisfaction when challenged.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>A pivotal moment occurs when Velda's focus shifts towards a shared phenomenon, signaling her interest and possibly altering her strategy. This moment highlights her adaptability amidst a tense confrontation.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>Velda’s emotional journey underscores her complexity, revealing both her strength and vulnerabilities. This arc enriches the narrative tension between power and uncertainty.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>Some emotional spikes, particularly sudden joy despite overwhelming odds, may feel inconsistent with the narrative events, which could diminish emotional impact.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Guy</h3>
+                <img src="arc_Guy.png" alt="Emotion arc for Guy">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In this chapter, Guy experiences a peak of happiness, driven by the combination of his own powers and those of his allies. The chapter's emotional high reflects the excitement of strategizing against Velda.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>While specific actions from Guy in this chapter are absent, his emotional state indicates a period of confidence and camaraderie. The mention of feeling like a potent force implies he is mentally preparing for the battle ahead, suggesting an internal readiness even if outward actions are not detailed.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key turning point lies in the moment Guy acknowledges his strengths alongside other powerful characters. This realization boosts his spirits, potentially strengthening his resolve for the upcoming confrontation with Velda.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>The emotional high point emphasizes the importance of alliances and inner strength for Guy. It illustrates how unity can enhance individual confidence, setting a hopeful tone before the battle.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The absence of tangible actions to support Guy's positive emotional state creates a potential inconsistency, as readers may wonder how his joy translates into active participation in the unfolding events.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Milim</h3>
+                <img src="arc_Milim.png" alt="Emotion arc for Milim">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Milim experiences a fluctuation of emotions primarily centered around happiness and a moment of sadness. The chapter begins with her excitement derived from the power dynamics at play, and this joy peaks when she is rescued, revealing her connection with others.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Although the actions of Milim are not explicitly outlined, her emotional responses are tied to the strategic developments in the battle against Velda. She expresses happiness after being saved by Ramiris and Gaia, indicating her reliance on their support during perilous moments.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key turning point occurs when Milim is rescued, transitioning her emotional state from sadness—impacted by her capture—to overwhelming joy as she reunites with her allies and acknowledges their strengths.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc emphasizes themes of camaraderie and reliance on friends. It shows how connections can uplift individuals during crisis, reinforcing the importance of teamwork in overcoming formidable challenges.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The abrupt shift to sadness when Milim is saved may create inconsistency, as her relief and happiness dominate the emotional timeline yet are followed by confusion rather than clarity in her emotional journey.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Ramiris</h3>
+                <img src="arc_Ramiris.png" alt="Emotion arc for Ramiris">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Ramiris experiences a rollercoaster of emotions throughout the chapter, beginning with fear during battle, transitioning to happiness as strategic plans unfold, and culminating in a brief moment of anger and a return to joy through successful teamwork.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Initially, Ramiris feels scared, indicated by her scream, likely due to the ongoing battle against Velda. As plans with Gaia develop, she feels happiness about the potential success, leading to a demonstration of confidence in her abilities. When implementing the labyrinth strategy, her anger surfaces, possibly due to the pressure of expectations. Nonetheless, her happiness returns as they save Milim, affirming the effectiveness of their teamwork and strategies.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The pivotal moment occurs when Ramiris, despite moments of fear and anger, successfully executes the labyrinth strategy with Gaia, leading to the rescue of Milim, showcasing her leadership and adaptability.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter highlights Ramiris's growth, illustrating her ability to navigate fear and anger while ultimately fostering collaborative triumphs, essential for character development.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional shift from fear to joy and back to fear may feel abrupt without explicit actions signaling transitions, potentially causing inconsistency in the emotional flow.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Velgrynd</h3>
+                <img src="arc_Velgrynd.png" alt="Emotion arc for Velgrynd">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Velgrynd experiences a fluctuating emotional journey, beginning with anger as they grapple with energy depletion. This emotion shifts to happiness when they realize potential cooperative strategies, reflecting hope in their capabilities. However, underlying sadness emerges when Velgrynd questions their situation, revealing vulnerability amidst the chaos of battle.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Velgrynd demonstrates a mix of emotions through actions: they engage inquisitively with the ball, expressing a pivotal connection to Rudra. Their confusion turns to clarity as they accept and embrace the sword, indicating a readiness to support the group's objectives, despite earlier moments of doubt.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>A key moment occurs when Velgrynd receives the sword, signifying acceptance and a proactive stance in the battle. This transition from sadness to happiness points to their acceptance of the situation and determination to fight alongside others.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional journey emphasizes themes of connection and resilience amidst conflict, highlighting the importance of alliance and courage in facing challenges.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The sudden emotional shifts, especially the rapid transitions from sad to happy, may create inconsistency. Ensuring the emotional changes are anchored by corresponding actions will enhance clarity.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Rudra</h3>
+                <img src="arc_Rudra.png" alt="Emotion arc for Rudra">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Rudra's emotional journey in this chapter shifts from joy to a mix of fear, sadness, and anger. Initially, joy prevails as the character discovers Rudra’s potential consciousness within the ball, indicating an uplifting realization about connection and identity.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Rudra engages in strategic discussions and exhibits excitement about the implications of his existence. The actions reveal his curiosity about his own potential, reinforced by his laughter and interactions with fellow characters like Velgrynd.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point occurs when Rudra's essence is contemplated, leading to moments of fear and sadness regarding his past and the nature of his reincarnation. The realization that he might be completely different from the Rudra known before creates tension.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter underscores themes of identity and the weight of past experiences, emphasizing how connections can impact self-perception and emotional states amidst conflict.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional spike of joy does not entirely align with the fear and sadness that follows, suggesting a possible inconsistency in emotional progression as the stakes rise with the battle against Velda.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Ciel-san</h3>
+                <img src="arc_Ciel-san.png" alt="Emotion arc for Ciel-san">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Ciel-san experiences a strong sense of joy throughout the chapter as evidenced by her successful execution of strategies and interactions. The emotion timeline shows multiple peaks of happiness, particularly when she implements and modifies strategies effectively, showcasing her competence and dedication.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>While specific actions by Ciel-san are not listed, her involvement in implementing and turning ideas into usable energy illustrates her proactive role. Her commitment is confirmed through dialogue, reinforcing her dependable nature.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The moment of surprise regarding the situational hypothesis marks a potential turning point. This shift in emotional tone introduces intrigue and curiosity, which indicates her involvement in a larger strategic context.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>Ciel-san's joy and proactive engagement reflect her resilience against external challenges. Her positivity attracts support, demonstrating the importance of collaboration in overcoming obstacles.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>While Ciel-san’s emotions align with her actions, the spikes in happiness without explicit descriptions of her actions may create slight inconsistencies. Clearer visualization of her contributions could enhance emotional coherence.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Veldora-san</h3>
+                <img src="arc_Veldora-san.png" alt="Emotion arc for Veldora-san">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Veldora-san experiences a consistent positive emotional state throughout the chapter, marked by a strong sense of understanding and potential collaboration. There's a noted happiness in comprehension and strategy, culminating in a surprising yet hopeful moment at the end.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>The character's actions reflect a confidence in strategizing against Velda, showcasing an analytical approach through Diablo and Veldora-san's perspectives. While the chapter lacks direct actions from Veldora-san, the emotional highs indicate a readiness for engagement and potential teamwork with Velgrynd.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key moment is the realization of Veldora-san's darker state, which sparks a juxtaposition between his previously positive emotions and this new, ominous aspect, suggesting complexities in his character.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc hints at themes of collaboration and sacrifice, emphasizing the precarious nature of alliances. Veldora-san's emotional positivity might foreshadow a pivotal role in forthcoming challenges.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The lack of concrete actions alongside emotional highs, particularly the surprising dark transformation at the end, may create a sense of inconsistency in Veldora-san’s character development.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Benimaru</h3>
+                <img src="arc_Benimaru.png" alt="Emotion arc for Benimaru">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In Chapter 244, Benimaru experiences significant sadness, as indicated by the emotion timeline where he feels a score of 0.988 in sadness when expressing that he has sent something to Diablo and himself. This suggests a deep emotional connection to the situation at hand.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Benimaru's emotional state is tied to his actions, though specific actions are not provided in the chapter. However, the act of sending something to Diablo and himself hints at a sense of responsibility and concern, reflecting his dedication to his allies.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point appears to be his realization of the stakes involved in the ongoing battle against Velda, which evokes deeper emotions regarding loss and accountability for his comrades.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter adds emotional depth to Benimaru, showcasing how personal connections and the weight of responsibility lead to his sadness, lending a more human element to the battle dynamics.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>Given that there are no concrete actions recorded beyond his sentiments, there may be a disconnect between his emotional state and visible actions, potentially creating a sense of inconsistency in character development.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Tuan Rimuru</h3>
+                <img src="arc_Tuan Rimuru.png" alt="Emotion arc for Tuan Rimuru">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Tuan Rimuru's emotional journey oscillates between joy, anger, and fear. He starts with happiness and confidence due to his strategic advancements, showcasing his hard work and newfound abilities. However, tension rises as he encounters Velda, invoking fear and anger in response to the threat.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Rimuru demonstrates strategic wit by using 'Instant Teleportation' and manages to provoke Velda, indicating both confidence and underlying fear. This conflict showcases a mixture of proactive actions and reactive emotions, combining his determination to face Velda with moments of hesitation.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The tipping point occurs when Rimuru realizes the source of his energy depletion, linking his emotional state of anger to strategizing for a potential comeback against Velda.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter emphasizes the complexity of Rimuru’s character, merging intellect with emotional depth. The flux between joy and fear represents his struggle against a formidable foe, highlighting the stakes involved.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>There are moments where Rimuru's fear seems heightened without significant events to warrant it, potentially indicating an inconsistency in emotional buildup.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Diablo</h3>
+                <img src="arc_Diablo.png" alt="Emotion arc for Diablo">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Diablo experiences moments of joy and sadness throughout this chapter. He feels joy when he begins to understand the situation from the perspectives of both himself and Veldora. However, this is contrasted sharply by a deep sadness as he reflects on the sacrifices made, particularly related to his allies Benimaru and other free characters.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>While there are no explicit actions detailed in the chapter, Diablo’s emotional shifts suggest he is processing the stakes of the ongoing battle with Velda. The joy he feels may imply a strategic advantage or personal insight, while the sadness indicates a recognition of loss and sacrifice.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point occurs between the pleasurable achievement of understanding his situation and the pang of sadness. This emotional shift suggests that Diablo's internal conflict is central to his character development in this chapter.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>The interplay of joy and sadness emphasizes the complexity of Diablo’s character, highlighting the weight of leadership and camaraderie amid conflict.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The absence of specific actions related to these emotional shifts could lead to inconsistency, as readers may struggle to see how these feelings connect to his decisions or behaviors in the context of the battle.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Mai</h3>
+                <img src="arc_Mai.png" alt="Emotion arc for Mai">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In this chapter, Mai experiences a high point of joy, indicated by her happiness score of 0.949. This suggests a moment of optimism related to her exploration of familiar spaces and the limits she perceives as human.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>While the chapter lacks explicit actions from Mai, her emotional state suggests she may be engaged in introspection or reflections on her past experiences. The joy she feels implies a sense of connection to her past, possibly indicating a deeper understanding of herself amidst the ongoing battle.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key emotional turning point appears to be her realization of the constraints of human experience, bringing her joy, but contrasting with the ongoing conflict against Velda.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter underscores the tension between personal joy and external struggles. Mai's emotional arc reflects her internal growth and the investigation of her identity amidst chaos.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The absence of specific actions or dialogue to match Mai's emotional highs could create a disconnect for readers, making her joy feel somewhat unsupported or inconsistent with the surrounding conflict.</p>
+</div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="timeline" class="tab">
+        <div class="card">
+            <h2>Event Timeline</h2>
+            <div id="timelineBox" class="timeline"></div>
+        </div>
+    </section>
+
+    <section id="graph" class="tab">
+        <div class="card">
+            <h2>Lore Graph</h2>
+            <p>Nodes represent characters, scenes, events, items, facts, and locations.</p>
+            <div id="graphBox" class="graph-box"></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+const DASHBOARD_DATA = {"arcData": [], "timelineData": [{"chapter_id": "chapter_244", "chapter_title": "Chapter 244", "chapter_synopsis": "Pertempuran berlanjut dengan strategi untuk menghentikan Velda, sambil menjelajahi kekuatan dan hubungan karakter.", "scene_id": "sc_001", "scene_title": "Strategi untuk Menghadapi Velda", "scene_label": "sc_001 · Strategi untuk Menghadapi Velda", "scene_location": "Unknown", "scene_pov": "Aku", "scene_mood": "Tegang", "scene_summary": "Aku tiba untuk menghadapi Velda dan merencanakan strategi sambil merenungkan kemampuanku dan energi yang terkumpul.", "scene_text": "Aku muncul dengan 'Teleportasi Instan', bersiap untuk memperhitungkan energi dan mengatasi Velda.", "event_id": "ev_001_001", "seq": 1, "event_title": "Pertemuan dengan Velda", "event_label": "ev_001_001 · Pertemuan dengan Velda", "event_location": "Unknown", "graph_order": 1, "graph_markers": [], "graph_movements": [{"character": "Aku", "from_location": null, "to_location": "Unknown"}, {"character": "Velda", "from_location": null, "to_location": "Unknown"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["Aku", "Velda"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Aku menyusun rencana untuk melawan Velda yang tampak lebih kuat.", "bugs": [{"id": "bug_002", "severity": "high", "rule": "contradiction", "message": "Ciel claims that even if Velda accumulated a lot of energy, he would still not become overwhelmingly strong, yet Velda demonstrates impressive power that challenges this assertion. This creates a contradiction regarding the known limits of Velda's abilities.", "evidence": {"character": "Ciel", "description": "[\"Tak mungkin dia bisa menjadi kuat dengan mudah...\" dan \"Jika dia bisa menjadi kuat dengan mudah, dia tidak akan mengalami banyak kesulitan.\"]"}, "timeline_role": "matched by evidence"}]}, {"chapter_id": "chapter_244", "chapter_title": "Chapter 244", "chapter_synopsis": "Pertempuran berlanjut dengan strategi untuk menghentikan Velda, sambil menjelajahi kekuatan dan hubungan karakter.", "scene_id": "sc_002", "scene_title": "Diskusi tentang Rudra", "scene_label": "sc_002 · Diskusi tentang Rudra", "scene_location": "Unknown", "scene_pov": "Aku", "scene_mood": "Ragu", "scene_summary": "Aku menjelajahi fenomena bola yang memiliki ingatan Rudra dan mempertanyakan eksistensinya.", "scene_text": "Aku menemukan bola yang berbicara, yang diperkirakan adalah Rudra yang terlahir kembali.", "event_id": "ev_002_001", "seq": 1, "event_title": "Penemuan Bola Ingatan", "event_label": "ev_002_001 · Penemuan Bola Ingatan", "event_location": "Unknown", "graph_order": 2, "graph_markers": ["memory_claim"], "graph_movements": [{"character": "Aku", "from_location": "Unknown", "to_location": "Unknown"}, {"character": "Velgrynd", "from_location": null, "to_location": "Unknown"}, {"character": "Rudra", "from_location": null, "to_location": "Unknown"}], "graph_item_events": [], "graph_fact_events": [], "start_time": null, "end_time": null, "participants": ["Aku", "Velgrynd", "Rudra"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "Aku menemukan bahwa bola ini mungkin memiliki kesadaran dan ingatan Rudra.", "bugs": [{"id": "bug_001", "severity": "medium", "rule": "memory_claim_without_knowledge_event", "message": "Event implies memory/knowledge, but no knowledge_gains or revelations were extracted.", "evidence": {"event_id": "ev_002_001", "summary": "Aku menemukan bahwa bola ini mungkin memiliki kesadaran dan ingatan Rudra."}, "timeline_role": "event"}, {"id": "bug_004", "severity": "medium", "rule": "forgotten_subplot", "message": "Rudra's reappearance as a memory ball creates intrigue, yet the implications of his identity and abilities in the ongoing battle are not explored or resolved, leaving a significant narrative thread unresolved.", "evidence": {"character": "General", "description": "Rudra muncul dalam bentuk 'bola memori' tetapi detail tentang bagaimana atau mengapa ini terjadi tidak dijelaskan lebih lanjut."}, "timeline_role": "matched by evidence"}]}], "timelineUnresolvedBugs": [{"id": "bug_003", "severity": "medium", "rule": "missing_details", "message": "The chapter introduces the sudden ability of Velda to close the gap between himself and the protagonist quickly without explaining the extent of his powers or how he managed to do so amid the ongoing circumstances. This lack of detail leaves a gap in the understanding of the battle dynamics.", "evidence": {"character": "General", "description": "Velda 'menutup celah antara kami dalam sekejap dan mencoba memotongku'."}, "timeline_role": "chapter-level"}], "graphData": {"nodes": [{"id": "chapter_244", "label": "chapter_244", "group": "chapter", "title": "chapter_244"}, {"id": "Aku", "label": "Aku", "group": "character", "title": "Aku"}, {"id": "Ciel", "label": "Ciel", "group": "character", "title": "Ciel"}, {"id": "Velda", "label": "Velda", "group": "character", "title": "Velda"}, {"id": "Mai", "label": "Mai", "group": "character", "title": "Mai"}, {"id": "Diablo", "label": "Diablo", "group": "character", "title": "Diablo"}, {"id": "Veldora", "label": "Veldora", "group": "character", "title": "Veldora"}, {"id": "Velgrynd", "label": "Velgrynd", "group": "character", "title": "Velgrynd"}, {"id": "Rudra", "label": "Rudra", "group": "character", "title": "Rudra"}, {"id": "Benimaru", "label": "Benimaru", "group": "character", "title": "Benimaru"}, {"id": "scene:sc_001", "label": "sc_001 · Strategi untuk Menghadapi Velda", "group": "scene", "title": "sc_001: Strategi untuk Menghadapi Velda"}, {"id": "Unknown", "label": "Unknown", "group": "location", "title": "Unknown"}, {"id": "event:ev_001_001", "label": "ev_001_001 · Pertemuan dengan Velda", "group": "event", "title": "ev_001_001: Pertemuan dengan Velda"}, {"id": "scene:sc_002", "label": "sc_002 · Diskusi tentang Rudra", "group": "scene", "title": "sc_002: Diskusi tentang Rudra"}, {"id": "event:ev_002_001", "label": "ev_002_001 · Penemuan Bola Ingatan", "group": "event", "title": "ev_002_001: Penemuan Bola Ingatan"}], "links": [{"source": "chapter_244", "target": "Aku", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Ciel", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Velda", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Mai", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Diablo", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Veldora", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Velgrynd", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Rudra", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "Benimaru", "label": "HAS_CHARACTER"}, {"source": "chapter_244", "target": "scene:sc_001", "label": "HAS_SCENE"}, {"source": "scene:sc_001", "target": "Unknown", "label": "SET_IN"}, {"source": "scene:sc_001", "target": "event:ev_001_001", "label": "HAS_EVENT"}, {"source": "Aku", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "Velda", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "chapter_244", "target": "scene:sc_002", "label": "HAS_SCENE"}, {"source": "scene:sc_002", "target": "Unknown", "label": "SET_IN"}, {"source": "scene:sc_002", "target": "event:ev_002_001", "label": "HAS_EVENT"}, {"source": "Aku", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "Velgrynd", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "Rudra", "target": "event:ev_002_001", "label": "PARTICIPATES"}]}, "issueStats": {"high": 1, "medium": 3, "low": 0}, "characterSheet": [{"character": "Aku", "narrative_summary": "Protagonis yang berupaya menghentikan Velda dan memahami situasinya saat menghadapi pertempuran.", "current_actions": "Menghadapi Velda dan berusaha untuk menyerap energi, serta membuat rencana untuk melawan Velda.", "risk_of_plot_hole": "Membuat kesepakatan atau strategi yang mungkin tidak dikembangkan lebih lanjut.", "acquired_items_or_spells": ["Teleportasi Instan"]}, {"character": "Ciel", "narrative_summary": "Entitas yang memberikan informasi penting tentang energi dan kemampuan melawan Velda.", "current_actions": "Menjelaskan situasi energi dan menjawab kekhawatiran protagonis.", "risk_of_plot_hole": "Keterangan tentang pengelolaan energi terlalu sederhana dan mungkin tidak dipertahankan di masa depan.", "acquired_items_or_spells": []}, {"character": "Velda", "narrative_summary": "Antagonis utama yang menunjukkan kekuatan besar dalam pertarungan dengan protagonis.", "current_actions": "Menjaga kewaspadaan saat berhadapan dengan protagonis dan berusaha menyerang.", "risk_of_plot_hole": "Kekuatan dan kemampuannya tidak dijelaskan dengan baik, berpotensi menimbulkan kebingungan di masa depan.", "acquired_items_or_spells": []}, {"character": "Mai", "narrative_summary": "Karakter yang tidak banyak disoroti dalam bab ini.", "current_actions": "Tidak aktif dalam chapter ini.", "risk_of_plot_hole": "Ketidakhadiran dan kontribusinya yang tidak jelas dapat ditanya di masa depan.", "acquired_items_or_spells": []}, {"character": "Diablo", "narrative_summary": "Tokoh sekutu yang terlibat namun tidak banyak ditampilkan.", "current_actions": "Hanya disebutkan dalam konteks pengiriman energi.", "risk_of_plot_hole": "Keterlibatan dan perannya di masa depan mungkin tidak dijelaskan dengan baik.", "acquired_items_or_spells": []}, {"character": "Veldora", "narrative_summary": "Karakter yang diperlihatkan dengan situasi misterius di akhir chapter.", "current_actions": "Dijelaskan sebagai dalam keadaan gelap, menunjukkan potensi perubahan situasi.", "risk_of_plot_hole": "Keberadaannya yang mengintimidasi dan abrub penampilannya dapat menimbulkan kebingungan jika tidak dijelaskan lebih lanjut.", "acquired_items_or_spells": []}, {"character": "Velgrynd", "narrative_summary": "Sekutu yang tampak berinteraksi dengan bola Rudra dan terlibat dalam pertempuran.", "current_actions": "Menginterogasi bola Rudra dan bereaksi terhadap pernyataan protagonis.", "risk_of_plot_hole": "Motivasi dan dukungannya dalam pertarungan harus ditekankan lebih lanjut.", "acquired_items_or_spells": []}, {"character": "Rudra", "narrative_summary": "Sosok misterius yang muncul sebagai bola memori, menawarkan potensi baru dalam pertempuran.", "current_actions": "Memberikan dialog dan reaksi yang menunjukkan kepribadiannya dan hubungan dengan Velgrynd.", "risk_of_plot_hole": "Identitas dan potensi kekuatannya dalam perjuangan melawan Velda harus diselidiki lebih jauh.", "acquired_items_or_spells": []}, {"character": "Benimaru", "narrative_summary": "Sekutu yang disebutkan tetapi tidak berperan dalam bab ini.", "current_actions": "Tidak aktif dalam chapter ini.", "risk_of_plot_hole": "Ketidakhadiran dan kontribusinya yang belum jelas dapat menjadi masalah di masa depan.", "acquired_items_or_spells": []}]};
+
+function openTab(id) {
+    document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    
+    // Set correct active tab button
+    const btn = document.getElementById("tab-" + id);
+    if (btn) btn.classList.add("active");
+
+    if (id === "graph") {
+        setTimeout(renderGraph, 50);
+    }
+}
+
+function safeEscape(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function formatList(values) {
+    if (!values || !values.length) return "-";
+    return safeEscape(values.join(", "));
+}
+
+function severityBadge(severity) {
+    return `<span class="badge badge-${safeEscape(severity || "low")}">${safeEscape(severity || "low")}</span>`;
+}
+
+function renderTimelineBug(bug) {
+    const evidenceText = bug.evidence && Object.keys(bug.evidence).length
+        ? `<details><summary>Bug evidence</summary><pre>${safeEscape(JSON.stringify(bug.evidence, null, 2))}</pre></details>`
+        : "";
+
+    return `
+        <div class="timeline-bug severity-${safeEscape(bug.severity || "low")}">
+            <div class="timeline-bug-head">
+                ${severityBadge(bug.severity)}
+                <strong>${safeEscape(bug.rule || "story_bug")}</strong>
+                <span class="item-badge">${safeEscape(bug.timeline_role || "event")}</span>
+            </div>
+            <p>${safeEscape(bug.message || "-")}</p>
+            ${evidenceText}
+        </div>
+    `;
+}
+
+function renderGraphDetails(ev) {
+    const rows = [];
+
+    if (ev.graph_order) {
+        rows.push(`<div class="graph-detail-row"><strong>Graph order:</strong> ${safeEscape(ev.graph_order)}</div>`);
+    }
+
+    if (ev.graph_markers && ev.graph_markers.length) {
+        rows.push(`<div class="graph-detail-row"><strong>Graph markers:</strong> ${formatList(ev.graph_markers)}</div>`);
+    }
+
+    if (ev.graph_movements && ev.graph_movements.length) {
+        const movementText = ev.graph_movements
+            .map(m => `${m.character || "?"}: ${m.from_location || "Unknown"} -> ${m.to_location || "Unknown"}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Character movement:</strong> ${safeEscape(movementText)}</div>`);
+    }
+
+    if (ev.graph_item_events && ev.graph_item_events.length) {
+        const itemText = ev.graph_item_events
+            .map(item => `${item.action || "ITEM"} ${item.item || "?"}${item.owner ? " by " + item.owner : ""}${item.users && item.users.length ? " by " + item.users.join(", ") : ""}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Item continuity:</strong> ${safeEscape(itemText)}</div>`);
+    }
+
+    if (ev.graph_fact_events && ev.graph_fact_events.length) {
+        const factText = ev.graph_fact_events
+            .map(fact => `${fact.action || "FACT"}: ${fact.fact || "?"}${fact.character ? " / " + fact.character : ""}`)
+            .join("; ");
+        rows.push(`<div class="graph-detail-row"><strong>Knowledge/facts:</strong> ${safeEscape(factText)}</div>`);
+    }
+
+    return rows.length ? `<div class="graph-detail-grid">${rows.join("")}</div>` : "";
+}
+
+function filterBugs() {
+    const query = document.getElementById("bugSearch").value.toLowerCase();
+    document.querySelectorAll(".bug-item").forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? "block" : "none";
+    });
+}
+
+if (window.Chart) {
+new Chart(document.getElementById("driftChart"), {
+    type: "bar",
+    data: {
+        labels: ["Similarity", "Drift"],
+        datasets: [{
+            label: "Semantic Score",
+            data: [1.0000, 0.0000],
+            backgroundColor: ["#4f46e5", "#ef4444"]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("bugChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["High", "Medium", "Low"],
+        datasets: [{
+            data: [
+                DASHBOARD_DATA.issueStats.high,
+                DASHBOARD_DATA.issueStats.medium,
+                DASHBOARD_DATA.issueStats.low
+            ],
+            backgroundColor: ["#ef4444", "#f59e0b", "#3b82f6"]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+}
+
+function renderCharacterSheet() {
+    const box = document.getElementById("characterSheetBox");
+    const sheet = DASHBOARD_DATA.characterSheet || [];
+
+    if (!sheet.length) {
+        box.innerHTML = "<p>No character sheet data available for this chapter.</p>";
+        return;
+    }
+
+    box.innerHTML = sheet.map(char => {
+        const items = char.acquired_items_or_spells || [];
+        const itemsList = items.length 
+            ? items.map(item => `<span class="item-badge">${safeEscape(item)}</span>`).join(" ")
+            : "<span class='no-items'>None</span>";
+
+        const hasRisk = char.risk_of_plot_hole && char.risk_of_plot_hole.toLowerCase() !== "none";
+        const riskClass = hasRisk ? "risk-active" : "risk-none";
+
+        return `
+            <div class="character-card">
+                <div class="char-header">
+                    <div class="char-avatar">${safeEscape(char.character ? char.character[0] : "?")}</div>
+                    <div class="char-name-container">
+                        <h3>${safeEscape(char.character)}</h3>
+                    </div>
+                </div>
+                <div class="char-body">
+                    <div class="char-section">
+                        <h4>Narrative Summary</h4>
+                        <p>${safeEscape(char.narrative_summary)}</p>
+                    </div>
+                    <div class="char-section">
+                        <h4>Current Actions</h4>
+                        <p>${safeEscape(char.current_actions)}</p>
+                    </div>
+                    <div class="char-section ${riskClass}">
+                        <h4>Future Plot Hole Risk</h4>
+                        <div class="risk-message">
+                            ${hasRisk 
+                                ? `⚠️ ${safeEscape(char.risk_of_plot_hole)}`
+                                : `✅ No major risks detected`
+                            }
+                        </div>
+                    </div>
+
+                    <div class="char-section">
+                        <h4>Acquired Items & Spells</h4>
+                        <div class="items-container">${itemsList}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderTimeline() {
+    const box = document.getElementById("timelineBox");
+    const rows = DASHBOARD_DATA.timelineData || [];
+    const unresolvedBugs = DASHBOARD_DATA.timelineUnresolvedBugs || [];
+
+    if (!rows.length) {
+        box.innerHTML = "<p>No timeline data available.</p>";
+        return;
+    }
+
+    const unresolvedHtml = unresolvedBugs.length
+        ? `
+            <div class="timeline-empty-bugs">
+                <h3>Chapter-Level Bugs</h3>
+                <p>These story bugs were detected, but the report could not pin them to one exact event.</p>
+                <div class="timeline-bugs">
+                    ${unresolvedBugs.map(renderTimelineBug).join("")}
+                </div>
+            </div>
+        `
+        : "";
+
+    box.innerHTML = unresolvedHtml + rows.map(ev => {
+        const bugs = ev.bugs || [];
+        const bugHtml = bugs.length
+            ? `<div class="timeline-bugs">${bugs.map(renderTimelineBug).join("")}</div>`
+            : "";
+        const graphDetails = renderGraphDetails(ev);
+        const cssClass = bugs.length ? "timeline-item has-bugs" : "timeline-item";
+
+        return `
+        <div class="${cssClass}" id="timeline-${safeEscape(ev.event_id)}">
+            <h4>${safeEscape(ev.chapter_id)} · ${safeEscape(ev.chapter_title || "-")}</h4>
+
+            <div class="timeline-meta">
+                <span><strong>Scene:</strong> ${safeEscape(ev.scene_id)} · ${safeEscape(ev.scene_title || "-")}</span>
+                <span><strong>Event:</strong> ${safeEscape(ev.event_id)} · ${safeEscape(ev.event_title || "-")}</span>
+                ${ev.graph_order ? `<span><strong>Graph Order:</strong> ${safeEscape(ev.graph_order)}</span>` : ""}
+                <span><strong>POV:</strong> ${safeEscape(ev.scene_pov || "-")}</span>
+                <span><strong>Mood:</strong> ${safeEscape(ev.scene_mood || "-")}</span>
+                <span><strong>Location:</strong> ${safeEscape(ev.event_location || ev.scene_location || "-")}</span>
+            </div>
+
+            <h3>${safeEscape(ev.event_id)}: ${safeEscape(ev.event_title || "-")} · Event #${safeEscape(ev.seq)}</h3>
+            ${bugHtml}
+            <p><strong>Event Summary:</strong> ${safeEscape(ev.summary || "-")}</p>
+            <p><strong>Scene Summary:</strong> ${safeEscape(ev.scene_summary || "-")}</p>
+
+            <div class="timeline-meta" style="margin-top: 12px; background: transparent; border: none; padding: 0;">
+                ${ ev.participants && ev.participants.length ? `<span><strong>Participants:</strong> ${formatList(ev.participants)}</span>` : "" }
+                ${ ev.acquired_items && ev.acquired_items.length ? `<span style="background: var(--accent-green-bg); color: #065f46;"><strong>Acquired:</strong> ${formatList(ev.acquired_items)}</span>` : "" }
+                ${ ev.used_items && ev.used_items.length ? `<span style="background: var(--accent-amber-bg); color: #92400e;"><strong>Used:</strong> ${formatList(ev.used_items)}</span>` : "" }
+                ${ ev.revelations && ev.revelations.length ? `<span style="background: var(--accent-blue-bg); color: #1e40af;"><strong>Revelation:</strong> ${formatList(ev.revelations)}</span>` : "" }
+            </div>
+
+            ${graphDetails}
+
+            <details>
+                <summary>Show extracted details</summary>
+                <p><strong>Participants:</strong> ${formatList(ev.participants)}</p>
+                <p><strong>Acquired Items:</strong> ${formatList(ev.acquired_items)}</p>
+                <p><strong>Used Items:</strong> ${formatList(ev.used_items)}</p>
+                <p><strong>Revelations:</strong> ${formatList(ev.revelations)}</p>
+                <p><strong>Knowledge Gains:</strong> ${safeEscape(JSON.stringify(ev.knowledge_gains || {}))}</p>
+                <p><strong>Causal Parents:</strong> ${formatList(ev.causal_parents)}</p>
+                <p><strong>Start Time:</strong> ${safeEscape(ev.start_time || "-")}</p>
+                <p><strong>End Time:</strong> ${safeEscape(ev.end_time || "-")}</p>
+                <p><strong>Graph Markers:</strong> ${formatList(ev.graph_markers)}</p>
+                <p><strong>Scene Text:</strong> ${safeEscape(ev.scene_text || "-")}</p>
+            </details>
+        </div>
+    `;
+    }).join("");
+}
+
+let graphRendered = false;
+
+function renderGraph() {
+    if (graphRendered) return;
+    graphRendered = true;
+
+    const data = DASHBOARD_DATA.graphData || {nodes: [], links: []};
+    const container = document.getElementById("graphBox");
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    if (!data.nodes.length) {
+        container.innerHTML = "<p style='padding:20px;'>No graph data available.</p>";
+        return;
+    }
+
+    const svg = d3.select("#graphBox")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    const color = d3.scaleOrdinal()
+        .domain(["chapter", "scene", "event", "character", "item", "fact", "location"])
+        .range(["#0f172a", "#2563eb", "#7c3aed", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"]);
+
+    const simulation = d3.forceSimulation(data.nodes)
+        .force("link", d3.forceLink(data.links).id(d => d.id).distance(105))
+        .force("charge", d3.forceManyBody().strength(-300))
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const link = svg.append("g")
+        .selectAll("line")
+        .data(data.links)
+        .enter()
+        .append("line")
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2);
+
+    const node = svg.append("g")
+        .selectAll("circle")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 9)
+        .attr("fill", d => color(d.group))
+        .call(drag(simulation));
+
+    const label = svg.append("g")
+        .selectAll("text")
+        .data(data.nodes)
+        .enter()
+        .append("text")
+        .attr("class", "node-label")
+        .text(d => d.label)
+        .attr("dx", 12)
+        .attr("dy", 4)
+        .attr("fill", "#334155");
+
+    node.append("title").text(d => `${d.title} (${d.group})`);
+
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        label
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+    });
+
+    function drag(simulation) {
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        return d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended);
+    }
+}
+
+renderCharacterSheet();
+renderTimeline();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+[
+  {
+    "severity": "medium",
+    "rule": "memory_claim_without_knowledge_event",
+    "message": "Event implies memory/knowledge, but no knowledge_gains or revelations were extracted.",
+    "evidence": {
+      "event_id": "ev_001_001",
+      "summary": "Arsa melihat bukunya di rak dan merasa campur aduk, mengingat usaha dan harapannya."
+    }
+  }
+]

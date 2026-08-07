@@ -1,0 +1,130 @@
+[
+  {
+    "severity": "high",
+    "rule": "duplicate_event_id_conflict",
+    "message": "Event ID ev_001_001 appears with different summaries.",
+    "evidence": {
+      "event_id": "ev_001_001",
+      "old_summary": "Wira selects the quest to Mount Bromo and acquires a swift mount named Osmo.",
+      "new_summary": "Wira comforts Sylvia about her mount and they decide to search for a nearby town."
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "duplicate_event_id_conflict",
+    "message": "Event ID ev_002_001 appears with different summaries.",
+    "evidence": {
+      "event_id": "ev_002_001",
+      "old_summary": "The team battles the Agni Centipede, using their skills effectively to survive and defeat the monster.",
+      "new_summary": "Wira buys Sylvia a new mount and additional gear for their upcoming challenges."
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "Wira appears in two locations at the same story step.",
+    "evidence": {
+      "character": "Wira",
+      "chapter_id": "chapter_003",
+      "seq": 1,
+      "previous_location": "Unknown",
+      "current_location": "Suradikarta"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "Sylvia appears in two locations at the same story step.",
+    "evidence": {
+      "character": "Sylvia",
+      "chapter_id": "chapter_003",
+      "seq": 1,
+      "previous_location": "Unknown",
+      "current_location": "Suradikarta"
+    }
+  },
+  {
+    "severity": "medium",
+    "rule": "item_ownership_transfer_without_loss",
+    "message": "Osmo moves from Cinta Bumi to Wira without explicit loss/give event.",
+    "evidence": {
+      "item": "Osmo",
+      "previous_owner": "Cinta Bumi",
+      "new_owner": "Wira",
+      "event_id": "ev_002_001"
+    }
+  },
+  {
+    "severity": "medium",
+    "rule": "item_ownership_transfer_without_loss",
+    "message": "Osmo moves from Cinta Bumi to Sylvia without explicit loss/give event.",
+    "evidence": {
+      "item": "Osmo",
+      "previous_owner": "Cinta Bumi",
+      "new_owner": "Sylvia",
+      "event_id": "ev_002_001"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "Wira appears in two locations at the same story step.",
+    "evidence": {
+      "character": "Wira",
+      "chapter_id": "chapter_003",
+      "seq": 1,
+      "previous_location": "Suradikarta",
+      "current_location": "Danau Kaca Tiga Malam"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "double_location_same_step",
+    "message": "Sylvia appears in two locations at the same story step.",
+    "evidence": {
+      "character": "Sylvia",
+      "chapter_id": "chapter_003",
+      "seq": 1,
+      "previous_location": "Suradikarta",
+      "current_location": "Danau Kaca Tiga Malam"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "item_used_before_acquired",
+    "message": "Wira uses Potion LUK UP before acquiring it.",
+    "evidence": {
+      "character": "Wira",
+      "item": "Potion LUK UP",
+      "event_id": "ev_003_001"
+    }
+  },
+  {
+    "severity": "high",
+    "rule": "item_used_before_acquired",
+    "message": "Sylvia uses Potion LUK UP before acquiring it.",
+    "evidence": {
+      "character": "Sylvia",
+      "item": "Potion LUK UP",
+      "event_id": "ev_003_001"
+    }
+  },
+  {
+    "severity": "medium",
+    "rule": "missing_details",
+    "message": "WiraMadha purchases multiple high-value items for Sylvia, including a premium mount and expensive equipment, without a clear explanation of his financial situation despite previous mentions of grinding for gold. This raises the question of whether this wealth is inconsistent with prior character development.",
+    "evidence": {
+      "character": "WiraMadha",
+      "description": "Wira membeli Osmo berwarna zamrud dan berbagai equipment mahal untuk Sylvia, tanpa penjelasan yang cukup tentang sumber kekayaan ini."
+    }
+  },
+  {
+    "severity": "medium",
+    "rule": "contradiction",
+    "message": "Sylvia’s introduction of her skill aspirations and the details of obtaining them conflicts with the nature of her character, as previously she seemed more of a novice who was focused on basics. Her knowledge of advanced skills and item requirements does not align with this perceived lack of experience.",
+    "evidence": {
+      "character": "Sylvia",
+      "description": "Sylvia mendetailkan tentang skill dan drop yang seharusnya sulit diakses untuk pemain baru."
+    }
+  }
+]

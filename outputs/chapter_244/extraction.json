@@ -1,0 +1,116 @@
+{
+  "chapter_id": "chapter_244",
+  "title": "Chapter 244",
+  "synopsis": "Pertempuran berlanjut dengan strategi untuk menghentikan Velda, sambil menjelajahi kekuatan dan hubungan karakter.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_244",
+      "title": "Strategi untuk Menghadapi Velda",
+      "location": "Unknown",
+      "pov": "Aku",
+      "mood": "Tegang",
+      "summary": "Aku tiba untuk menghadapi Velda dan merencanakan strategi sambil merenungkan kemampuanku dan energi yang terkumpul.",
+      "text": "Aku muncul dengan 'Teleportasi Instan', bersiap untuk memperhitungkan energi dan mengatasi Velda.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_244",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "title": "Pertemuan dengan Velda",
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Aku",
+            "Velda"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Aku menyusun rencana untuk melawan Velda yang tampak lebih kuat."
+        }
+      ]
+    },
+    {
+      "scene_id": "sc_002",
+      "chapter_id": "chapter_244",
+      "title": "Diskusi tentang Rudra",
+      "location": "Unknown",
+      "pov": "Aku",
+      "mood": "Ragu",
+      "summary": "Aku menjelajahi fenomena bola yang memiliki ingatan Rudra dan mempertanyakan eksistensinya.",
+      "text": "Aku menemukan bola yang berbicara, yang diperkirakan adalah Rudra yang terlahir kembali.",
+      "events": [
+        {
+          "event_id": "ev_002_001",
+          "chapter_id": "chapter_244",
+          "scene_id": "sc_002",
+          "seq": 1,
+          "title": "Penemuan Bola Ingatan",
+          "location": "Unknown",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Aku",
+            "Velgrynd",
+            "Rudra"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "Aku menemukan bahwa bola ini mungkin memiliki kesadaran dan ingatan Rudra."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Aku",
+      "aliases": [
+        "aku"
+      ]
+    },
+    {
+      "canonical": "Ciel",
+      "aliases": [
+        "Ciel-san"
+      ]
+    },
+    {
+      "canonical": "Velda",
+      "aliases": []
+    },
+    {
+      "canonical": "Mai",
+      "aliases": []
+    },
+    {
+      "canonical": "Diablo",
+      "aliases": []
+    },
+    {
+      "canonical": "Veldora",
+      "aliases": [
+        "Veldora-san"
+      ]
+    },
+    {
+      "canonical": "Velgrynd",
+      "aliases": []
+    },
+    {
+      "canonical": "Rudra",
+      "aliases": []
+    },
+    {
+      "canonical": "Benimaru",
+      "aliases": []
+    }
+  ]
+}

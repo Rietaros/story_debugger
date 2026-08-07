@@ -1,0 +1,1132 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>chapter_002 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+<style>
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    --dark: #0f172a;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --accent-red: #ef4444;
+    --accent-red-bg: #fee2e2;
+    --accent-amber: #f59e0b;
+    --accent-amber-bg: #fef3c7;
+    --accent-blue: #3b82f6;
+    --accent-blue-bg: #dbeafe;
+    --accent-green: #10b981;
+    --accent-green-bg: #d1fae5;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+header {
+    padding: 36px 48px;
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    border-bottom: 4px solid var(--primary);
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    margin: 8px 0 0 0;
+    font-size: 15px;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+.container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.metric-card .label {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-card .value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-top: 10px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    background: #f1f5f9;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    width: fit-content;
+}
+
+.tab-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--dark);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.tab-btn.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.tab {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.good {
+    color: var(--accent-green);
+    font-weight: 700;
+    background: var(--accent-green-bg);
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Bug list and items styling */
+.bug-item {
+    border-left: 6px solid var(--accent-red);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff5f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    border-left-width: 6px;
+}
+
+.bug-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.bug-item.severity-high {
+    border-left-color: var(--accent-red);
+    background: #fff8f8;
+}
+
+.bug-item.severity-medium {
+    border-left-color: var(--accent-amber);
+    background: #fffdf5;
+}
+
+.bug-item.severity-low {
+    border-left-color: var(--accent-blue);
+    background: #f8fafc;
+}
+
+.bug-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-high {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+}
+
+.badge-medium {
+    background: var(--accent-amber-bg);
+    color: #92400e;
+}
+
+.badge-low {
+    background: var(--accent-blue-bg);
+    color: #1e40af;
+}
+
+.bug-detail {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 14px;
+}
+
+.bug-detail p {
+    margin: 6px 0;
+}
+
+/* Character Sheet styles */
+.character-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.character-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.character-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.char-header {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+}
+
+.char-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.char-name-container h3 {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.char-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+}
+
+.char-section h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.char-section p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.risk-none .risk-message {
+    background: var(--accent-green-bg);
+    color: #065f46;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.risk-active .risk-message {
+    background: var(--accent-red-bg);
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-red);
+    line-height: 1.4;
+}
+
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.item-badge {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+.no-items {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.analysis-box {
+    margin-top: 16px;
+    background: #f8fafc;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-left-width: 5px;
+}
+
+.arc-analysis h4 {
+    margin: 12px 0 4px 0;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.arc-analysis p {
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.arc-card {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+}
+
+.arc-card img {
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 12px;
+}
+
+.timeline {
+    border-left: 4px solid var(--primary);
+    margin-left: 12px;
+    padding-left: 24px;
+}
+
+.timeline-item {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border: 4px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.timeline-item h4 {
+    margin: 0 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--dark);
+}
+
+.graph-box {
+    height: 540px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.node-label {
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.search-box {
+    padding: 12px 16px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 12px 0;
+}
+
+.timeline-meta span {
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+details {
+    background: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+</style>
+</head>
+
+<body>
+<header>
+    <h1>Chapter 002</h1>
+    <p>Interactive Narrative Debugging Dashboard · Chapter ID: <strong>chapter_002</strong></p>
+</header>
+
+<div class="container">
+
+    <div class="grid">
+        <div class="metric-card">
+            <div class="label">Similarity to Baseline</div>
+            <div class="value">0.8251</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Drift Score</div>
+            <div class="value">0.1749</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">Bugs Found</div>
+            <div class="value">5</div>
+        </div>
+        <div class="metric-card">
+            <div class="label">High Severity</div>
+            <div class="value">5</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Overall Chapter Summary</h2>
+        <p>WiraMadha arrives at the city and forms a party with various characters to tackle a dungeon, facing a giant monster and strategizing to overcome challenges while developing relationships.</p>
+    </div>
+
+    <div class="tabs">
+        <button id="tab-overview" class="tab-btn active" onclick="openTab('overview')">Overview</button>
+        <button id="tab-bugs" class="tab-btn" onclick="openTab('bugs')">Story Bugs</button>
+        <button id="tab-charactersheet" class="tab-btn" onclick="openTab('charactersheet')">Character Sheet</button>
+        <button id="tab-arcs" class="tab-btn" onclick="openTab('arcs')">Character Arcs</button>
+        <button id="tab-timeline" class="tab-btn" onclick="openTab('timeline')">Timeline</button>
+        <button id="tab-graph" class="tab-btn" onclick="openTab('graph')">Lore Graph</button>
+    </div>
+
+    <section id="overview" class="tab active">
+        <div class="card">
+            <h2>Chapter Drift Analysis</h2>
+            <p><strong>Similarity:</strong> 0.8251</p>
+            <p><strong>Drift:</strong> 0.1749</p>
+            <p>Low drift. The chapter remains semantically close to the early story baseline.</p>
+            <canvas id="driftChart" height="90"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Bug Severity Distribution</h2>
+            <canvas id="bugChart" height="90"></canvas>
+        </div>
+    </section>
+
+    <section id="bugs" class="tab">
+        <div class="card">
+            <h2>Story Bugs Found</h2>
+            <input class="search-box" id="bugSearch" placeholder="Search bug rule/message..." oninput="filterBugs()">
+            <div id="bugList">
+                
+    <div class="bug-item severity-high" data-rule="duplicate_event_id_conflict">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>duplicate_event_id_conflict</strong>
+        </div>
+        <p>Event ID ev_001_001 appears with different summaries.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> The same event ID <code>ev_001_001</code>
+        is used for different narrative moments.</p>
+        <p><strong>Earlier version:</strong> Wira selects the quest to Mount Bromo and acquires a swift mount named Osmo.</p>
+        <p><strong>New version:</strong> WiraMadha prepares for the dungeon, meeting fellow players and discussing the quest ahead.</p>
+        <p><strong>Why it matters:</strong> duplicated event IDs can corrupt causality,
+        item ownership, memory tracking, and location tracking.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>WiraMadha appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>HoppyLite appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>DrakeCloud appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+
+    <div class="bug-item severity-high" data-rule="double_location_same_step">
+        <div class="bug-head">
+            <span class="badge badge-high">high</span>
+            <strong>double_location_same_step</strong>
+        </div>
+        <p>Sylvia appears in two locations at the same story step.</p>
+        <div class="bug-detail">
+            
+        <p><strong>Meaning:</strong> This indicates spatial continuity risk.
+        A character may appear in conflicting places at the same story step.</p>
+        
+        </div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+
+    <section id="charactersheet" class="tab">
+        <div class="card">
+            <h2>Character Sheet</h2>
+            <p>Summary of character state, current actions, potential future plot hole risks, and acquired items/spells in this chapter.</p>
+            <div id="characterSheetBox" class="character-sheet-grid">
+                <!-- Dynamically filled by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="arcs" class="tab">
+        <div class="card">
+            <h2>Character Arc Analysis</h2>
+            
+            <div class="arc-card">
+                <h3>Kelabang Agni</h3>
+                <img src="arc_Kelabang Agni.png" alt="Emotion arc for Kelabang Agni">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Kelabang Agni initially exhibits a strong sense of joy ('senang') as it emerges and interacts with the environment, reflecting a powerful excitement in the face of potential conflict. This emotion builds through its aggressive actions, such as launching an attack.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Agni's joyful moments are marked by its dynamic movements, including attacking and showcasing power. Despite the continuous display of joy, a surprising twist occurs as it suddenly reacts with shock ('terkejut') when changes in battle dynamics occur, which could indicate a shift in the environment or adversities faced.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point comes when Kelabang Agni is struck and experiences a status effect of bleeding, which leads to an escalation of its anger directed at Sylvia. This moment signifies a transition from high spirits to heightened aggression.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter emphasizes the duality of joy and aggression in a creature tied to both celebration and violence, symbolizing how challenges can alter emotional states dramatically.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional spikes, especially the shift from joy to shock, may lack clear event support, potentially leading to inconsistencies in audience perception of Kelabang Agni's emotional journey.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>DrakeCloud</h3>
+                <img src="arc_DrakeCloud.png" alt="Emotion arc for DrakeCloud">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>DrakeCloud's emotional arc in this chapter reveals a sense of excitement and optimism, indicated by a significant score of 0.754 for the emotion 'senang' (happy). This positivity coincides with his introduction as a party member in the dungeon quest.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>In the initial scene, DrakeCloud prepares for the dungeon alongside fellow players, suggesting camaraderie and shared anticipation. This is reinforced as the team battles the Agni Centipede, where they employ their skills effectively, contributing to a deepening sense of teamwork and achievement.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The emotional high point is reached during the successful battle against the Agni Centipede, where DrakeCloud's involvement helps foster a positive group dynamic. This reinforces his initial excitement and strengthens his relationships with the other characters.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>DrakeCloud's emotional journey reflects the themes of collaboration and growth in adversity, enhancing the overall narrative of personal connections forming in challenging situations.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>While his happiness aligns with his behaviors, any potential emotional spikes or drops outside of these scenes may create inconsistencies if not supported by further character development or events.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>WiraMadha</h3>
+                <img src="arc_WiraMadha.png" alt="Emotion arc for WiraMadha">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>WiraMadha experiences a blend of sadness, fear, and happiness throughout the chapter, reflecting a journey from apprehension to confidence as he prepares for and engages in the dungeon battle.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Initially, Wira expresses sadness while tending to his mount, indicating emotional vulnerability. As he meets team members and strategizes, small moments of happiness emerge, especially when he sees potential for companionship with Sylvia. During the battle against the Agni Centipede, Wira's confidence grows, demonstrated through successful combat maneuvers, despite moments of fear regarding team dynamics.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point occurs after the team's triumph, where Wira shares a meaningful conversation with Sylvia about future quests, solidifying his emotional connection and portraying growth in his confidence.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This chapter highlights Wira's transformation as he learns to navigate teamwork and build relationships, showcasing the importance of collaboration in overcoming challenges.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>There is a notable emotional fluctuation, particularly the sharp shifts from sadness to joy and fear without substantial narrative grounding, which may affect character coherence.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>HoppyLite</h3>
+                <img src="arc_HoppyLite.png" alt="Emotion arc for HoppyLite">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>In Chapter 002, HoppyLite experiences a poignant emotion of sadness as indicated by the high emotion score. This sadness could reflect a sense of isolation or loss as they navigate the dynamics of the new party.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>HoppyLite is introduced as a member of a diverse group preparing for a dungeon quest. While actively participating in the planning and strategizing, there's no direct action reflecting their emotional state, particularly in scenes portraying camaraderie and teamwork.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point comes during the team's battle against the Agni Centipede. Despite actively contributing to the combat, the absence of a shift from sadness to empowerment suggests a disconnect between their internal emotions and external actions.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This tension indicates a deeper struggle within HoppyLite, raising questions about their motivations and connections to the group, which could enrich character development.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The prominent sadness emotion lacks a clear narrative basis through HoppyLite's interactions in this chapter, suggesting a potential inconsistency that may need to be addressed for emotional coherence.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Osmo</h3>
+                <img src="arc_Osmo.png" alt="Emotion arc for Osmo">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Osmo exhibits fluctuating emotions throughout the chapter, starting with joy as he arrives at the city Sagara Rimba. This positive feeling is evident when he pauses at the city gate. However, his mood shifts to sadness when WiraMadha shows affection by stroking Osmo's neck, suggesting a sense of fatigue or longing after their long journey.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Osmo's actions are limited in this chapter, primarily serving as a mount for WiraMadha. His emotional state reflects his role; he feels happy to be arriving at a rest point but appears burdened by the travel workload, indicated by his sweating and the subsequent sadness felt when WiraMadha tends to him.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The key turning point is WiraMadha's gesture of care, which triggers Osmo's shift from joy to sadness. This action suggests Osmo's vulnerabilities and hints at their deepening bond, indicating his emotional investment beyond mere functionality as a mount.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc emphasizes the bond between characters, portraying Osmo not just as a creature but as a being with feelings, thus adding depth to the interactions and relationships in the story.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>While Osmo's emotions show legitimate shifts, the lack of substantial actions on his part raises potential inconsistencies. His sadness does not correlate directly with the chapter's events, suggesting a need for more engaging interactions or actions from his character.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Tetes Air Kehidupan-Rere</h3>
+                <img src="arc_Tetes Air Kehidupan-Rere.png" alt="Emotion arc for Tetes Air Kehidupan-Rere">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Tetes Air Kehidupan-Rere experiences a significant emotional journey in this chapter, moving from anger to joy, and then to sadness, reflecting the dynamic nature of the party's challenges.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>The chapter begins with Rere being called upon, evoking anger as she hears, "Turunlah dan bantu kami." Her initial reluctance is juxtaposed with joy when her appearance as a small fairy seems to uplift the group's spirit. This joy, however, quickly shifts to sadness as she drops into "support mode," highlighting a sense of obligation that overshadows her earlier elation.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The turning point occurs when Rere embraces her supportive role and begins to heal, signified by her action of using healing mist; this reflects a deeper understanding of her importance in the party.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc illustrates the internal conflict Rere endures between her desires and her responsibilities to the party, enhancing her character depth.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>The emotional spikes, particularly transitioning from joy to sadness without clear prompts, could be seen as inconsistent and may require additional context to support her emotional shifts.</p>
+</div>
+                </div>
+            </div>
+            
+            <div class="arc-card">
+                <h3>Sylvia</h3>
+                <img src="arc_Sylvia.png" alt="Emotion arc for Sylvia">
+                <div class="analysis-box">
+                <div class="arc-analysis">
+  <h4>Emotional Arc Summary</h4>
+  <p>Sylvia's emotional journey in this chapter oscillates between excitement and fear. Initially feeling enthusiastic about the adventure, her confidence is shaken during the intense battle with the Agni Centipede, leading to moments of fear. However, her spirits are lifted again once the team succeeds, especially when she collects the essence shard.</p>
+
+  <h4>Action-Based Interpretation</h4>
+  <p>Sylvia begins by preparing for the dungeon with enthusiasm, indicated by her warm interactions with WiraMadha and other players. During the battle, her initial excitement turns to fear as the monster targets her, evident in her nervous reactions. Post-battle, her comprehensive partnership with WiraMadha revitalizes her spirits, confirming her commitment to future quests.</p>
+
+  <h4>Key Turning Point</h4>
+  <p>The major turning point occurs when Sylvia gathers the Essence Shard post-battle. This moment of triumph reinvigorates her confidence, signaling an emotional reset after the earlier fearfulness.</p>
+
+  <h4>Narrative Meaning</h4>
+  <p>This emotional arc emphasizes growth through adversity, showcasing how fear can transform into strength and collaboration can lead to empowerment.</p>
+
+  <h4>Potential Writing Issue</h4>
+  <p>While Sylvia's fear during the battle is palpable, her emotional spikes may feel inconsistent if not carefully connected to the actions or dialogue surrounding those moments, risking a jarring reader experience.</p>
+</div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="timeline" class="tab">
+        <div class="card">
+            <h2>Event Timeline</h2>
+            <div id="timelineBox" class="timeline"></div>
+        </div>
+    </section>
+
+    <section id="graph" class="tab">
+        <div class="card">
+            <h2>Lore Graph</h2>
+            <p>Nodes represent characters, scenes, events, items, facts, and locations.</p>
+            <div id="graphBox" class="graph-box"></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+const DASHBOARD_DATA = {"arcData": [], "timelineData": [{"chapter_id": "chapter_002", "chapter_title": "Chapter 002", "chapter_synopsis": "WiraMadha arrives at the city and forms a party with various characters to tackle a dungeon, facing a giant monster and strategizing to overcome challenges while developing relationships.", "scene_id": "sc_001", "scene_title": "Dungeon Preparation", "scene_location": "Unknown", "scene_pov": null, "scene_mood": "tense", "scene_summary": "WiraMadha and party members prepare for a dungeon encounter, introducing themselves and strategizing.", "scene_text": "WiraMadha enters the dungeon lobby, meeting HoppyLite, DrakeCloud, and Sylvia, discussing strategies and forming a team.", "event_id": "ev_001_001", "seq": 1, "event_location": "Unknown", "start_time": null, "end_time": null, "participants": ["WiraMadha", "HoppyLite", "DrakeCloud", "Sylvia"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "WiraMadha prepares for the dungeon, meeting fellow players and discussing the quest ahead."}, {"chapter_id": "chapter_002", "chapter_title": "Chapter 002", "chapter_synopsis": "WiraMadha arrives at the city and forms a party with various characters to tackle a dungeon, facing a giant monster and strategizing to overcome challenges while developing relationships.", "scene_id": "sc_002", "scene_title": "Dungeon Encounter", "scene_location": "Bosa Dungeon - Arena Agni", "scene_pov": null, "scene_mood": "intense", "scene_summary": "The party battles the giant Agni Centipede, strategizing to defeat it while using their abilities.", "scene_text": "A fierce battle against the Kelabang Agni ensues with teamwork, special abilities, and quick thinking.", "event_id": "ev_002_001", "seq": 1, "event_location": "Bosa Dungeon - Arena Agni", "start_time": null, "end_time": null, "participants": ["WiraMadha", "HoppyLite", "DrakeCloud", "Sylvia", "Rere"], "acquired_items": [], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": [], "summary": "The team battles the Agni Centipede, using their skills effectively to survive and defeat the monster."}, {"chapter_id": "chapter_002", "chapter_title": "Chapter 002", "chapter_synopsis": "WiraMadha arrives at the city and forms a party with various characters to tackle a dungeon, facing a giant monster and strategizing to overcome challenges while developing relationships.", "scene_id": "sc_002", "scene_title": "Dungeon Encounter", "scene_location": "Bosa Dungeon - Arena Agni", "scene_pov": null, "scene_mood": "intense", "scene_summary": "The party battles the giant Agni Centipede, strategizing to defeat it while using their abilities.", "scene_text": "A fierce battle against the Kelabang Agni ensues with teamwork, special abilities, and quick thinking.", "event_id": "ev_002_002", "seq": 2, "event_location": "Bosa Dungeon - Arena Agni", "start_time": null, "end_time": null, "participants": ["WiraMadha", "Sylvia"], "acquired_items": ["Essence Shard - Spirit Rain Boost +10%"], "used_items": [], "revelations": [], "knowledge_gains": {}, "causal_parents": ["ev_002_001"], "summary": "After defeating the boss, WiraMadha and Sylvia discuss their next steps and agree to team up for future quests."}], "graphData": {"nodes": [{"id": "chapter_002", "label": "chapter_002", "group": "chapter"}, {"id": "WiraMadha", "label": "WiraMadha", "group": "character"}, {"id": "Osmo", "label": "Osmo", "group": "character"}, {"id": "HoppyLite", "label": "HoppyLite", "group": "character"}, {"id": "DrakeCloud", "label": "DrakeCloud", "group": "character"}, {"id": "Sylvia", "label": "Sylvia", "group": "character"}, {"id": "Rere", "label": "Rere", "group": "character"}, {"id": "scene:sc_001", "label": "sc_001", "group": "scene"}, {"id": "Unknown", "label": "Unknown", "group": "location"}, {"id": "event:ev_001_001", "label": "ev_001_001", "group": "event"}, {"id": "scene:sc_002", "label": "sc_002", "group": "scene"}, {"id": "Bosa Dungeon - Arena Agni", "label": "Bosa Dungeon - Arena Agni", "group": "location"}, {"id": "event:ev_002_001", "label": "ev_002_001", "group": "event"}, {"id": "event:ev_002_002", "label": "ev_002_002", "group": "event"}, {"id": "Essence Shard - Spirit Rain Boost +10%", "label": "Essence Shard - Spirit Rain Boost +10%", "group": "item"}], "links": [{"source": "chapter_002", "target": "WiraMadha", "label": "HAS_CHARACTER"}, {"source": "chapter_002", "target": "Osmo", "label": "HAS_CHARACTER"}, {"source": "chapter_002", "target": "HoppyLite", "label": "HAS_CHARACTER"}, {"source": "chapter_002", "target": "DrakeCloud", "label": "HAS_CHARACTER"}, {"source": "chapter_002", "target": "Sylvia", "label": "HAS_CHARACTER"}, {"source": "chapter_002", "target": "Rere", "label": "HAS_CHARACTER"}, {"source": "chapter_002", "target": "scene:sc_001", "label": "HAS_SCENE"}, {"source": "scene:sc_001", "target": "Unknown", "label": "SET_IN"}, {"source": "scene:sc_001", "target": "event:ev_001_001", "label": "HAS_EVENT"}, {"source": "WiraMadha", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "HoppyLite", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "DrakeCloud", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_001_001", "label": "PARTICIPATES"}, {"source": "chapter_002", "target": "scene:sc_002", "label": "HAS_SCENE"}, {"source": "scene:sc_002", "target": "Bosa Dungeon - Arena Agni", "label": "SET_IN"}, {"source": "scene:sc_002", "target": "event:ev_002_001", "label": "HAS_EVENT"}, {"source": "WiraMadha", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "HoppyLite", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "DrakeCloud", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "Rere", "target": "event:ev_002_001", "label": "PARTICIPATES"}, {"source": "scene:sc_002", "target": "event:ev_002_002", "label": "HAS_EVENT"}, {"source": "WiraMadha", "target": "event:ev_002_002", "label": "PARTICIPATES"}, {"source": "Sylvia", "target": "event:ev_002_002", "label": "PARTICIPATES"}, {"source": "event:ev_002_002", "target": "Essence Shard - Spirit Rain Boost +10%", "label": "ACQUIRES"}]}, "issueStats": {"high": 5, "medium": 0, "low": 0}, "characterSheet": [{"character": "WiraMadha", "narrative_summary": "WiraMadha is a tank class character who participates in a dungeon quest, displaying tactical skills during the boss fight.", "current_actions": "He engages in the dungeon battle, uses Perfect Parry, and suggests forming a party with Sylvia after the dungeon.", "risk_of_plot_hole": "None", "acquired_items_or_spells": []}, {"character": "Osmo", "narrative_summary": "Osmo is WiraMadha's mount, providing transportation throughout the journey to the town.", "current_actions": "He stops at the town gate and allows Wira to dismount.", "risk_of_plot_hole": "None", "acquired_items_or_spells": []}, {"character": "HoppyLite", "narrative_summary": "A female Humanoid Beast who participates in the dungeon quest alongside WiraMadha.", "current_actions": "Engages in battle against Kelabang Agni, utilizing her Binding Root skill.", "risk_of_plot_hole": "None", "acquired_items_or_spells": []}, {"character": "DrakeCloud", "narrative_summary": "A confident Rogue character who is also part of the dungeon party.", "current_actions": "He executes tactical attacks on the boss and supports the team during the battle.", "risk_of_plot_hole": "None", "acquired_items_or_spells": []}, {"character": "Sylvia", "narrative_summary": "A Spirit Handler who joins WiraMadha's party following their successful dungeon run, offering potential synergy.", "current_actions": "Utilizes Spirit Soul Strike and summons a healing spirit Rere to support the team.", "risk_of_plot_hole": "None", "acquired_items_or_spells": ["Essence Shard - Spirit Rain Boost +10%"]}, {"character": "Rere", "narrative_summary": "A small fairy-like spirit summoned by Sylvia to assist in battle with healing.", "current_actions": "Provides healing and regenerative support to the party during the boss fight.", "risk_of_plot_hole": "None", "acquired_items_or_spells": []}]};
+
+function openTab(id) {
+    document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    
+    // Set correct active tab button
+    const btn = document.getElementById("tab-" + id);
+    if (btn) btn.classList.add("active");
+
+    if (id === "graph") {
+        setTimeout(renderGraph, 50);
+    }
+}
+
+function safeEscape(str) {
+    if (!str) return "";
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function filterBugs() {
+    const query = document.getElementById("bugSearch").value.toLowerCase();
+    document.querySelectorAll(".bug-item").forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? "block" : "none";
+    });
+}
+
+new Chart(document.getElementById("driftChart"), {
+    type: "bar",
+    data: {
+        labels: ["Similarity", "Drift"],
+        datasets: [{
+            label: "Semantic Score",
+            data: [0.8251, 0.1749],
+            backgroundColor: ["#4f46e5", "#ef4444"]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("bugChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["High", "Medium", "Low"],
+        datasets: [{
+            data: [
+                DASHBOARD_DATA.issueStats.high,
+                DASHBOARD_DATA.issueStats.medium,
+                DASHBOARD_DATA.issueStats.low
+            ],
+            backgroundColor: ["#ef4444", "#f59e0b", "#3b82f6"]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+
+function renderCharacterSheet() {
+    const box = document.getElementById("characterSheetBox");
+    const sheet = DASHBOARD_DATA.characterSheet || [];
+
+    if (!sheet.length) {
+        box.innerHTML = "<p>No character sheet data available for this chapter.</p>";
+        return;
+    }
+
+    box.innerHTML = sheet.map(char => {
+        const items = char.acquired_items_or_spells || [];
+        const itemsList = items.length 
+            ? items.map(item => `<span class="item-badge">${safeEscape(item)}</span>`).join(" ")
+            : "<span class='no-items'>None</span>";
+
+        const hasRisk = char.risk_of_plot_hole && char.risk_of_plot_hole.toLowerCase() !== "none";
+        const riskClass = hasRisk ? "risk-active" : "risk-none";
+
+        return `
+            <div class="character-card">
+                <div class="char-header">
+                    <div class="char-avatar">${safeEscape(char.character ? char.character[0] : "?")}</div>
+                    <div class="char-name-container">
+                        <h3>${safeEscape(char.character)}</h3>
+                    </div>
+                </div>
+                <div class="char-body">
+                    <div class="char-section">
+                        <h4>Narrative Summary</h4>
+                        <p>${safeEscape(char.narrative_summary)}</p>
+                    </div>
+                    <div class="char-section">
+                        <h4>Current Actions</h4>
+                        <p>${safeEscape(char.current_actions)}</p>
+                    </div>
+                    <div class="char-section ${riskClass}">
+                        <h4>Future Plot Hole Risk</h4>
+                        <div class="risk-message">
+                            ${hasRisk 
+                                ? `⚠️ ${safeEscape(char.risk_of_plot_hole)}`
+                                : `✅ No major risks detected`
+                            }
+                        </div>
+                    </div>
+
+                    <div class="char-section">
+                        <h4>Acquired Items & Spells</h4>
+                        <div class="items-container">${itemsList}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderTimeline() {
+    const box = document.getElementById("timelineBox");
+    const rows = DASHBOARD_DATA.timelineData || [];
+
+    if (!rows.length) {
+        box.innerHTML = "<p>No timeline data available.</p>";
+        return;
+    }
+
+    box.innerHTML = rows.map(ev => `
+        <div class="timeline-item">
+            <h4>${safeEscape(ev.chapter_id)} · ${safeEscape(ev.chapter_title || "-")}</h4>
+
+            <div class="timeline-meta">
+                <span><strong>Scene:</strong> ${safeEscape(ev.scene_id)} · ${safeEscape(ev.scene_title || "-")}</span>
+                <span><strong>POV:</strong> ${safeEscape(ev.scene_pov || "-")}</span>
+                <span><strong>Mood:</strong> ${safeEscape(ev.scene_mood || "-")}</span>
+                <span><strong>Location:</strong> ${safeEscape(ev.event_location || ev.scene_location || "-")}</span>
+            </div>
+
+            <h3>${safeEscape(ev.event_id)} · Event #${safeEscape(ev.seq)}</h3>
+            <p><strong>Event Summary:</strong> ${safeEscape(ev.summary || "-")}</p>
+            <p><strong>Scene Summary:</strong> ${safeEscape(ev.scene_summary || "-")}</p>
+
+            <details>
+                <summary>Show extracted details</summary>
+                <p><strong>Participants:</strong> ${safeEscape((ev.participants || []).join(", ") || "-")}</p>
+                <p><strong>Acquired Items:</strong> ${safeEscape((ev.acquired_items || []).join(", ") || "-")}</p>
+                <p><strong>Used Items:</strong> ${safeEscape((ev.used_items || []).join(", ") || "-")}</p>
+                <p><strong>Revelations:</strong> ${safeEscape((ev.revelations || []).join(", ") || "-")}</p>
+                <p><strong>Knowledge Gains:</strong> ${safeEscape(JSON.stringify(ev.knowledge_gains || {}))}</p>
+                <p><strong>Causal Parents:</strong> ${safeEscape((ev.causal_parents || []).join(", ") || "-")}</p>
+                <p><strong>Start Time:</strong> ${safeEscape(ev.start_time || "-")}</p>
+                <p><strong>End Time:</strong> ${safeEscape(ev.end_time || "-")}</p>
+                <p><strong>Scene Text:</strong> ${safeEscape(ev.scene_text || "-")}</p>
+            </details>
+        </div>
+    `).join("");
+}
+
+let graphRendered = false;
+
+function renderGraph() {
+    if (graphRendered) return;
+    graphRendered = true;
+
+    const data = DASHBOARD_DATA.graphData || {nodes: [], links: []};
+    const container = document.getElementById("graphBox");
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    if (!data.nodes.length) {
+        container.innerHTML = "<p style='padding:20px;'>No graph data available.</p>";
+        return;
+    }
+
+    const svg = d3.select("#graphBox")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    const color = d3.scaleOrdinal()
+        .domain(["chapter", "scene", "event", "character", "item", "fact", "location"])
+        .range(["#0f172a", "#2563eb", "#7c3aed", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"]);
+
+    const simulation = d3.forceSimulation(data.nodes)
+        .force("link", d3.forceLink(data.links).id(d => d.id).distance(105))
+        .force("charge", d3.forceManyBody().strength(-300))
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const link = svg.append("g")
+        .selectAll("line")
+        .data(data.links)
+        .enter()
+        .append("line")
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2);
+
+    const node = svg.append("g")
+        .selectAll("circle")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 9)
+        .attr("fill", d => color(d.group))
+        .call(drag(simulation));
+
+    const label = svg.append("g")
+        .selectAll("text")
+        .data(data.nodes)
+        .enter()
+        .append("text")
+        .attr("class", "node-label")
+        .text(d => d.label)
+        .attr("dx", 12)
+        .attr("dy", 4)
+        .attr("fill", "#334155");
+
+    node.append("title").text(d => `${d.label} (${d.group})`);
+
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        label
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+    });
+
+    function drag(simulation) {
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        return d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended);
+    }
+}
+
+renderCharacterSheet();
+renderTimeline();
+</script>
+
+</body>
+</html>

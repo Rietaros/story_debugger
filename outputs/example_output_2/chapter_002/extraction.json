@@ -1,0 +1,69 @@
+{
+  "chapter_id": "chapter_002",
+  "title": "Chapter 002",
+  "synopsis": "A serene coffee shop, 'Senja Kala,' serves as a refuge in Jakarta, where a middle-aged barista, Mr. Surya, interacts with a curious young customer, revealing an air of mystery about a special chair.",
+  "scenes": [
+    {
+      "scene_id": "sc_001",
+      "chapter_id": "chapter_002",
+      "title": "A Curious Encounter in the Coffee Shop",
+      "location": "Senja Kala",
+      "pov": "Mr. Surya",
+      "mood": "calm",
+      "summary": "Mr. Surya welcomes a young customer to the coffee shop, where they discuss the menu and a special chair.",
+      "text": "As the evening light filters through the windows, Mr. Surya greets a young customer who takes a seat and shows interest in the special drink.",
+      "events": [
+        {
+          "event_id": "ev_001_001",
+          "chapter_id": "chapter_002",
+          "scene_id": "sc_001",
+          "seq": 1,
+          "title": "The Young Customer Orders",
+          "location": "Senja Kala",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Mr. Surya",
+            "Young Customer"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "The young customer expresses interest in trying a specific coffee drink, leading to a friendly exchange with Mr. Surya."
+        },
+        {
+          "event_id": "ev_001_002",
+          "chapter_id": "chapter_002",
+          "scene_id": "sc_001",
+          "seq": 2,
+          "title": "A Conversation About the Special Chair",
+          "location": "Senja Kala",
+          "start_time": null,
+          "end_time": null,
+          "participants": [
+            "Mr. Surya",
+            "Young Customer"
+          ],
+          "acquired_items": [],
+          "used_items": [],
+          "revelations": [],
+          "knowledge_gains": {},
+          "causal_parents": [],
+          "summary": "The young customer inquires about a unique chair in the coffee shop, prompting Mr. Surya to hint at its mysterious nature."
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "canonical": "Mr. Surya",
+      "aliases": []
+    },
+    {
+      "canonical": "Young Customer",
+      "aliases": []
+    }
+  ]
+}
