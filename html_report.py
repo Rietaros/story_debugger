@@ -3,12 +3,16 @@ from __future__ import annotations
 
 from pathlib import Path
 from html import escape
+from html.parser import HTMLParser
+import hashlib
 import json
-import os
 import re
 
-from openai import OpenAI
 from config import OPENAI_API_KEY, OPENAI_MODEL
+
+
+ARC_ANALYSIS_CACHE_VERSION = "arc-analysis-v1"
+DEFAULT_CACHE_ROOT = Path(".cache/story_debugger")
 
 
 WEAK_TITLE_RE = re.compile(
@@ -21,6 +25,82 @@ def safe_text(value) -> str:
     if value is None:
         return ""
     return escape(str(value))
+
+
+def _cache_key(*parts: object) -> str:
+    payload = json.dumps(parts, ensure_ascii=False, sort_keys=True, default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _load_cache(path: Path) -> str | None:
+    if not path.exists():
+        return None
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+
+
+def _write_cache(path: Path, text: str) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+    except OSError:
+        return
+
+
+def safe_json_for_script(data: dict) -> str:
+    text = json.dumps(data, ensure_ascii=False)
+    return (
+        text.replace("</", "<\\/")
+        .replace("\u2028", "\\u2028")
+        .replace("\u2029", "\\u2029")
+    )
+
+
+class _ArcHTMLSanitizer(HTMLParser):
+    allowed_tags = {"div", "h4", "p", "strong", "em", "br", "ul", "ol", "li"}
+    allowed_classes = {"arc-analysis"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag not in self.allowed_tags:
+            return
+
+        safe_attrs = []
+        if tag == "div":
+            for name, value in attrs:
+                if name == "class" and value in self.allowed_classes:
+                    safe_attrs.append(f'class="{safe_text(value)}"')
+
+        attr_text = f" {' '.join(safe_attrs)}" if safe_attrs else ""
+        self.parts.append(f"<{tag}{attr_text}>")
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in self.allowed_tags and tag != "br":
+            self.parts.append(f"</{tag}>")
+
+    def handle_data(self, data: str) -> None:
+        self.parts.append(safe_text(data))
+
+    def handle_entityref(self, name: str) -> None:
+        self.parts.append(safe_text(f"&{name};"))
+
+    def handle_charref(self, name: str) -> None:
+        self.parts.append(safe_text(f"&#{name};"))
+
+    def get_html(self) -> str:
+        return "".join(self.parts).strip()
+
+
+def sanitize_arc_html(html: str, character: str) -> str:
+    parser = _ArcHTMLSanitizer()
+    parser.feed(html or "")
+    sanitized = parser.get_html()
+    return sanitized or fallback_character_arc_analysis(character)
 
 
 def compact_label(value, max_chars: int = 78) -> str:
@@ -218,9 +298,16 @@ def llm_character_arc_analysis(
     chapter_summary: str = "",
     character_events: list[dict] | None = None,
     model_name: str | None = None,
+    cache_dir: str | Path | None = DEFAULT_CACHE_ROOT / "arc_analysis",
+    use_cache: bool = True,
 ) -> str:
     if not OPENAI_API_KEY or not arc_rows:
         return fallback_character_arc_analysis(character)
+
+    try:
+        from openai import OpenAI
+    except ImportError:
+        return fallback_character_arc_analysis(character) + "<br><em>LLM analysis unavailable: OpenAI package is not installed.</em>"
 
     client = OpenAI(api_key=OPENAI_API_KEY)
     model_name = model_name or OPENAI_MODEL
@@ -251,6 +338,22 @@ def llm_character_arc_analysis(
                 "revelations": event.get("revelations", []),
             }
         )
+
+    cache_path = None
+    if cache_dir and use_cache:
+        cache_key = _cache_key(
+            ARC_ANALYSIS_CACHE_VERSION,
+            model_name,
+            character,
+            chapter_id,
+            chapter_summary,
+            compact_arc_rows,
+            compact_events,
+        )
+        cache_path = Path(cache_dir) / f"{cache_key}.html"
+        cached = _load_cache(cache_path)
+        if cached:
+            return sanitize_arc_html(cached, character)
 
     prompt = f"""
 You are a narrative analyst for a story debugging system.
@@ -310,8 +413,12 @@ Important:
         response = client.responses.create(
             model=model_name,
             input=prompt,
+            max_output_tokens=900,
         )
-        return response.output_text.strip()
+        sanitized = sanitize_arc_html(response.output_text.strip(), character)
+        if cache_path:
+            _write_cache(cache_path, sanitized)
+        return sanitized
     except Exception as exc:
         return fallback_character_arc_analysis(character) + f"<br><em>LLM analysis unavailable: {safe_text(exc)}</em>"
 
@@ -809,9 +916,9 @@ def make_chapter_html(
 
     graph_data = build_graph_data(extraction) if extraction else {"nodes": [], "links": []}
 
-    data_json = json.dumps(
+    data_json = safe_json_for_script(
         {
-            "arcData": [], # We plot utilizing direct CSV logic or matplotlib image
+            "arcData": [],  # We plot utilizing direct CSV logic or matplotlib image
             "timelineData": timeline_data,
             "timelineUnresolvedBugs": timeline_unresolved_bugs,
             "graphData": graph_data,
@@ -822,7 +929,6 @@ def make_chapter_html(
             },
             "characterSheet": character_sheet or [],
         },
-        ensure_ascii=False,
     )
 
     html = f"""
@@ -830,6 +936,8 @@ def make_chapter_html(
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none';">
+<meta name="referrer" content="no-referrer">
 <title>{safe_text(chapter_id)} Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

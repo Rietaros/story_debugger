@@ -1,12 +1,14 @@
 # semantic.py
 from __future__ import annotations
 
-from collections import defaultdict
 import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 import os
 
-os.environ["HF_TOKEN"] = "your_huggingface_token"
+from config import HF_TOKEN
+
+if HF_TOKEN:
+    os.environ.setdefault("HF_TOKEN", HF_TOKEN)
 
 
 class SemanticContinuity:
@@ -67,6 +69,4 @@ class SemanticContinuity:
                     }
                 )
         return pd.DataFrame(rows)
-
-
 
